@@ -6,7 +6,7 @@ permalink: "preliminary-understanding-of-mvc5"
 tags:
  - MVC
 categories:
- - C#
+ - [开发, C#]
 ---
 
 `ASP.NET MVC` 是一个适用于 WEB 应用程序的经典模型 `Model-View-Controller` 模式。相对于 `Web Forms` 一个单一的整体，`ASP.NET MVC` 是由连接在一起的各种代码层所组成。
