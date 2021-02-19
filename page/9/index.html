@@ -73,9 +73,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-why-write-blog" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-190330-why-write-blog" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/why-write-blog" class="article-date">
+    <a href="/why-write-blog/" class="article-date">
   <time class="dt-published" datetime="2019-03-30T05:53:00.000Z" itemprop="datePublished">2019-03-30</time>
 </a>
     
@@ -91,7 +91,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/why-write-blog">为什么突然开博客</a>
+      <a class="p-name article-title" href="/why-write-blog/">为什么突然开博客</a>
     </h1>
   
 
@@ -116,7 +116,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/why-write-blog" data-id="cklbzl1cb004wzonu7e1w64ns" data-title="为什么突然开博客" class="article-share-link">分享</a>
+      <a data-url="http://example.com/why-write-blog/" data-id="cklc09ak0000b1cni1cnvhdnc" data-title="为什么突然开博客" class="article-share-link">分享</a>
       
       
       
@@ -128,9 +128,9 @@
 
 
   
-    <article id="post-opening-of-the-project-lis-ii" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-190330-opening-of-the-project-lis-ii" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/opening-of-the-project-lis-ii" class="article-date">
+    <a href="/opening-of-the-project-lis-ii/" class="article-date">
   <time class="dt-published" datetime="2019-03-30T04:39:00.000Z" itemprop="datePublished">2019-03-30</time>
 </a>
     
@@ -146,7 +146,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/opening-of-the-project-lis-ii">实验室信息系统实验仪器接口(lis-ii)专题开篇</a>
+      <a class="p-name article-title" href="/opening-of-the-project-lis-ii/">实验室信息系统实验仪器接口(lis-ii)专题开篇</a>
     </h1>
   
 
@@ -171,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/opening-of-the-project-lis-ii" data-id="cklbzl1bd002tzonu88kn13ta" data-title="实验室信息系统实验仪器接口(lis-ii)专题开篇" class="article-share-link">分享</a>
+      <a data-url="http://example.com/opening-of-the-project-lis-ii/" data-id="cklc09ajx00051cni11wt38hb" data-title="实验室信息系统实验仪器接口(lis-ii)专题开篇" class="article-share-link">分享</a>
       
       
       
@@ -183,9 +183,9 @@
 
 
   
-    <article id="post-ora-01461" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-190329-oracleora-01772" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/ora-01461" class="article-date">
+    <a href="/oracleora-01772/" class="article-date">
   <time class="dt-published" datetime="2019-03-29T10:17:00.000Z" itemprop="datePublished">2019-03-29</time>
 </a>
     
@@ -201,58 +201,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/ora-01461">ORA-01461：仅能绑定要插入的 LONG 列的 LONG 值</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>使用 <code>NHibernate</code> 插入实体，发生实体字段类型为 <code>CLOB</code>时 实体插入报错：<code>ORA-01461</code></p>
-<p>排查发现字段长度较短时没有该问题，但是内容超过某一限定长度后就会报错，怀疑长度在 <code>2000 - 4000</code> 时由于将字段类型识别为 <code>LONG</code> 导致。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>针对该问题暂定的解决方案，如果有更好的方案欢迎补充：</p>
-<ul>
-<li>存储较长内容，使用 <code>BLOB</code> 格式；</li>
-<li>存储为 <code>CLOB</code> 格式，将内容长度固定补空格到 <code>4000+</code>，避免被转换为 <code>LONG</code> 类型；<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> text = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">text = text.PadRight(<span class="number">4001</span>, <span class="string">&#x27; &#x27;</span>);</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/ora-01461" data-id="cklbzl1bf002xzonu102v5oia" data-title="ORA-01461：仅能绑定要插入的 LONG 列的 LONG 值" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-oracleora-01772" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/oracleora-01772" class="article-date">
-  <time class="dt-published" datetime="2019-03-29T10:17:00.000Z" itemprop="datePublished">2019-03-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/oracleora-01772">解决Oracle数据库查询“ORA-01772：无效的数字”问题</a>
+      <a class="p-name article-title" href="/oracleora-01772/">解决Oracle数据库查询“ORA-01772：无效的数字”问题</a>
     </h1>
   
 
@@ -301,10 +250,61 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/oracleora-01772" data-id="cklbzl1bg0031zonu23kx7h65" data-title="解决Oracle数据库查询“ORA-01772：无效的数字”问题" class="article-share-link">分享</a>
+      <a data-url="http://example.com/oracleora-01772/" data-id="cklc09ajl00011cni21y0hq8l" data-title="解决Oracle数据库查询“ORA-01772：无效的数字”问题" class="article-share-link">分享</a>
       
       
       
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-190329-ora-01461" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/ora-01461/" class="article-date">
+  <time class="dt-published" datetime="2019-03-29T10:17:00.000Z" itemprop="datePublished">2019-03-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/ora-01461/">ORA-01461：仅能绑定要插入的 LONG 列的 LONG 值</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>使用 <code>NHibernate</code> 插入实体，发生实体字段类型为 <code>CLOB</code>时 实体插入报错：<code>ORA-01461</code></p>
+<p>排查发现字段长度较短时没有该问题，但是内容超过某一限定长度后就会报错，怀疑长度在 <code>2000 - 4000</code> 时由于将字段类型识别为 <code>LONG</code> 导致。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>针对该问题暂定的解决方案，如果有更好的方案欢迎补充：</p>
+<ul>
+<li>存储较长内容，使用 <code>BLOB</code> 格式；</li>
+<li>存储为 <code>CLOB</code> 格式，将内容长度固定补空格到 <code>4000+</code>，避免被转换为 <code>LONG</code> 类型；<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> text = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">text = text.PadRight(<span class="number">4001</span>, <span class="string">&#x27; &#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/ora-01461/" data-id="cklc09aje00001cnif3jjdipy" data-title="ORA-01461：仅能绑定要插入的 LONG 列的 LONG 值" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li></ul>
+
     </footer>
   </div>
   
@@ -370,23 +370,23 @@
       <ul>
         
           <li>
-            <a href="/csharp-expression-script-evaluation-problems">C# 中表达式计算问题</a>
+            <a href="/csharp-expression-script-evaluation-problems/">C# 中表达式计算问题</a>
           </li>
         
           <li>
-            <a href="/aspnet-core-001-source-code-compilation-and-debugging">ASP.NET Core - 001 源码编译与调试</a>
+            <a href="/aspnet-core-001-source-code-compilation-and-debugging/">ASP.NET Core - 001 源码编译与调试</a>
           </li>
         
           <li>
-            <a href="/aspnet-core-000-development-environment-configuration">ASP.NET Core - 000 开发环境配置</a>
+            <a href="/aspnet-core-000-development-environment-configuration/">ASP.NET Core - 000 开发环境配置</a>
           </li>
         
           <li>
-            <a href="/dotnet-core-migration-web-service">迁移 Web Service 项目到 .NET Core</a>
+            <a href="/dotnet-core-migration-web-service/">迁移 Web Service 项目到 .NET Core</a>
           </li>
         
           <li>
-            <a href="/his-development-environment">环境部署</a>
+            <a href="/his-development-environment/">环境部署</a>
           </li>
         
       </ul>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>正则表达式总结 | 华灯</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="正则表达式正则表达式作为一个强大的字符串处理方案，一直受到广大程序员的青睐。其不但使用灵活，而且字符串处理的速度也基本被各种编程语言优化到极致，在字符串匹配、提取、替换、分割等一直是首选的方案。 最近有一个前端妹子突然问了一个非常简单的正则表达式应该怎么写，我诧异于她不会写正则表达式的同时，思考了一下好像身边同事，真会使用正则表达式的也没有几个。 恰好最近在读《JavaScript面向对象编程指南">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式总结">
+<meta property="og:url" content="http://example.com/regular-expression-summary/index.html">
+<meta property="og:site_name" content="华灯">
+<meta property="og:description" content="正则表达式正则表达式作为一个强大的字符串处理方案，一直受到广大程序员的青睐。其不但使用灵活，而且字符串处理的速度也基本被各种编程语言优化到极致，在字符串匹配、提取、替换、分割等一直是首选的方案。 最近有一个前端妹子突然问了一个非常简单的正则表达式应该怎么写，我诧异于她不会写正则表达式的同时，思考了一下好像身边同事，真会使用正则表达式的也没有几个。 恰好最近在读《JavaScript面向对象编程指南">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-05T11:25:00.000Z">
+<meta property="article:modified_time" content="2019-04-05T11:25:00.000Z">
+<meta property="article:author" content="hd2y">
+<meta property="article:tag" content="正则">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="华灯" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">华灯</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-190405-regular-expression-summary" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/regular-expression-summary/" class="article-date">
+  <time class="dt-published" datetime="2019-04-05T11:25:00.000Z" itemprop="datePublished">2019-04-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      正则表达式总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>正则表达式作为一个强大的字符串处理方案，一直受到广大程序员的青睐。其不但使用灵活，而且字符串处理的速度也基本被各种编程语言优化到极致，在字符串匹配、提取、替换、分割等一直是首选的方案。</p>
+<p>最近有一个前端妹子突然问了一个非常简单的正则表达式应该怎么写，我诧异于她不会写正则表达式的同时，思考了一下好像身边同事，真会使用正则表达式的也没有几个。</p>
+<p>恰好最近在读《JavaScript面向对象编程指南》这本书的<code>RegExp</code>（JavaScript中的正则表达式对象）这一章，那就趁此机会总结一下平时工作学习中使用正则表达式的场景，同时整理一下这部分的基本知识。</p>
+<blockquote>
+<p>本文代码均使用 <code>C#</code> 编写，后面有空会针对不同的编程语言，介绍各自的正则表达式对象怎么使用。</p>
+</blockquote>
+<h2 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h2><p>正则我们使用最多就是校验了，也就是对一个字符串进行匹配，确认一个字符串是否符合要求，例如判断一个IP是否合法、用户名是否符合系统要求、邮箱输入合法、输入内容是否是数字等。</p>
+<h3 id="从用户名校验开始"><a href="#从用户名校验开始" class="headerlink" title="从用户名校验开始"></a>从用户名校验开始</h3><p>经常能看到一些网站或系统中，设计用户名规则为：“只能使用数字或英文，并且首字母必须是字母，长度限制在6-32以内”。</p>
+<p>如果没有正则表达式，代码的实现我们可能需要这么设计：循环字符串中每一个字符，判断其是否符合限制要求。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 验证用户名是否合法：6-32位字母数字组成，首字母非数字</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;name&quot;&gt;</span>用户名<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>用户名是否符合系统设计规则要求<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> <span class="title">CheckUserName</span>(<span class="params"><span class="built_in">string</span> name</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//验证长度限制</span></span><br><span class="line">    <span class="keyword">if</span> (name.Length &lt; <span class="number">6</span> || name.Length &gt; <span class="number">32</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; name.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">char</span> ch = name[i];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//必须是数字或大小写字母</span></span><br><span class="line">        <span class="keyword">if</span> (ch &lt; <span class="number">48</span> || ch &gt; <span class="number">57</span> &amp;&amp; ch &lt; <span class="number">65</span> || ch &gt; <span class="number">95</span> &amp;&amp; ch &lt; <span class="number">97</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//首字母不能是数字</span></span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">0</span> &amp;&amp; ch &gt;= <span class="number">48</span> &amp;&amp; ch &lt;= <span class="number">57</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上已经尽量优化，用字符对应的编码字符来判断是否在数字或大小写字母的编码区间内，小明同学看了表示这个已经不错了，但是如果我们用正则表示呢？</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 验证用户名是否合法：6-32位字母数字组成，首字母非数字</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;name&quot;&gt;</span>用户名<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>用户名是否符合系统设计规则要求<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> <span class="title">CheckUserName</span>(<span class="params"><span class="built_in">string</span> name</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> System.Text.RegularExpressions.Regex.IsMatch(name, <span class="string">&quot;^[a-zA-Z][a-zA-Z0-9]&#123;5,31&#125;$&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只需要一行代码，就可以实现上面对于用户名的校验，当然这还只是简单的用户名校验问题，如果是针对更复杂的例如IP地址/身份证/手机号码/邮箱/网址等，正则的优势还会更明显，因为这些内容我们同样可以使用一个正则表达式来实现匹配校验。</p>
+<h3 id="常用的正则表达式"><a href="#常用的正则表达式" class="headerlink" title="常用的正则表达式"></a>常用的正则表达式</h3><p>转自：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/zxin/archive/2013/01/26/2877765.html">最全的常用正则表达式大全——包括校验数字、字符、一些特殊的需求等等</a></p>
+<h4 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h4><ol>
+<li>数字：<code>^[0-9]*$</code></li>
+<li>n位的数字：<code>^\d&#123;n&#125;$</code></li>
+<li>至少n位的数字：<code>^\d&#123;n,&#125;$</code></li>
+<li>m-n位的数字：<code>^\d&#123;m,n&#125;$</code></li>
+<li>零和非零开头的数字：<code>^(0|[1-9][0-9]*)$</code></li>
+<li>非零开头的最多带两位小数的数字：<code>^([1-9][0-9]*)+(.[0-9]&#123;1,2&#125;)?$</code></li>
+<li>带1-2位小数的正数或负数：<code>^(\-)?\d+(\.\d&#123;1,2&#125;)?$</code></li>
+<li>正数、负数、和小数：<code>^(\-|\+)?\d+(\.\d+)?$</code></li>
+<li>有两位小数的正实数：<code>^[0-9]+(.[0-9]&#123;2&#125;)?$</code></li>
+<li>有1~3位小数的正实数：<code>^[0-9]+(.[0-9]&#123;1,3&#125;)?$</code></li>
+<li>非零的正整数：<code>^[1-9]\d*$ 或 ^([1-9][0-9]*)&#123;1,3&#125;$ 或 ^\+?[1-9][0-9]*$</code></li>
+<li>非零的负整数：<code>^\-[1-9][]0-9&quot;*$ 或 ^-[1-9]\d*$</code></li>
+<li>非负整数：<code>^\d+$ 或 ^[1-9]\d*|0$</code></li>
+<li>非正整数：<code>^-[1-9]\d*|0$ 或 ^((-\d+)|(0+))$</code></li>
+<li>非负浮点数：<code>^\d+(\.\d+)?$ 或 ^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</code></li>
+<li>非正浮点数：<code>^((-\d+(\.\d+)?)|(0+(\.0+)?))$ 或 ^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</code></li>
+<li>正浮点数：<code>^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$ 或 ^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</code></li>
+<li>负浮点数：<code>^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$ 或 ^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</code></li>
+<li>浮点数：<code>^(-?\d+)(\.\d+)?$ 或 ^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</code></li>
+</ol>
+<h4 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h4><ol>
+<li>汉字：<code>^[\u4e00-\u9fa5]&#123;0,&#125;$</code></li>
+<li>英文和数字：<code>^[A-Za-z0-9]+$ 或 ^[A-Za-z0-9]&#123;4,40&#125;$</code></li>
+<li>长度为3-20的所有字符：<code>^.&#123;3,20&#125;$</code></li>
+<li>由26个英文字母组成的字符串：<code>^[A-Za-z]+$</code></li>
+<li>由26个大写英文字母组成的字符串：<code>^[A-Z]+$</code></li>
+<li>由26个小写英文字母组成的字符串：<code>^[a-z]+$</code></li>
+<li>由数字和26个英文字母组成的字符串：<code>^[A-Za-z0-9]+$</code></li>
+<li>由数字、26个英文字母或者下划线组成的字符串：<code>^\w+$ 或 ^\w&#123;3,20&#125;$</code></li>
+<li>中文、英文、数字包括下划线：<code>^[\u4E00-\u9FA5A-Za-z0-9_]+$</code></li>
+<li>中文、英文、数字但不包括下划线等符号：<code>^[\u4E00-\u9FA5A-Za-z0-9]+$ 或 ^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</code></li>
+<li>可以输入含有^%&amp;’,;=?$&quot;等字符：<code>[^%&amp;&#39;,;=?$\x22]+</code></li>
+<li>禁止输入含有<del>的字符：`[^</del>\x22]+`</li>
+</ol>
+<h4 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h4><ol>
+<li>Email地址：<code>^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</code></li>
+<li>域名：<code>[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(/.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+/.?</code></li>
+<li>InternetURL：<code>[a-zA-z]+://[^\s]* 或 ^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</code></li>
+<li>手机号码：<code>^(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])\d&#123;8&#125;$ (由于工信部放号段不定时，所以建议使用泛解析 ^([1][3,4,5,6,7,8,9])\d&#123;9&#125;$)</code></li>
+<li>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)：<code>^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</code></li>
+<li>国内电话号码(0511-4405222、021-87888822)：<code>\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</code></li>
+<li>18位身份证号码(数字、字母x结尾)：<code>^((\d&#123;18&#125;)|([0-9x]&#123;18&#125;)|([0-9X]&#123;18&#125;))$</code></li>
+<li>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：<code>^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</code></li>
+<li>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：<code>^[a-zA-Z]\w&#123;5,17&#125;$</code></li>
+<li>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间)：<code>^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</code></li>
+<li>日期格式：<code>^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</code></li>
+<li>一年的12个月(01～09和1～12)：<code>^(0?[1-9]|1[0-2])$</code></li>
+<li>一个月的31天(01～09和1～31)：<code>^((0?[1-9])|((1|2)[0-9])|30|31)$</code></li>
+<li>钱的输入格式：</li>
+<li>有四种钱的表示形式我们可以接受:”10000.00” 和 “10,000.00”, 和没有 “分” 的 “10000” 和 “10,000”：<code>^[1-9][0-9]*$</code></li>
+<li>这表示任意一个不以0开头的数字,但是,这也意味着一个字符”0”不通过,所以我们采用下面的形式：<code>^(0|[1-9][0-9]*)$</code></li>
+<li>一个0或者一个不以0开头的数字.我们还可以允许开头有一个负号：<code>^(0|-?[1-9][0-9]*)$</code></li>
+<li>这表示一个0或者一个可能为负的开头不为0的数字.让用户以0开头好了.把负号的也去掉,因为钱总不能是负的吧.下面我们要加的是说明可能的小数部分：<code>^[0-9]+(.[0-9]+)?$</code></li>
+<li>必须说明的是,小数点后面至少应该有1位数,所以”10.”是不通过的,但是 “10” 和 “10.2” 是通过的：<code>^[0-9]+(.[0-9]&#123;2&#125;)?$</code></li>
+<li>这样我们规定小数点后面必须有两位,如果你认为太苛刻了,可以这样：<code>^[0-9]+(.[0-9]&#123;1,2&#125;)?$</code></li>
+<li>这样就允许用户只写一位小数.下面我们该考虑数字中的逗号了,我们可以这样：<code>^[0-9]&#123;1,3&#125;(,[0-9]&#123;3&#125;)*(.[0-9]&#123;1,2&#125;)?$</code></li>
+<li>1到3个数字,后面跟着任意个 逗号+3个数字,逗号成为可选,而不是必须：<code>^([0-9]+|[0-9]&#123;1,3&#125;(,[0-9]&#123;3&#125;)*)(.[0-9]&#123;1,2&#125;)?$</code></li>
+<li>xml文件：<code>^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</code></li>
+<li>中文字符的正则表达式：<code>[\u4e00-\u9fa5]</code></li>
+<li>双字节字符：<code>[^\x00-\xff]</code>    (包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</li>
+<li>空白行的正则表达式：<code>\n\s*\r</code>    (可以用来删除空白行)</li>
+<li>HTML标记的正则表达式：<code>&lt;(\S*?)[^&gt;]*&gt;.*?&lt;/\1&gt;|&lt;.*? /&gt;</code>    (网上流传的版本太糟糕，上面这个也仅仅能部分，对于复杂的嵌套标记依旧无能为力)</li>
+<li>首尾空白字符的正则表达式：<code>^\s*|\s*$或(^\s*)|(\s*$)</code>    (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</li>
+<li>腾讯QQ号：<code>[1-9][0-9]&#123;4,&#125;</code>    (腾讯QQ号从10000开始)</li>
+<li>中国邮政编码：<code>[1-9]\d&#123;5&#125;(?!\d)</code>    (中国邮政编码为6位数字)</li>
+<li>IP地址：<code>((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.)&#123;3&#125;(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))</code></li>
+</ol>
+<p>以上是一些网上流传的正则表达式，这些内容仅供参考，如果想要确认以上正则表达式是否符合自己的使用场景，或者自己实现一个正则表达式，请看最后一个部分。</p>
+<h2 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h2><p>提取顾名思义也就是从一段字符串，获取我们需要的特定内容，例如在网页爬虫中，我们常常需要获取html中的文本内容，或特定标签下的内容。（当然我们可以使用<code>XPath</code>语法进行解析，但是正则也不失为一个优秀的解决方案，而且很多XPath方案的底层是基于正则实现的。后面介绍爬虫的时候，再具体介绍XPath。）</p>
+<p>如果内容是我们需要提取的内容，我们可以使用<code>(</code> <code>)</code>将需要提取的内容包起来，这样正则匹配时会将这部分内容提取到集合中，我们可以从集合中获取这些元素。</p>
+<h3 id="提取邮箱中的用户名"><a href="#提取邮箱中的用户名" class="headerlink" title="提取邮箱中的用户名"></a>提取邮箱中的用户名</h3><p>C# 中，提取到的内容在Group集合中，集合中第一个元素为匹配的所有内容，例如下面代码第一个元素是匹配到的邮箱，而后的元素才是我们使用小括号提取的内容。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 验证邮箱并提取邮箱中的用户名</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;email&quot;&gt;</span>邮箱<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;name&quot;&gt;</span>用户名<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>邮箱内容是否合法<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> <span class="title">CheckEmail</span>(<span class="params"><span class="built_in">string</span> email, <span class="keyword">out</span> <span class="built_in">string</span> name</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    name = <span class="literal">null</span>;</span><br><span class="line">    System.Text.RegularExpressions.Match match </span><br><span class="line">        = System.Text.RegularExpressions.Regex.Match(email, <span class="string">@&quot;^(\w+([-+.]\w+)*)@\w+([-.]\w+)*\.\w+([-.]\w+)*$&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (match.Success)</span><br><span class="line">    &#123;</span><br><span class="line">        name = match.Groups[<span class="number">1</span>].Value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> match.Success;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单测试：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> email = <span class="string">&quot;hd2y@outlook.com&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (CheckEmail(email, <span class="keyword">out</span> <span class="built_in">string</span> name))</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;用户<span class="subst">&#123;name&#125;</span>邮箱验证合法：<span class="subst">&#123;email&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="提取Html内容中所有标题"><a href="#提取Html内容中所有标题" class="headerlink" title="提取Html内容中所有标题"></a>提取Html内容中所有标题</h3><p>在邮箱匹配的例子中我们对内容进行了限定，<code>^</code>代表匹配开头，<code>$</code>代表匹配结尾，所以其实际上是对整个内容进行匹配。</p>
+<p>但是我们可能会碰到对内容进行多次匹配的情况，例如提取html内容中所有的标题也就是h1-h6标签，这就是一个循环匹配的过程，所以我们不能限定开始于结束。</p>
+<p>另外一个标签有标签名、属性、内容，当让我们可以使用上文的方式，在匹配到的内容通过索引去获取内容，但是正则也允许我们使用别名，所以以下的例子中，我们将为其取别名，然后通过别名来获取内容。同时我们还可以使用别名配合<code>\k</code>(命名向后引用)来确定一个标签的闭合。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IEnumerable&lt;Title&gt; <span class="title">FetchTitle</span>(<span class="params"><span class="built_in">string</span> title</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">foreach</span> (System.Text.RegularExpressions.Match item</span><br><span class="line">        <span class="keyword">in</span> System.Text.RegularExpressions.Regex.Matches(title, <span class="string">@&quot;&lt;(?&#x27;TN&#x27;H[1-6])\s*(?&#x27;TP&#x27;[^&lt;&gt;]*)&gt;(?&#x27;TC&#x27;.*?)&lt;/\k&#x27;TN&#x27;&gt;&quot;</span></span><br><span class="line">           , System.Text.RegularExpressions.RegexOptions.IgnoreCase))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">yield</span> <span class="keyword">return</span> <span class="keyword">new</span> <span class="title">Title</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            Name = item.Groups[<span class="string">&quot;TN&quot;</span>].Value,</span><br><span class="line">            Property = item.Groups[<span class="string">&quot;TP&quot;</span>].Value,</span><br><span class="line">            Content = item.Groups[<span class="string">&quot;TC&quot;</span>].Value</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Title</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Property &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Content &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单测试：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> html = <span class="string">&quot;&lt;h1&gt;h1&lt;/h1&gt;&lt;h2&gt;h2&lt;/h2&gt;&lt;h3&gt;h3&lt;/h3&gt;&lt;h4&gt;h4&lt;/h4&gt;&lt;h5 style=\&quot;color:red;\&quot;&gt;h5&lt;/h5&gt;&lt;h6&gt;h6&lt;/h6&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">foreach</span> (<span class="function">Title title <span class="keyword">in</span> <span class="title">FetchTitle</span>(<span class="params">html</span>))</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;获取到标题<span class="subst">&#123;title.Name&#125;</span> 内容：<span class="subst">&#123;title.Content&#125;</span> 属性：<span class="subst">&#123;title.Property&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上匹配部分写法并不严格，例如标题标签嵌套其他标签内容时可能存在问题，这里只是简单举例，不考虑复杂正则表达式写法。</p>
+</blockquote>
+<blockquote>
+<p>Html内容提取可以参考 <a target="_blank" rel="noopener" href="https://github.com/Anduin2017/HSharp">Aiursoft.HSharp</a> 项目，里面对于Html的解析较为标准可用。</p>
+</blockquote>
+<h2 id="分割"><a href="#分割" class="headerlink" title="分割"></a>分割</h2><p>对于字符串操作，大部分编程语言都提供了Split方法，同样的正则也有类似的方法，但是正则分割适用范围更广，适合在分隔符不确定但是有一定规律的情况下使用。</p>
+<h3 id="分割时间信息"><a href="#分割时间信息" class="headerlink" title="分割时间信息"></a>分割时间信息</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span>[] dateInfo = Regex.Split(<span class="string">&quot;2019-04-01 00:00:00&quot;</span>, <span class="string">@&quot;\W&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="提取Pascal方法名中的单词"><a href="#提取Pascal方法名中的单词" class="headerlink" title="提取Pascal方法名中的单词"></a>提取Pascal方法名中的单词</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span>[] words = Regex.Split(<span class="string">&quot;ILoveYou&quot;</span>, <span class="string">&quot;(?!^)(?=[A-Z])&quot;</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>(?!...)</code> 正向否定预查；<code>(?=...)</code> 正向肯定预查。</p>
+</blockquote>
+<h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><p>在我的日常工作中，正则使用频率一般是 匹配 &gt; 提取 &gt; 替换 &gt; 分割，替换在一些特定环境下，真的是让人有种相见恨晚的感觉。</p>
+<h3 id="处理ASTM协议消息"><a href="#处理ASTM协议消息" class="headerlink" title="处理ASTM协议消息"></a>处理ASTM协议消息</h3><p>在工作中有时会和其他系统和设备打交道，做一些接口，他们都有自己定义的通讯协议，而ASTM就是其中一种。</p>
+<p>刚开始处理这个协议的一个问题就在于，这个协议会将完整的消息分块，然后加入校验字符，类似下面这种结果：（以下内容仅仅是简单举例，验证内容未经实际计算，ASTM协议更多解释可以搜索相关文档了解）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;STX&gt;1AAA&lt;ETB&gt;1F&lt;CR&gt;&lt;LF&gt;</span><br><span class="line">&lt;STX&gt;2BBB&lt;ETB&gt;2E&lt;CR&gt;&lt;LF&gt;</span><br><span class="line">&lt;STX&gt;3CCC&lt;ETX&gt;3D&lt;CR&gt;&lt;LF&gt;</span><br></pre></td></tr></table></figure>
+<p>其中我们需要的只是其中的AAABBBCCC，但是其为了确认消息的完整性加入了一些消息块标识和校验码，这些不是我们需要的但是使用字符串自带的Replace或者Split取消息部分就比较麻烦，至少需要写一个循环。</p>
+<p>而正则就相对简单的多：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> content = <span class="string">&quot;&quot;</span>;<span class="comment">//内容略</span></span><br><span class="line">content = Regex.Replace(content, <span class="string">@&quot;(\u0002[0-7]&#123;1&#125;)|((\u0003|\u0017)[0-9A-F]&#123;2&#125;\r\n)&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="删除重复单词"><a href="#删除重复单词" class="headerlink" title="删除重复单词"></a>删除重复单词</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> content = <span class="string">&quot;I love you very very very much.&quot;</span>;<span class="comment">//内容略</span></span><br><span class="line">content = Regex.Replace(content, <span class="string">@&quot;(?&lt;word&gt;[a-zA-Z]+)( \k&lt;word&gt;)+&quot;</span>, <span class="string">&quot;$&#123;word&#125;&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>以上只是一些使用场景的简单举例，以下部分时摘抄自菜鸟教程关于正则表达式部分的文档，供学习或者查阅时使用。</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>正则表达式(regular expression)描述了一种字符串匹配的模式（pattern），可以用来检查一个串是否含有某种子串、将匹配的子串替换或者从某个串中取出符合某个条件的子串等。</p>
+<p>例如：</p>
+<ul>
+<li><code>runoo+b</code>，可以匹配 runoob、runooob、runoooooob 等，<code>+</code> 号代表前面的字符必须至少出现一次（1次或多次）。</li>
+<li><code>runoo*b</code>，可以匹配 runob、runoob、runoooooob 等，<code>*</code> 号代表字符可以不出现，也可以出现一次或者多次（0次、或1次、或多次）。</li>
+<li><code>colou?r</code> 可以匹配 color 或者 colour，<code>?</code> 问号代表前面的字符最多只可以出现一次（0次、或1次）。</li>
+</ul>
+<p>构造正则表达式的方法和创建数学表达式的方法一样。也就是用多种元字符与运算符可以将小的表达式结合在一起来创建更大的表达式。正则表达式的组件可以是单个的字符、字符集合、字符范围、字符间的选择或者所有这些组件的任意组合。</p>
+<p>正则表达式是由普通字符（例如字符 a 到 z）以及特殊字符（称为”元字符”）组成的文字模式。模式描述在搜索文本时要匹配的一个或多个字符串。正则表达式作为一个模板，将某个字符模式与所搜索的字符串进行匹配。</p>
+<h3 id="普通字符"><a href="#普通字符" class="headerlink" title="普通字符"></a>普通字符</h3><p>普通字符包括没有显式指定为元字符的所有可打印和不可打印字符。这包括所有大写和小写字母、所有数字、所有标点符号和一些其他符号。</p>
+<h3 id="非打印字符"><a href="#非打印字符" class="headerlink" title="非打印字符"></a>非打印字符</h3><p>非打印字符也可以是正则表达式的组成部分。下表列出了表示非打印字符的转义序列：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\cx</td>
+<td align="left">匹配由x指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
+</tr>
+<tr>
+<td align="left">\f</td>
+<td align="left">匹配一个换页符。等价于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td align="left">\n</td>
+<td align="left">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td align="left">\r</td>
+<td align="left">匹配一个回车符。等价于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td align="left">\s</td>
+<td align="left">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 <code>[ \f\n\r\t\v]</code>。注意 Unicode 正则表达式会匹配全角空格符。</td>
+</tr>
+<tr>
+<td align="left">\S</td>
+<td align="left">匹配任何非空白字符。等价于 <code>[^ \f\n\r\t\v]</code>。</td>
+</tr>
+<tr>
+<td align="left">\t</td>
+<td align="left">匹配一个制表符。等价于 \x09 和 \cI。</td>
+</tr>
+<tr>
+<td align="left">\v</td>
+<td align="left">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
+</tr>
+</tbody></table>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><p>所谓特殊字符，就是一些有特殊含义的字符，如上面说的 <code>runoo*b</code> 中的 <code>*</code>，简单的说就是表示任何字符串的意思。如果要查找字符串中的 <code>*</code> 符号，则需要对 <code>*</code> 进行转义，即在其前加一个 <code>\</code>: <code>runo\*ob</code> 匹配 <code>runo*ob</code>。</p>
+<p>许多元字符要求在试图匹配它们时特别对待。若要匹配这些特殊字符，必须首先使字符”转义”，即，将反斜杠字符\ 放在它们前面。下表列出了正则表达式中的特殊字符：</p>
+<table>
+<thead>
+<tr>
+<th align="left">特别字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 $。</td>
+</tr>
+<tr>
+<td align="left">( )</td>
+<td align="left">标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 ( 和 )。</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">匹配前面的子表达式零次或多次。要匹配 <code>*</code> 字符，请使用 <code>\*</code>。</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 +。</td>
+</tr>
+<tr>
+<td align="left">.</td>
+<td align="left">匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 . 。</td>
+</tr>
+<tr>
+<td align="left"><code>[</code></td>
+<td align="left">标记一个中括号表达式的开始。要匹配 <code>[</code>，请使用 <code>\[</code>。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 ?。</td>
+</tr>
+<tr>
+<td align="left">\</td>
+<td align="left">将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符 ‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “&quot;，而 ‘(‘ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串的开始位置，除非在方括号表达式中使用，此时它表示不接受该字符集合。要匹配 ^ 字符本身，请使用 ^。</td>
+</tr>
+<tr>
+<td align="left">{</td>
+<td align="left">标记限定符表达式的开始。要匹配 {，请使用 {。</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="限定符"><a href="#限定符" class="headerlink" title="限定符"></a>限定符</h3><p>限定符用来指定正则表达式的一个给定组件必须要出现多少次才能满足匹配。有 <code>*</code> 或 <code>+</code> 或 <code>?</code> 或 <code>&#123;n&#125;</code> 或 <code>&#123;n,&#125;</code> 或 <code>&#123;n,m&#125;</code> 共6种。</p>
+<p>正则表达式的限定符有：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">*</td>
+<td align="left">匹配前面的子表达式零次或多次。例如，<code>zo*</code> 能匹配 “z” 以及 “zoo”。<code>*</code> 等价于{0,}。</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 、 “does” 中的 “does” 、 “doxy” 中的 “do” 。? 等价于 {0,1}。</td>
+</tr>
+<tr>
+<td align="left">{n}</td>
+<td align="left">n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td align="left">{n,}</td>
+<td align="left">n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
+</tr>
+<tr>
+<td align="left">{n,m}</td>
+<td align="left">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+</tbody></table>
+<h2 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h2><p>下表包含了元字符的完整列表以及它们在正则表达式上下文中的行为：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\</td>
+<td align="left">将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，’n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\‘ 匹配 “&quot; 而 “(“ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 ‘\n’ 或 ‘\r’ 之后的位置。</td>
+</tr>
+<tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 ‘\n’ 或 ‘\r’ 之前的位置。</td>
+</tr>
+</tbody></table>
+<ul>
+<li><pre><code>     |匹配前面的子表达式零次或多次。例如，`zo*` 能匹配 &quot;z&quot; 以及 &quot;zoo&quot;。`*` 等价于&#123;0,&#125;。
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><pre><code>     |匹配前面的子表达式一次或多次。例如，&#39;zo+&#39; 能匹配 &quot;zo&quot; 以及 &quot;zoo&quot;，但不能匹配 &quot;z&quot;。+ 等价于 &#123;1,&#125;。
+</code></pre>
+?          |匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 。? 等价于 {0,1}。<br>{n}        |n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。<br>{n,}       |n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 <code>&#39;o*&#39;</code>。<br>{n,m}      |m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。<br>?          |当该字符紧跟在任何一个其他限制符 (<code>*</code>, +, ?, {n}, {n,}, {n,m}) 后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串 “oooo”，’o+?’ 将匹配单个 “o”，而 ‘o+’ 将匹配所有 ‘o’。<br>.          |匹配除换行符（\n、\r）之外的任何单个字符。要匹配包括 ‘\n’ 在内的任何字符，请使用像”(.|\n)”的模式。<br>(pattern)  |匹配 pattern 并获取这一匹配。所获取的匹配可以从产生的 Matches 集合得到，在VBScript 中使用 SubMatches 集合，在JScript 中则使用 $0…$9 属性。要匹配圆括号字符，请使用 ‘(‘ 或 ‘)‘。<br>(?:pattern)|匹配 pattern 但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用 “或” 字符 (|) 来组合一个模式的各个部分是很有用。例如， ‘industr(?:y|ies) 就是一个比 ‘industry|industries’ 更简略的表达式。<br>(?=pattern)|正向肯定预查（look ahead positive assert），在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，”Windows(?=95|98|NT|2000)”能匹配”Windows2000”中的”Windows”，但不能匹配”Windows3.1”中的”Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。<br>(?!pattern)|正向否定预查(negative assert)，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如”Windows(?!95|98|NT|2000)”能匹配”Windows3.1”中的”Windows”，但不能匹配”Windows2000”中的”Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。<br>(?&lt;=pattern)|反向(look behind)肯定预查，与正向肯定预查类似，只是方向相反。例如，”(?&lt;=95|98|NT|2000)Windows”能匹配”2000Windows”中的”Windows”，但不能匹配”3.1Windows”中的”Windows”。<br>(?&lt;!pattern)|反向否定预查，与正向否定预查类似，只是方向相反。例如”(?&lt;!95|98|NT|2000)Windows”能匹配”3.1Windows”中的”Windows”，但不能匹配”2000Windows”中的”Windows”。<br>x|y        |匹配 x 或 y。例如，’z|food’ 能匹配 “z” 或 “food”。’(z|f)ood’ 则匹配 “zood” 或 “food”。<br><code>[xyz]</code>      |字符集合。匹配所包含的任意一个字符。例如， <code>&#39;[abc]&#39;</code> 可以匹配 “plain” 中的 ‘a’。<br><code>[^xyz]</code>     |负值字符集合。匹配未包含的任意字符。例如， <code>&#39;[^abc]&#39;</code> 可以匹配 “plain” 中的’p’、’l’、’i’、’n’。<br><code>[a-z]</code>      |字符范围。匹配指定范围内的任意字符。例如，<code>&#39;[a-z]&#39;</code> 可以匹配 ‘a’ 到 ‘z’ 范围内的任意小写字母字符。<br><code>[^a-z]</code>     |负值字符范围。匹配任何不在指定范围内的任意字符。例如，<code>&#39;[^a-z]&#39;</code> 可以匹配任何不在 ‘a’ 到 ‘z’ 范围内的任意字符。<br>\b         |匹配一个单词边界，也就是指单词和空格间的位置。例如， ‘er\b’ 可以匹配”never” 中的 ‘er’，但不能匹配 “verb” 中的 ‘er’。<br>\B         |匹配非单词边界。’er\B’ 能匹配 “verb” 中的 ‘er’，但不能匹配 “never” 中的 ‘er’。<br>\cx        |匹配由 x 指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。<br>\d         |匹配一个数字字符。等价于 <code>[0-9]</code>。<br>\D         |匹配一个非数字字符。等价于 <code>[^0-9]</code>。<br>\f         |匹配一个换页符。等价于 \x0c 和 \cL。<br>\n         |匹配一个换行符。等价于 \x0a 和 \cJ。<br>\r         |匹配一个回车符。等价于 \x0d 和 \cM。<br>\s         |匹配任何空白字符，包括空格、制表符、换页符等等。等价于 <code>[ \f\n\r\t\v]</code>。<br>\S         |匹配任何非空白字符。等价于 <code>[^ \f\n\r\t\v]</code>。<br>\t         |匹配一个制表符。等价于 \x09 和 \cI。<br>\v         |匹配一个垂直制表符。等价于 \x0b 和 \cK。<br>\w         |匹配字母、数字、下划线。等价于<code>&#39;[A-Za-z0-9_]&#39;</code>。<br>\W         |匹配非字母、数字、下划线。等价于 <code>&#39;[^A-Za-z0-9_]&#39;</code>。<br>\xn        |匹配 n，其中 n 为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，’\x41’ 匹配 “A”。’\x041’ 则等价于 ‘\x04’ &amp; “1”。正则表达式中可以使用 ASCII 编码。<br>\num       |匹配 num，其中 num 是一个正整数。对所获取的匹配的引用。例如，’(.)\1’ 匹配两个连续的相同字符。<br>\n         |标识一个八进制转义值或一个向后引用。如果 \n 之前至少 n 个获取的子表达式，则 n 为向后引用。否则，如果 n 为八进制数字 (0-7)，则 n 为一个八进制转义值。<br>\nm        | 标识一个八进制转义值或一个向后引用。如果 \nm 之前至少有 nm 个获得子表达式，则 nm 为向后引用。如果 \nm 之前至少有 n 个获取，则 n 为一个后跟文字 m 的向后引用。如果前面的条件都不满足，若 n 和 m 均为八进制数字 (0-7)，则 \nm 将匹配八进制转义值 nm。<br>\nml       |如果 n 为八进制数字 (0-3)，且 m 和 l 均为八进制数字 (0-7)，则匹配八进制转义值 nml。<br>\un        |匹配 n，其中 n 是一个用四个十六进制数字表示的 Unicode 字符。例如， \u00A9 匹配版权符号。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/regular-expression-summary/" data-id="cklc09ao300al1cni81gn4e0y" data-title="正则表达式总结" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/attribute/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Attribute特性简介
+        
+      </div>
+    </a>
+  
+  
+    <a href="/security-helper/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">SecurityHelper 加密解密帮助类</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 10px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 15px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 10px;">串口</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/csharp-expression-script-evaluation-problems/">C# 中表达式计算问题</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-001-source-code-compilation-and-debugging/">ASP.NET Core - 001 源码编译与调试</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-000-development-environment-configuration/">ASP.NET Core - 000 开发环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/dotnet-core-migration-web-service/">迁移 Web Service 项目到 .NET Core</a>
+          </li>
+        
+          <li>
+            <a href="/his-development-environment/">环境部署</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 hd2y<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
