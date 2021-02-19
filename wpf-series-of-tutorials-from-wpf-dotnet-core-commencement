@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>WPF 系列教程：从 WPF (.NET Core) 开始 | 华灯</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="如果是一名 .NETer，应该有用 Windows Form 与 WPF 创建过一些简单项目，如果没用过至少也应该听说过。 开始我也用 Windows Form 与 WPF 写过很多小工具。 当然后期用 Windows Form 布局感觉太过繁琐耗费精力，现在已经完全投入了 WPF 的怀抱。 因为在这过程中碰到过很多问题，为此查看过很多资料，这里就简单整理一下，以后再碰到这些问题，方便 Copy。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WPF 系列教程：从 WPF (.NET Core) 开始">
+<meta property="og:url" content="http://example.com/wpf-series-of-tutorials-from-wpf-dotnet-core-commencement">
+<meta property="og:site_name" content="华灯">
+<meta property="og:description" content="如果是一名 .NETer，应该有用 Windows Form 与 WPF 创建过一些简单项目，如果没用过至少也应该听说过。 开始我也用 Windows Form 与 WPF 写过很多小工具。 当然后期用 Windows Form 布局感觉太过繁琐耗费精力，现在已经完全投入了 WPF 的怀抱。 因为在这过程中碰到过很多问题，为此查看过很多资料，这里就简单整理一下，以后再碰到这些问题，方便 Copy。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/new%20repository-7f874e646b2e4875a24b8a75c6559812.png">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/repository%20homepage-b7820b2b2fa84db0a2c9e30e82098321.png">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/git%20clone-6ddd26b0ea2b40eba314fa4eacd30d08.png">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/create%20solution-11b71c122be1473a80d3552d9b14c663.png">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/set%20new%20solution-c91bfc4a88744d87a55204e98c9f3da4.png">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/view%20in%20explorer-f09dd05aeb764bc6931ea5105f4917b6.png">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/create%20wpf%20project-fca9da6f50db46aabf289baead0df449.png">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/view%20the%20solution%20and%20explorer-c71c938bb5134375a32003663038ed8c.png">
+<meta property="og:image" content="https://www.hd2y.net/upload/2020/4/project%20dependencies-604809d5c4d049579588781666a68a64.png">
+<meta property="article:published_time" content="2020-04-04T11:32:43.000Z">
+<meta property="article:modified_time" content="2020-04-04T11:34:23.000Z">
+<meta property="article:author" content="hd2y">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.hd2y.net/upload/2020/4/new%20repository-7f874e646b2e4875a24b8a75c6559812.png">
+  
+    <link rel="alternate" href="/atom.xml" title="华灯" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">华灯</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-wpf-series-of-tutorials-from-wpf-dotnet-core-commencement" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/wpf-series-of-tutorials-from-wpf-dotnet-core-commencement" class="article-date">
+  <time class="dt-published" datetime="2020-04-04T11:32:43.000Z" itemprop="datePublished">2020-04-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      WPF 系列教程：从 WPF (.NET Core) 开始
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>如果是一名 <code>.NETer</code>，应该有用 Windows Form 与 WPF 创建过一些简单项目，如果没用过至少也应该听说过。</p>
+<p>开始我也用 Windows Form 与 WPF 写过很多小工具。</p>
+<p>当然后期用 Windows Form 布局感觉太过繁琐耗费精力，现在已经完全投入了 WPF 的怀抱。</p>
+<p>因为在这过程中碰到过很多问题，为此查看过很多资料，这里就简单整理一下，以后再碰到这些问题，方便 Copy。</p>
+<h2 id="初始化代码仓库"><a href="#初始化代码仓库" class="headerlink" title="初始化代码仓库"></a>初始化代码仓库</h2><p>因为我是用 git 托管代码，所以创建项目的第一步，就是先创建一个 git 仓库。</p>
+<p>可以选择 github、gitlab，如果担心以后有被美国“制裁”的风险，也可以选择国内的 gitee。当然也可以自己使用 gitlab、gitea 或者 gogs 搭建自己的 git 服务。</p>
+<p>虽然选择很多，但是创建一个代码仓的过程都没什么区别，下图是如何在 github 上创建一个仓库。</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/new%20repository-7f874e646b2e4875a24b8a75c6559812.png" alt="new repository"></p>
+<p>创建成功后，待仓库初始化完成会自动跳转到如下界面：</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/repository%20homepage-b7820b2b2fa84db0a2c9e30e82098321.png" alt="repository homepage"></p>
+<p>这时我们可以选择用 <code>Open in Visual Studio</code>，使用 Visual Studio 直接克隆下载并打开这个仓库。</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/git%20clone-6ddd26b0ea2b40eba314fa4eacd30d08.png" alt="git clone"></p>
+<p>建议也可以安装 git，使用 clone 命令进行下载。下载完成后，可以打开 Visual Studio，选择打开本地文件夹来查看初始化的文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br><span class="line"><span class="built_in">cd</span> C:\Users\hd2y\<span class="built_in">source</span>\repos</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/hd2y/WpfExample.git</span><br></pre></td></tr></table></figure>
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>为了方便管理解决方案内的项目，一般我都会新建一个空白的解决方案。有时，使用搜索模板功能是找不到“空白解决方案”的，我们可以在 “所有语言” <code>-&gt;</code> “所有平台” <code>-&gt;</code> “其他” 中找到。</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/create%20solution-11b71c122be1473a80d3552d9b14c663.png" alt="create solution"></p>
+<p>然后填写需要创建的解决方案名称，并选择所在文件夹，完成创建。</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/set%20new%20solution-c91bfc4a88744d87a55204e98c9f3da4.png" alt="set new solution"></p>
+<p>创建完成后，在资源管理器中内容如下图。</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/view%20in%20explorer-f09dd05aeb764bc6931ea5105f4917b6.png" alt="view in explorer"></p>
+<p>但是这时我们的解决方案打开后空无一物，这时我们需要创建两个文件夹，一个是 <code>Solution Items</code>，用于管理 <code>.gitignore</code>、<code>LICENSE</code> 与仓库的自述文件，另外一个是 <code>src</code>，用于存放代码文件。</p>
+<p>如果需要添加单元测试，还需要增加一个文件夹 <code>test</code> 存放测试代码，而如果有一些静态文件，建议创建 <code>docs</code> 与 <code>row</code> 文件夹进行存储。</p>
+<p>注意，除 <code>Solution Items</code> 文件夹外，其他文件夹还要在文件资源管理器创建文件夹，与解决方案中的文件夹一一对应，因为解决方案中的文件夹实际是虚拟文件夹。</p>
+<p>创建完成后，我们需要从文件资源管理器中将仓库初始化生成的文件，拷贝到解决方案的 <code>Solution Items</code> 文件夹，请注意这个过程中，只是解决方案中可以查看到这几个文件，这些文件的路径并不会发生变化。</p>
+<p>完成以上以后，我们就可以真正的创建项目了，在 <code>src</code> 文件夹上点击右键并添加“新建项目”，选择 “C#” <code>-&gt;</code> “Windows” <code>-&gt;</code> “桌面” 中的 <code>WPF App (.NET Core)</code>：</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/create%20wpf%20project-fca9da6f50db46aabf289baead0df449.png" alt="create wpf project"></p>
+<p>注意需要选择到 <code>src</code> 目录下，以上都完成后，我们文件资源管理器以及解决方案中的结构如下：</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/view%20the%20solution%20and%20explorer-c71c938bb5134375a32003663038ed8c.png" alt="view the solution and explorer"></p>
+<h2 id="调整项目依赖框架"><a href="#调整项目依赖框架" class="headerlink" title="调整项目依赖框架"></a>调整项目依赖框架</h2><p><code>.NET Standard</code> 类库项目以及 <code>.NET Core</code> 应用项目，在双击项目名后，都可以打开一个 xml 文件。</p>
+<p>我们可以调整 xml 文件的配置，默认的 xml 文件有一个 <code>TargetFramework</code> 节点，如果是依赖框架是多个，我们要改成复数形式，再修改里面依赖框架的值，多个用 <code>;</code> 分隔。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Project</span> <span class="attr">Sdk</span>=<span class="string">&quot;Microsoft.NET.Sdk.WindowsDesktop&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">OutputType</span>&gt;</span>WinExe<span class="tag">&lt;/<span class="name">OutputType</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TargetFrameworks</span>&gt;</span>net40;net472;netcoreapp3.1<span class="tag">&lt;/<span class="name">TargetFrameworks</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">UseWPF</span>&gt;</span>true<span class="tag">&lt;/<span class="name">UseWPF</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">Project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>修改完成，可能会提示重新加载项目，确认后我们的依赖项会变成下图：</p>
+<p><img src="https://www.hd2y.net/upload/2020/4/project%20dependencies-604809d5c4d049579588781666a68a64.png" alt="project dependencies"></p>
+<p>这时我们再生成项目，<code>\bin\Debug</code> 文件夹就会生成多个文件夹，与我们选择的依赖框架一一对应。</p>
+<h2 id="提交修改"><a href="#提交修改" class="headerlink" title="提交修改"></a>提交修改</h2><p>代码写好了，自然要提交到代码仓库，此时团队资源管理器中会显示当前的 Git 仓库。</p>
+<p>选择“项目”下的“更改”，输入一些本次提交的描述信息，点击“全部提交”。</p>
+<p>注意，此时还没有正式的将本次提交推送到远程仓库，还需要点击“同步”下的“推送”才行。</p>
+<p>如果使用命令行提交，可以参考以下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&#x27;创建项目&#x27;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<p>当然以上都是默认已经配置登录，如果没有登录的话，则需要登录 github 账号。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/wpf-series-of-tutorials-from-wpf-dotnet-core-commencement" data-id="cklbytr87005uztev77nm44j8" data-title="WPF 系列教程：从 WPF (.NET Core) 开始" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/git-delete-large-files" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Git 删除大文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/wpf-cs0103-a-name-initializecomponent-does-not-exist-in-the-current-context" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">WPF：CS0103-当前上下文中不存在名称 “InitializeComponent”</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 10px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 15px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 10px;">串口</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/csharp-expression-script-evaluation-problems">C# 中表达式计算问题</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-001-source-code-compilation-and-debugging">ASP.NET Core - 001 源码编译与调试</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-000-development-environment-configuration">ASP.NET Core - 000 开发环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/dotnet-core-migration-web-service">迁移 Web Service 项目到 .NET Core</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 hd2y<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

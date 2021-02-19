@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>初步了解 MVC5 | 华灯</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="ASP.NET MVC 是一个适用于 WEB 应用程序的经典模型 Model-View-Controller 模式。相对于 Web Forms 一个单一的整体，ASP.NET MVC 是由连接在一起的各种代码层所组成。 Global.asax 文件Global.asax 文件概述Global.asax 这个文件包含全局应用程序事件的事件处理程序。它响应应用程序级别和会话级别事件的代码。 运行时，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初步了解 MVC5">
+<meta property="og:url" content="http://example.com/preliminary-understanding-of-mvc5">
+<meta property="og:site_name" content="华灯">
+<meta property="og:description" content="ASP.NET MVC 是一个适用于 WEB 应用程序的经典模型 Model-View-Controller 模式。相对于 Web Forms 一个单一的整体，ASP.NET MVC 是由连接在一起的各种代码层所组成。 Global.asax 文件Global.asax 文件概述Global.asax 这个文件包含全局应用程序事件的事件处理程序。它响应应用程序级别和会话级别事件的代码。 运行时，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc1_1562741921709.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc2_1562741921709.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc8_1562741921787.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc7_1562741921772.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc3_1562741921726.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc4_1562741921734.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc5_1562741921744.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc6_1562741921755.png">
+<meta property="article:published_time" content="2019-05-31T08:13:00.000Z">
+<meta property="article:modified_time" content="2020-02-11T12:43:46.000Z">
+<meta property="article:author" content="hd2y">
+<meta property="article:tag" content="MVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc1_1562741921709.png">
+  
+    <link rel="alternate" href="/atom.xml" title="华灯" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">华灯</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-preliminary-understanding-of-mvc5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/preliminary-understanding-of-mvc5" class="article-date">
+  <time class="dt-published" datetime="2019-05-31T08:13:00.000Z" itemprop="datePublished">2019-05-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      初步了解 MVC5
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><code>ASP.NET MVC</code> 是一个适用于 WEB 应用程序的经典模型 <code>Model-View-Controller</code> 模式。相对于 <code>Web Forms</code> 一个单一的整体，<code>ASP.NET MVC</code> 是由连接在一起的各种代码层所组成。</p>
+<h2 id="Global-asax-文件"><a href="#Global-asax-文件" class="headerlink" title="Global.asax 文件"></a><code>Global.asax</code> 文件</h2><h3 id="Global-asax-文件概述"><a href="#Global-asax-文件概述" class="headerlink" title="Global.asax 文件概述"></a><code>Global.asax</code> 文件概述</h3><p><code>Global.asax</code> 这个文件包含全局应用程序事件的事件处理程序。它响应应用程序级别和会话级别事件的代码。</p>
+<p>运行时， <code>Global.asax</code> 将被编译成一个动态生成的 <code>.NET Framework</code> 类，该类是从 <code>HttpApplication</code> 基类派生的。</p>
+<p>因此在 <code>Global.asax</code> 中的代码可以访问 <code>HttpApplication</code> 类中所有的 <code>public</code> 或者 <code>protected</code> 的成员。</p>
+<p><code>Global.asax</code> 不被用户直接请求，但 <code>Global.asax</code> 中的代码会被自动执行来响应特定的应用程序事件。</p>
+<p><code>Global.asax</code> 是可选的，而且在一个 web 项目中是唯一的，它应该处于网站的根目录。</p>
+<h3 id="一个请求的完整处理过程"><a href="#一个请求的完整处理过程" class="headerlink" title="一个请求的完整处理过程"></a>一个请求的完整处理过程</h3><p>以下过程由 <code>Internet Information Service（inetinfo.exe）—— IIS</code> 执行：</p>
+<ul>
+<li>客户端发出请求</li>
+<li>验证请求</li>
+<li>给请求授权</li>
+<li>确定请求的缓存 </li>
+<li>获取缓存状态</li>
+<li>在请求的处理程序执行前</li>
+<li>http 处理程序执行请求 （<code>asp.net</code> 页面由 <code>aspnet_wp.exe</code> 执行）</li>
+<li>在请求的处理程序执行后</li>
+<li>释放请求状态</li>
+<li>更新请求缓存</li>
+<li>请求结束</li>
+</ul>
+<h3 id="Global-asax-中的事件"><a href="#Global-asax-中的事件" class="headerlink" title="Global.asax 中的事件"></a><code>Global.asax</code> 中的事件</h3><p><code>Global.asax</code> 中的所有事件可以分成两种，一种是满足特定事件时才会被触发，一种是每次请求都会被按照顺序执行的事件。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Web;</span><br><span class="line"><span class="keyword">using</span> System.Web.Mvc;</span><br><span class="line"><span class="keyword">using</span> System.Web.Optimization;</span><br><span class="line"><span class="keyword">using</span> System.Web.Routing;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">JohnSun.MVC5.Web</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MvcApplication</span> : <span class="title">System.Web.HttpApplication</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 不是每次请求都调用</span></span><br><span class="line">            <span class="comment">// 在Web应用程序的生命周期里就执行一次</span></span><br><span class="line">            <span class="comment">// 在应用程序第一次启动和应用程序域创建事被调用</span></span><br><span class="line">            <span class="comment">// 适合处理应用程序范围的初始化代码</span></span><br><span class="line">            AreaRegistration.RegisterAllAreas();<span class="comment">// 注册 Area</span></span><br><span class="line">            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters); <span class="comment">// 注册 Filter</span></span><br><span class="line">            RouteConfig.RegisterRoutes(RouteTable.Routes);<span class="comment">// 注册 Route</span></span><br><span class="line">            BundleConfig.RegisterBundles(BundleTable.Bundles);<span class="comment">// 注册 Bundle</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_End</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 不是每次请求都调用</span></span><br><span class="line">            <span class="comment">// 在应用程序关闭时运行的代码，在最后一个HttpApplication销毁之后执行</span></span><br><span class="line">            <span class="comment">// 比如 IIS 重启，文件更新，进程回收导致应用程序转换到另一个应用程序域</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Session_Start</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 不是每次请求都调用</span></span><br><span class="line">            <span class="comment">// 会话开始时执行</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Session_End</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 不是每次请求都调用</span></span><br><span class="line">            <span class="comment">// 会话结束或过期时执行</span></span><br><span class="line">            <span class="comment">// 不管在代码中显式的清空 Session 或者 Session 超时自动过期，此方法都将被调用</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_Init</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 不是每次请求都调用</span></span><br><span class="line">            <span class="comment">// 在每一个 HttpApplication 实例初始化的时候执行</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_Disposed</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 不是每次请求都调用</span></span><br><span class="line">            <span class="comment">// 在应用程序被关闭一段时间之后，在 .net 垃圾回收器准备回收它占用的内存的时候被调用。</span></span><br><span class="line">            <span class="comment">// 在每一个 HttpApplication 实例被销毁之前执行</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_Error</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 不是每次请求都调用</span></span><br><span class="line">            <span class="comment">// 所有没有处理的错误都会导致这个方法的执行</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">/*********************************************************************/</span></span><br><span class="line">        <span class="comment">// 每次请求都会按照顺序执行以下事件</span></span><br><span class="line">        <span class="comment">/*********************************************************************/</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_BeginRequest</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 每次请求时第一个出发的事件，这个方法第一个执行</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_AuthenticateRequest</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 在执行验证前发生，这是创建验证逻辑的起点</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_AuthorizeRequest</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 当安全模块已经验证了当前用户的授权时执行</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_ResolveRequestCache</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 当 ASP.NET 完成授权事件以使缓存模块从缓存中为请求提供服务时发生，从而跳过处理程序（页面或者是 WebService）的执行。</span></span><br><span class="line">            <span class="comment">// 这样做可以改善网站的性能，这个事件还可以用来判断正文是不是从 Cache 中得到的。</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//------------------------------------------------------------------------</span></span><br><span class="line">        <span class="comment">// 在这个时候，请求将被转交给合适程序。例如：web 窗体将被编译并完成实例化</span></span><br><span class="line">        <span class="comment">//------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_AcquireRequestState</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 读取了 Session 所需的特定信息并且在把这些信息填充到 Session 之前执行</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_PreRequestHandlerExecute</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 在合适的处理程序执行请求前调用</span></span><br><span class="line">            <span class="comment">// 这个时候，Session 就可以用了</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//-------------------------------------------------</span></span><br><span class="line">        <span class="comment">//在这个时候，页面代码将会被执行，页面呈现为 HTML</span></span><br><span class="line">        <span class="comment">//-------------------------------------------------</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_PostRequestHandlerExecute</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 当处理程序完成对请求的处理后被调用。</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_ReleaseRequestState</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 释放请求状态</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_UpdateRequestCache</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 为了后续的请求，更新响应缓存时被调用</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_EndRequest</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// EndRequest 是在响应 Request 时最后一个触发的事件</span></span><br><span class="line">            <span class="comment">// 但在对象被释放或者从新建立以前，适合在这个时候清理代码</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_PreSendRequestHeaders</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 向客户端发送 Http 标头之前被调用</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Application_PreSendRequestContent</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// 向客户端发送 Http 正文之前被调用</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="路由-Routing"><a href="#路由-Routing" class="headerlink" title="路由 Routing"></a>路由 <code>Routing</code></h2><p><code>ASP.NET MVC</code> 不再是要依赖于物理页面，我们可以使用自己的语法自定义 URL，通过这些语法来指定资源和操作。语法通过 URL 模式集合表达，也称为路由。</p>
+<p>路由是代表 URL 绝对路径的模式匹配字符串。所以路由可以是一个常量字符串，也可能包含一些占位符。</p>
+<p>新建一个 <code>ASP.NET MVC</code> 项目，在 <code>Global.asax</code> 文件我们可以看到路由在这里注册，让程序在启动的时候得到处理。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RouteConfig.RegisterRoutes(RouteTable.Routes);<span class="comment">//注册 Route</span></span><br></pre></td></tr></table></figure>
+<p>转到定义可以看到注册的规则：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RouteConfig</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterRoutes</span>(<span class="params">RouteCollection routes</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        routes.IgnoreRoute(<span class="string">&quot;&#123;resource&#125;.axd/&#123;*pathInfo&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        routes.MapRoute(</span><br><span class="line">            name: <span class="string">&quot;Default&quot;</span>,</span><br><span class="line">            url: <span class="string">&quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&quot;</span>,</span><br><span class="line">            defaults: <span class="keyword">new</span> &#123; controller = <span class="string">&quot;Home&quot;</span>, action = <span class="string">&quot;Index&quot;</span>, id = UrlParameter.Optional &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：因为匹配路由是按照添加顺序去解析，所以基本的路由规则是从特殊到一般排列，否则可能导致解析异常或 404 Not Found。  </p>
+<p>具体配置参考文章：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/zeusro/p/RouteConfig.html">史上最全的 ASP.NET MVC 路由配置</a> 与 <a target="_blank" rel="noopener" href="https://blogs.msdn.microsoft.com/webdev/2013/10/17/attribute-routing-in-asp-net-mvc-5/">Attribute Routing in ASP.NET MVC 5</a>。</p>
+<h2 id="控制器-Controller"><a href="#控制器-Controller" class="headerlink" title="控制器 Controller"></a>控制器 <code>Controller</code></h2><p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc1_1562741921709.png" alt="mvc1"></p>
+<p><code>ASP.NET MVC</code> 会调用不同的控制器类（和其内部不同的操作方法）这取决于传入 URL。所使用的 <code>ASP.NET MVC</code> 的默认 URL 路由逻辑使用这样的格式来判定哪些代码以便调用：<code>/[Controller]/[ActionName]/[Parameters]</code>。 </p>
+<p>项目建立以后有一个默认的控制器 <code>\Controllers\HomeController.cs</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> View();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">About</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        ViewBag.Message = <span class="string">&quot;Your application description page.&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> View();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">Contact</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        ViewBag.Message = <span class="string">&quot;Your contact page.&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> View();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>Controllers</code> 文件夹右键 -&gt; 添加 可以看到创建控制器的选项。  </p>
+<p>控制器每一个方法为一个 <code>Action</code>，每个 <code>Action</code> 对应的是项目内 <code>\Views\[Controller]\[ActionName].cshml</code>，在方法内右键，菜单有“添加视图”与“转到视图”选项。  </p>
+<h3 id="ActionResult-返回值"><a href="#ActionResult-返回值" class="headerlink" title="ActionResult 返回值"></a><code>ActionResult</code> 返回值</h3><p><strong>（一）视图类型</strong></p>
+<p>返回视图：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> View();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回分部视图：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">ViewTest</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PartialView();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong> 以上均需要对 <code>Action</code> 添加视图文件，若无 <code>Action</code> 方法的视图文件也可以直接通过视图名称或视图路径指定视图文件，具体可以查看 <code>View()</code> 方法重载。</p>
+<p><strong>（二）文本类型</strong></p>
+<p>返回 <code>JavaScript</code> 脚本：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">ContentJS</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Content(<span class="string">&quot;alert(&#x27;test js.&#x27;);&quot;</span>, <span class="string">&quot;text/javascript&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回 <code>CSS</code> 样式：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">ContentCSS</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HttpCookie cookie = Request.Cookies[<span class="string">&quot;theme&quot;</span>] ?? <span class="keyword">new</span> HttpCookie(<span class="string">&quot;theme&quot;</span>, <span class="string">&quot;default&quot;</span>);</span><br><span class="line">    <span class="keyword">switch</span> (cookie.Value)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;Theme1&quot;</span>: <span class="keyword">return</span> Content(<span class="string">&quot;body&#123;font-family: SimHei; font-size:1.2em&#125;&quot;</span>, <span class="string">&quot;text/css&quot;</span>);</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;Theme2&quot;</span>: <span class="keyword">return</span> Content(<span class="string">&quot;body&#123;font-family: KaiTi; font-size:1.2em&#125;&quot;</span>, <span class="string">&quot;text/css&quot;</span>);</span><br><span class="line">        <span class="literal">default</span>: <span class="keyword">return</span> Content(<span class="string">&quot;body&#123;font-family: SimSong; font-size:1.2em&#125;&quot;</span>, <span class="string">&quot;text/css&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>（三）<code>JSON</code> 类型</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">JsonTest</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Json(<span class="keyword">new</span> &#123; name = <span class="string">&quot;Kangkang&quot;</span>, country = <span class="string">&quot;China&quot;</span>, email = <span class="string">&quot;kangkang@163.com&quot;</span> &#125;, JsonRequestBehavior.AllowGet);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>（四）图片多媒体类型</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">ImageTest</span>(<span class="params"><span class="built_in">string</span> id</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> path = Server.MapPath(<span class="string">$&quot;/images/<span class="subst">&#123;id&#125;</span>.gif&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> File(path, <span class="string">&quot;image/gif&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>（五）<code>Javascript</code> 脚本类型</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">JavaScriptTest</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> JavaScript(<span class="string">&quot;alert(&#x27;test js.&#x27;);&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>（六）文件类型（下载）</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">FileTest</span>(<span class="params"><span class="built_in">string</span> id</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> fileName = <span class="string">&quot;可爱.gif&quot;</span>;<span class="comment">// 客户端保存的文件名</span></span><br><span class="line">    <span class="built_in">string</span> filePath = Server.MapPath(<span class="string">$&quot;/images/1.gif&quot;</span>);<span class="comment">// 路径</span></span><br><span class="line">    <span class="keyword">return</span> File(<span class="keyword">new</span> FileStream(filePath, FileMode.Open), <span class="string">&quot;image/gif&quot;</span>, fileName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<ul>
+<li><code>FileContentResult</code>：是针对文件内容创建的 <code>FileResult</code>，它只是调用当前 <code>HttpResponse</code> 的 <code>OutputStream</code> 属性的 <code>Write</code> 方法直接将表示文件内容的字节数组写入响应输出流。</li>
+<li><code>FilePathResult</code>：是一个根据物理文件路径创建 <code>FileResult</code>。</li>
+<li><code>FileStreamResult</code>：允许我们通过一个用于读取文件内容的流来创建 <code>FileResult</code>。</li>
+</ul>
+<p><strong>可以参考：</strong> <a target="_blank" rel="noopener" href="http://www.cnblogs.com/artech/archive/2012/08/14/action-result-02.html">了解 ASP.NET MVC 几种 ActionResult 的本质：FileResult</a></p>
+<p><strong>（七）返回 <code>null</code> 或者 <code>void</code></strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Empty</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>（八）返回未经授权浏览状态</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">HttpUnauthorizedResult</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> HttpUnauthorizedResult();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong> 响应给客户端错误代码 <code>401</code>（未经授权浏览状态），如果程序启用了 <code>Forms</code> 验证，并且客户端没有任何身份票据，则会跳转到指定的登录页。</p>
+<p><strong>（九）页面跳转</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Redirect</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 直接返回指定的url地址  </span></span><br><span class="line">    <span class="keyword">return</span> Redirect(<span class="string">&quot;http://www.google.com&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>RedirectToRouteResult</code>：直接使用 <code>Action Name</code> 进行跳转，也可以加上 <code>ControllerName</code> 以及参数。</li>
+<li><code>RedirectToActionResult</code>：指定路由进行跳转。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">RedirectActionResult</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> RedirectToAction(<span class="string">&quot;Index&quot;</span>, <span class="string">&quot;Home&quot;</span>, <span class="keyword">new</span> &#123; id = <span class="number">1</span>, name = <span class="string">&quot;Kangkang&quot;</span> &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">RedirectResult</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> RedirectToRoute(<span class="string">&quot;Default&quot;</span>, <span class="keyword">new</span> &#123; controller = <span class="string">&quot;Home&quot;</span>, action = <span class="string">&quot;Index&quot;</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>总结：</strong> 这些返回类型的共同点，那便是对 <code>Action</code> 有一定的要求：</p>
+<ul>
+<li>必须是一个 <code>public</code> 方法</li>
+<li>必须是实例方法</li>
+<li>不能被重载</li>
+<li>必须返回 <code>ActionResult</code> 类型</li>
+</ul>
+<h2 id="视图-View"><a href="#视图-View" class="headerlink" title="视图 View"></a>视图 View</h2><p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc2_1562741921709.png" alt="mvc2"></p>
+<h3 id="Views-文件夹下常用文件种类"><a href="#Views-文件夹下常用文件种类" class="headerlink" title="Views 文件夹下常用文件种类"></a>Views 文件夹下常用文件种类</h3><table>
+<thead>
+<tr>
+<th>文件类型</th>
+<th>扩展名</th>
+<th>概述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>HTML</code></td>
+<td><code>.html</code> 或 <code>htm</code></td>
+<td>静态 <code>html</code> 文件；<br>在开发中通用性最高的页面；<br>属于 <code>ASP.NET MVC</code> 常用页面；</td>
+</tr>
+<tr>
+<td><code>Razor</code> 文件</td>
+<td><code>.cshtml</code></td>
+<td>动态 <code>MVC Razor</code> 文件；<br><code>ASP.NET MVC</code> 中，属于常用文件；<br>采用 Razor 语法格式；<br>基本取代 <code>.aspx</code> 文件；</td>
+</tr>
+<tr>
+<td><code>WebForm</code> 文件</td>
+<td><code>.aspx</code></td>
+<td>动态 <code>ASPX</code> 文件；<br>属于 <code>WebForm</code> 架构文件；<br>在 <code>ASP.NET MVC</code> 中，也可以用该页面布局页面但不推荐；<br>在 <code>ASP.NET MVC</code> 中基本被 cshtml 文件取代</td>
+</tr>
+<tr>
+<td><code>ASP</code> 文件</td>
+<td><code>.asp</code></td>
+<td>传统 <code>ASP</code> 文件，目前已过时；<br>发展：<code>asp</code>=&gt;<code>aspx</code>=&gt;<code>cshtml</code>；<br>对应架构：<code>ASP</code>=&gt;<code>ASP.NET WebForm</code>=&gt;<code>ASP.NET MVC</code></td>
+</tr>
+</tbody></table>
+<p>分析：</p>
+<ul>
+<li><code>ASP.NET MVC</code> 页面基本被放在 Views 文件夹下；</li>
+<li>利用 <code>ASP.NET MVC</code> 模板生成框架，Views 文件夹下的默认页面为 <code>.cshtml</code> 页面；</li>
+<li><code>ASP.NET MVC</code> 默认页面为 Razor 格式的页面，因此默认页面为 <code>.cshtml</code> 页面；</li>
+<li><code>ASP.NET MVC</code> 中，支持 WebForm 页面，即 <code>.aspx</code> 页面；</li>
+<li><code>ASP.NET MVC</code> 中，支持静态 html 页面；</li>
+</ul>
+<h3 id="默认-Views-文件夹包含内容"><a href="#默认-Views-文件夹包含内容" class="headerlink" title="默认 Views 文件夹包含内容"></a>默认 Views 文件夹包含内容</h3><table>
+<thead>
+<tr>
+<th>文件夹名称</th>
+<th>概述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em><code>Account</code> 文件夹</em></td>
+<td><em>包含用于注册并登录用户账户的页面</em></td>
+</tr>
+<tr>
+<td><code>Home</code> 文件夹</td>
+<td>存储首页和 <code>About</code> 页面信息</td>
+</tr>
+<tr>
+<td><code>Share</code> 文件夹</td>
+<td>存储控制器间分享的视图，如布局页面和模板页等</td>
+</tr>
+<tr>
+<td><code>_ViewStart.cshtml</code></td>
+<td>程序最开始执行的页面</td>
+</tr>
+</tbody></table>
+<p>分析：</p>
+<ul>
+<li>这里没添加 <code>Account</code> 控制器；</li>
+<li>默认约定：在 <code>Controllers</code> 新增一个控制器，就会默认地在 <code>Views</code> 文件夹下新增一个视图文件夹，用来存放该控制器添加的视图，如上图中增加 <code>Home</code> 控制器，在 <code>Views</code> 下就自动新增加 <code>Home</code> 文件，用来存放是 <code>Home</code> 控制器视图； </li>
+</ul>
+<h3 id="视图种类"><a href="#视图种类" class="headerlink" title="视图种类"></a>视图种类</h3><p><strong>（一）起始视图：<code>_ViewStart.cshtml</code></strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@*@&#123;</span><br><span class="line">    Layout = &quot;~/Views/Shared/_Layout.cshtml&quot;;</span><br><span class="line">&#125;*@</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>这里是 _ViewStart.cshtml 视图<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>原则上程序运行时，这个视图首先被运行，其他视图在这个视图之后被运行。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>浏览 <code>http://127.0.0.1/Home/Index</code></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc8_1562741921787.png" alt="mvc8"></p>
+<p><strong>（二）布局视图：<code>_Layout.cshtml</code></strong></p>
+<p>首先将 <code>_ViewStart.cshtml</code> 文件还原修改其指向的 <code>_LayoutDemo.cshtml</code> 文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">    Layout = &quot;~/Views/Shared/_LayoutDemo.cshtml&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加 <code>_LayoutDemo.cshtml</code> 文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = &quot;LayoutDemo&quot;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>@ViewBag.Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>---如下内容来源为视图---<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        @RenderBody()</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>---如下内容为Footer区---<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">footer</span>&gt;</span>Copyright by John Sun.<span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>重新浏览 <code>http://127.0.0.1/Home/Index</code></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc7_1562741921772.png" alt="mvc7"></p>
+<ul>
+<li><code>_Layout.cshtml</code> 基本结构就是 HTML 基本结构(其实 <code>.aspx</code> 和 <code>.cshtml</code> 结构，均是 html 结构)；</li>
+<li>在 <code>_LayoutDemo.cshtml</code> 文件一个后台代码：<code>@RenderBody()</code>。<code>@RenderBody()</code> 表示视图体，此外还有 <code>@RenderSection()</code> 表示部分视图和节点；</li>
+</ul>
+<p><strong>（三）弱类型视图</strong></p>
+<p>Controller 向 View 传递少量数据，一般情况，我们可以归为两大类别：弱类别传递（ViewBag，ViewData，TempData）和强类别传递（强类型视图）。然而，在实际操作中，当涉及大量数据时，弱类别就显得不是那么方便，此时，一般采用强类型视图。强类型视图一般由三部分构成，即控制器层，视图层和模型层，三者之间调用关系可表示为：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc3_1562741921726.png" alt="mvc3"></p>
+<p><strong>（1）ViewData 和 TempData</strong></p>
+<p>ViewData 只在当前 Action 中有效，生命周期和 View 相同；</p>
+<p>TempData 的数据至多只能经过一次 Controller 传递，并且每个元素至多只能被访问一次，访问以后，自动被删除。</p>
+<p>TempData 一般用于临时的缓存内容或抛出错误页面时传递错误信息，可以将 TempData 在使用之前存储到相应的 ViewData 中以备循环使用。</p>
+<p>TempData 保存在 Session 中，Controller 每次执行请求的时候，会从 Session 中先获取 TempData，而后清除 Session，获取完 TempData 数据，虽然保存在内部字典对象中，但是其集合中的每个条目访问一次后就从字典表中删除。具体代码层面，TempData 获取过程是通过 SessionStateTempDataProvider.LoadTempData 方法从 ControllerContext 的 Session 中读取数据，而后清除 Session，故 TempData 只能跨 Controller 传递一次。</p>
+<p><em>HomeController.cs</em></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ViewBag.Message = <span class="string">&quot;Welcome to ASP.NET MVC!&quot;</span>;</span><br><span class="line">    ViewData[<span class="string">&quot;myName&quot;</span>] = <span class="string">&quot;我的名字&quot;</span>;</span><br><span class="line">    TempData[<span class="string">&quot;myAgeOne&quot;</span>] = <span class="string">&quot;26岁&quot;</span>;</span><br><span class="line">    TempData[<span class="string">&quot;myAgeTwo&quot;</span>] = <span class="string">&quot;27岁&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> View();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Index.cshtml 文件</em></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">姓名：@ViewData[<span class="string">&quot;myName&quot;</span>]</span><br><span class="line">&lt;br /&gt;</span><br><span class="line">年龄<span class="number">1</span>：@TempData[<span class="string">&quot;myAgeOne&quot;</span>]</span><br></pre></td></tr></table></figure>
+<p><em>About.cshtml 文件</em></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">姓名：@ViewData[<span class="string">&quot;myName&quot;</span>]</span><br><span class="line">&lt;br /&gt;</span><br><span class="line">年龄<span class="number">1</span>：@TempData[<span class="string">&quot;myAgeOne&quot;</span>]</span><br><span class="line">&lt;br /&gt;</span><br><span class="line">年龄<span class="number">2</span>：@TempData[<span class="string">&quot;myAgeTwo&quot;</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>（2）ViewBag 和 ViewData</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ViewBag.Name = ViewData[<span class="string">&quot;Name&quot;</span>];</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>ViewData</th>
+<th>ViewBag</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Key/Value 集合</td>
+<td>dynamic 类型对象</td>
+</tr>
+<tr>
+<td><code>ASP.NET MVC 1</code> 就有</td>
+<td><code>ASP.NET MVC 3</code> 才有</td>
+</tr>
+<tr>
+<td>基于 <code>ASP.NET 3.5</code></td>
+<td>基于 <code>ASP.NET 4.0</code> 与 <code>.NET Framework</code></td>
+</tr>
+<tr>
+<td>ViewData 较快</td>
+<td>ViewBag 较慢</td>
+</tr>
+<tr>
+<td>视图中查询数据需要转换合适的类型</td>
+<td>视图中查询数据不需要类型转换</td>
+</tr>
+<tr>
+<td>有一些类型转换代码</td>
+<td>可读性好</td>
+</tr>
+</tbody></table>
+<p><strong>（四）强类型视图</strong></p>
+<p>增加实体类 <em>UserInfo.cs</em></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Web;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">JohnSun.MVC5.Web.Models</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UserInfo</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> UserId &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> UserName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Country &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Hobby &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Email &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>HomeController.cs</em> 增加 Action 方法</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">ModelTest</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> View(<span class="keyword">new</span> List&lt;UserInfo&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> UserInfo()&#123; UserId = <span class="number">1</span>, UserName = <span class="string">&quot;Kangkang&quot;</span>, Country = <span class="string">&quot;China&quot;</span>, Hobby = <span class="string">&quot;Basketball&quot;</span>, Email = <span class="string">&quot;kangkang@163.com&quot;</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> UserInfo()&#123; UserId = <span class="number">2</span>, UserName = <span class="string">&quot;Mary&quot;</span>, Country = <span class="string">&quot;America&quot;</span>, Hobby = <span class="string">&quot;Football&quot;</span>, Email = <span class="string">&quot;mary@gmail.com&quot;</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> UserInfo()&#123; UserId = <span class="number">3</span>, UserName = <span class="string">&quot;Jane&quot;</span>, Country = <span class="string">&quot;Canada&quot;</span>, Hobby = <span class="string">&quot;Compute game&quot;</span>, Email = <span class="string">&quot;jane@yahoo.com&quot;</span> &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>增加视图 <em>ModelTest.cshtml</em></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@model IEnumerable<span class="tag">&lt;<span class="name">JohnSun.MVC5.Web.Models.UserInfo</span>&gt;</span></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = &quot;ModelTest&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>ModelTest<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">@foreach (var info in Model)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>@($&quot;&#123;info.UserId&#125;  &#123;info.UserName&#125;  &#123;info.Country&#125;&quot;)<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行效果：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc4_1562741921734.png" alt="mvc4"></p>
+<p><strong>（五）分布页</strong></p>
+<p>我们在 <code>/Views/Shared</code> 文件夹下创建一个分布页 <code>_PartialPageDemo.cshtml</code>，并向该页面中添加一段代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">style</span>=<span class="string">&quot;color:red;&quot;</span>&gt;</span>我是分布页<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在 <em>HomeController.cs</em> 文件中增加返回视图的方法</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">TestPartialPage</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PartialView();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 /Views/Home 增加对应视图文件 <em>TestPartialPage.cshtml</em></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">style</span>=<span class="string">&quot;color:red;&quot;</span>&gt;</span>我是供控制器调用的分布页<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在 <em>Index.cshtml</em> 中调用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = &quot;Home Page&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Html.Partial(&quot;~/Views/Shared/_PartialPageDemo.cshtml&quot;)</span><br><span class="line">@Html.Partial(&quot;~/Views/Home/TestPartialPage.cshtml&quot;)</span><br><span class="line">@Html.Action(&quot;TestPartialPage&quot;)</span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc5_1562741921744.png" alt="mvc5"></p>
+<p>调用分布页的几种方式：</p>
+<ul>
+<li>@Html.Partial() 提供分布页路径</li>
+<li>@Html.Action() 提供控制器返回视图的方法</li>
+<li>通过 Ajax 方式调用</li>
+</ul>
+<h2 id="区域-Area"><a href="#区域-Area" class="headerlink" title="区域 Area"></a>区域 Area</h2><p><code>ASP.NET MVC</code> 有预定义的目录规则，框架根据这些目录规则去加载各种类。</p>
+<p>在 MVC 单项目中，随着业务越来越复杂多样，我们会希望按照功能对代码按文件夹分门别类。</p>
+<p>如果在默认的目录结构下业务混合，这样不方便管理和维护；如果另开新项目，又比较散乱。那么 MVC 有没有这样一种机制来相对独立这些模块呢？答案是肯定的，这就是 MVC 的 Area 区域技术，用来实现在一个 MVC 项目中组织和维护多个相对独立的模块。</p>
+<p>在 VS 中右键单击项目，在弹出的菜单中选择“添加 (A)”-&gt;“Area…”，在弹出的对话框中输入区域名称（遵守 C# 标示符命名规则）即可（比如输入 System），VS 将自动在根目录创建 Areas 文件夹，此文件夹下每个独立的 Area 一个文件夹，System 文件夹内也是一样的 Models、Controllers、Views 结构。</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/mvc6_1562741921755.png" alt="mvc6"></p>
+<p>唯一不同的是多了一个 <code>SystemAreaRegistration.cs</code>（区域注册类），用于向 MVC 框架注册路由等信息，<code>Global.asax.cs</code> 中会自动调用该类的 RegisterArea 方法。新建 Area 后 VS 自动创建相关目录结构，按需修改 SystemAreaRegistration 路由即可。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Web.Mvc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">JohnSun.MVC5.Web.Areas.System</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SystemAreaRegistration</span> : <span class="title">AreaRegistration</span> </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> AreaName </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">get</span> </span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;System&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">RegisterArea</span>(<span class="params">AreaRegistrationContext context</span>) </span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            context.MapRoute(</span><br><span class="line">                <span class="string">&quot;System_default&quot;</span>,</span><br><span class="line">                <span class="string">&quot;System/&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&quot;</span>,</span><br><span class="line">                <span class="keyword">new</span> &#123; action = <span class="string">&quot;Index&quot;</span>, id = UrlParameter.Optional &#125;</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong> 当 Area 中控制器与 MVC 中控制器同名，比如 HomeController，此时访问首页会异常提示：找到多个与名为“Home”的控制器匹配的类型。如果为此请求(<code>&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;</code>)提供服务的路由没有指定命名空间以搜索与此请求相匹配的控制器，则会发生这种情况。如果是这样，请通过调用带有 <code>namespaces</code> 参数的 <code>MapRoute</code> 方法的重载来注册此路由。</p>
+<p>此时修改 <em>RouteConfig.cs</em> 文件中注册路由的方法，添加 HomeController 的命名空间指向即可。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">routes.MapRoute(</span><br><span class="line">    name: <span class="string">&quot;Default&quot;</span>,</span><br><span class="line">    url: <span class="string">&quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&quot;</span>,</span><br><span class="line">    defaults: <span class="keyword">new</span> &#123; controller = <span class="string">&quot;Home&quot;</span>, action = <span class="string">&quot;Index&quot;</span>, id = UrlParameter.Optional &#125;,</span><br><span class="line">    namespaces: <span class="keyword">new</span> <span class="built_in">string</span>[] &#123; <span class="string">&quot;JohnSun.MVC5.Web.Controllers&quot;</span> &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>快速上手入门视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av29975319">微软的船新框架 ASP.NET Core - 10 分钟讲完 MVC 基础 by Anduin</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/preliminary-understanding-of-mvc5" data-id="cklbytrac00cxztevgxro8mnm" data-title="初步了解 MVC5" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/expression-catalog-tree" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Expression 表达式目录树
+        
+      </div>
+    </a>
+  
+  
+    <a href="/server-of-tcp-protocol" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">TCP协议之服务端</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 10px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 15px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 10px;">串口</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/csharp-expression-script-evaluation-problems">C# 中表达式计算问题</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-001-source-code-compilation-and-debugging">ASP.NET Core - 001 源码编译与调试</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-000-development-environment-configuration">ASP.NET Core - 000 开发环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/dotnet-core-migration-web-service">迁移 Web Service 项目到 .NET Core</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 hd2y<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

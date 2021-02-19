@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>华灯</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="盈月舞清风，华灯自摇曳。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="华灯">
+<meta property="og:url" content="http://example.com/page/8/index.html">
+<meta property="og:site_name" content="华灯">
+<meta property="og:description" content="盈月舞清风，华灯自摇曳。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="hd2y">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="华灯" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">华灯</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-anonymous-type-extension-method-var-dynamic" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/anonymous-type-extension-method-var-dynamic" class="article-date">
+  <time class="dt-published" datetime="2019-04-02T09:33:00.000Z" itemprop="datePublished">2019-04-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/anonymous-type-extension-method-var-dynamic">匿名类型、扩展方法、var、dynamic</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="匿名类型"><a href="#匿名类型" class="headerlink" title="匿名类型"></a>匿名类型</h2><p><code>C#</code>在<code>3.0</code>版本以后，允许使用<code>new</code>关键字直接创造对象，方便我们在临时使用一特定类型时，无需单独的创建一个类：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">object</span> user = <span class="keyword">new</span></span><br><span class="line">&#123;</span><br><span class="line">    Id = <span class="number">1</span>,</span><br><span class="line">    Name = <span class="string">&quot;Kangkang&quot;</span>,</span><br><span class="line">    Age = <span class="number">12</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//Console.WriteLine(user.Id);//无法获取 因为是object类型 该问题可以使用var关键字解决</span></span><br></pre></td></tr></table></figure>
+<h2 id="var-关键字"><a href="#var-关键字" class="headerlink" title="var 关键字"></a>var 关键字</h2><p>在方法范围内声明的变量可以具有隐式“类型” <code>var</code>。</p>
+<p>隐式类型本地变量为强类型，就像用户已经自行声明该类型，但编译器决定类型一样(语法糖)。</p>
+<h3 id="声明现有类型"><a href="#声明现有类型" class="headerlink" title="声明现有类型"></a>声明现有类型</h3><p>编译器会自行推断左侧变量的类型，如下代码编译器会识别为<code>int</code>类型：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="声明匿名类型"><a href="#声明匿名类型" class="headerlink" title="声明匿名类型"></a>声明匿名类型</h3><p>创建的匿名类型我们并不知道编译器为我们生成的类型名称，但是我们可以使用<code>var</code>关键字让编译器自己根据编译的结果来推断：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> user = <span class="keyword">new</span></span><br><span class="line">&#123;</span><br><span class="line">    Id = <span class="number">1</span>,</span><br><span class="line">    Name = <span class="string">&quot;Kangkang&quot;</span>,</span><br><span class="line">    Age = <span class="number">12</span></span><br><span class="line">&#125;;</span><br><span class="line">Console.WriteLine(user.Id);</span><br></pre></td></tr></table></figure>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>必须在定义时初始化，也就是必须是 <code>var s = &quot;abcd&quot;</code> 形式</li>
+<li>一但初始化完成，就不能再给变量赋与初始化值类型不同的值</li>
+<li>var要求是局部变量</li>
+<li>使用var定义变量和object不同，它在效率上和使用强类型方式定义变量完全一样</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">&quot;**************** 匿名类型与var ****************&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> user = <span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        Id = <span class="number">1</span>,</span><br><span class="line">        Name = <span class="string">&quot;Kangkang&quot;</span>,</span><br><span class="line">        Age = <span class="number">12</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//user.Name = &quot;Xiaoming&quot;;//匿名类型属性只读</span></span><br><span class="line">    Type type = user.GetType();</span><br><span class="line">    <span class="keyword">var</span> properties = type.GetProperties();</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> properties)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//只读属性反射也无法修改属性值</span></span><br><span class="line">        <span class="comment">//if (item.Name == &quot;Name&quot;)</span></span><br><span class="line">        <span class="comment">//&#123;</span></span><br><span class="line">        <span class="comment">//    item.SetValue(user, &quot;Xiaoming&quot;, null);</span></span><br><span class="line">        <span class="comment">//&#125;</span></span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;Property name is <span class="subst">&#123;item.Name&#125;</span>, value is <span class="subst">&#123;item.GetValue(user, <span class="literal">null</span>)&#125;</span>.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="扩展方法"><a href="#扩展方法" class="headerlink" title="扩展方法"></a>扩展方法</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>静态类里的静态方法，第一个参数类型前加this关键字  </p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">ExtensionClass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Human <span class="title">CheckHuman</span>(<span class="params"><span class="keyword">this</span> Human human</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        human = human ?? <span class="keyword">new</span> Human(<span class="string">&quot;Kangkang&quot;</span>,<span class="string">&quot;China&quot;</span>);</span><br><span class="line">        human.Name = <span class="built_in">string</span>.IsNullOrEmpty(human.Name) ? <span class="string">&quot;EmptyName&quot;</span> : human.Name;</span><br><span class="line">        human.Country = <span class="built_in">string</span>.IsNullOrEmpty(human.Country) ? <span class="string">&quot;China&quot;</span> : human.Country;</span><br><span class="line">        <span class="keyword">return</span> human;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上，在不修改类型封装的前提下，给类型额外的扩展一个方法（密封类也可以），扩展的方法为实例方法。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>既然为实例方法，我们便可以像实例方法一样调用：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">&quot;**************** 扩展方法的使用 ****************&quot;</span>);</span><br><span class="line">    Human human = <span class="literal">null</span>;</span><br><span class="line">    human.CheckHuman().SayHi();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>如果与实例方法相同，优先实例方法；不能滥用扩展方法，尤其是基类型。</p>
+<h2 id="dynamic"><a href="#dynamic" class="headerlink" title="dynamic"></a>dynamic</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><code>dynamic</code> 类型是一种静态类型，但类型为 <code>dynamic</code> 的对象会跳过静态类型检查。 大多数情况下，该对象就像具有类型 <code>object</code> 一样。 在编译时，将假定类型化为 <code>dynamic</code> 的元素支持任何操作。 因此，您不必考虑对象是从 <code>COM</code> <code>API</code>、从动态语言（例如 <code>IronPython</code>）、从 <code>HTML</code> 文档对象模型 (DOM)、从反射还是从程序中的其他位置获取自己的值。 但是，如果代码无效，则在运行时会捕获到错误。</p>
+<h3 id="与-var-对比"><a href="#与-var-对比" class="headerlink" title="与 var 对比"></a>与 <code>var</code> 对比</h3><p>一旦被编译，编译期会自动匹配var 变量的实际类型，并用实际类型来替换该变量的申明，这看上去就好像我们在编码的时候是用实际类型进行申明的。<br>而dynamic被编译后，实际是一个object类型，只不过编译器会对dynamic类型进行特殊处理，让它在编译期间不进行任何的类型检查，而是将类型检查放到了运行期。  </p>
+<p>以 <code>var</code> 声明的变量，支持“智能感知”，因为 <code>Visual Studio</code> 能推断出 <code>var</code> 类型的实际类型，而以 <code>dynamic</code> 声明的变量却不支持“智能感知”，因为编译器对其运行期的类型一无所知。对 <code>dynamic</code> 变量使用“智能感知”，会提示“此操作将在运行时解析”。</p>
+<h3 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dynamic</span> para = <span class="keyword">new</span> System.Dynamic.ExpandoObject();</span><br><span class="line">para.name = <span class="string">&quot;Kangkang&quot;</span>;</span><br><span class="line">para.country = <span class="string">&quot;China&quot;</span>;</span><br><span class="line">para.age = <span class="number">12</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以直接调用</span></span><br><span class="line">Console.WriteLine(para.name);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以重新赋值其他类型</span></span><br><span class="line">para.name = <span class="number">007</span>;</span><br><span class="line">Console.WriteLine(para.name);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以理解其为一个特殊的字典 我们可以使用字典的方式遍历</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> para <span class="keyword">as</span> IDictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt;)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;<span class="subst">&#123;item.Key&#125;</span> <span class="subst">&#123;item.Value&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用不存在的“属性”编译时不会报错 但是运行时会报错</span></span><br><span class="line"><span class="comment">// Microsoft.CSharp.RuntimeBinder.RuntimeBinderException:“&#x27;System.Dynamic.ExpandoObject&#x27; does not contain a definition for &#x27;hobby&#x27;”</span></span><br><span class="line">Console.WriteLine(para.hobby);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/anonymous-type-extension-method-var-dynamic" data-id="cklbytr4s0000ztevbzkqc0es" data-title="匿名类型、扩展方法、var、dynamic" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-delegate-and-event-in-csharp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/delegate-and-event-in-csharp" class="article-date">
+  <time class="dt-published" datetime="2019-04-02T09:04:00.000Z" itemprop="datePublished">2019-04-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/delegate-and-event-in-csharp">C#中的委托与事件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="委托"><a href="#委托" class="headerlink" title="委托"></a>委托</h2><h3 id="关于委托"><a href="#关于委托" class="headerlink" title="关于委托"></a>关于委托</h3><p><code>delegate</code> 关键字创建的类型就是 <code>System.MuticastDelegate</code> (多播委托)，使用反编译工具可以查看， <code>System.MuticastDelegate</code> 是保留类不允许继承。本质上委托都是多播委托，后期定义委托只有添加了多个方法才称为多播委托。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">NoReturnNoParametersDelegate</span>(<span class="params"></span>)</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="常见实例化方式"><a href="#常见实例化方式" class="headerlink" title="常见实例化方式"></a>常见实例化方式</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//new关键字实例化</span></span><br><span class="line">NoReturnNoParametersDelegate delegate1 = <span class="keyword">new</span> NoReturnNoParametersDelegate(DoNothing);</span><br><span class="line"><span class="comment">//赋值一个方法</span></span><br><span class="line">NoReturnNoParametersDelegate delegate2 = DoNothing;</span><br><span class="line"><span class="comment">//lambda表达式</span></span><br><span class="line">NoReturnNoParametersDelegate delegate3 = () =&gt;Console.WriteLine(<span class="string">&quot;This is a do nothing method.&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="常见调用方式"><a href="#常见调用方式" class="headerlink" title="常见调用方式"></a>常见调用方式</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">delegate1.Invoke();<span class="comment">//常规调用</span></span><br><span class="line">delegate2();<span class="comment">//像方法一样调用</span></span><br><span class="line">delegate3.BeginInvoke(<span class="literal">null</span>, <span class="literal">null</span>);<span class="comment">//异步调用</span></span><br></pre></td></tr></table></figure>
+<h3 id="委托的意义"><a href="#委托的意义" class="headerlink" title="委托的意义"></a>委托的意义</h3><p>逻辑和行为作为参数来传递</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//公用的SQL执行方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">ExcuteSql</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> sql, Func&lt;IDbCommand, T&gt; func</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span>(SqlConnection conn = <span class="keyword">new</span> SqlConnection(<span class="string">&quot;&quot;</span>))</span><br><span class="line">	 &#123;</span><br><span class="line">	     conn.Open();</span><br><span class="line">		 IDbCommand cmd = conn.CreateCommand();</span><br><span class="line">		 cmd.CommandText = sql;</span><br><span class="line">		 cmd.CommandType = CommandType.Text;</span><br><span class="line">		 <span class="keyword">return</span> func(cmd);</span><br><span class="line">	 &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//执行查询</span></span><br><span class="line">Func&lt;IDbCommand, Student&gt; func = (cmd) =&gt; </span><br><span class="line">&#123;</span><br><span class="line">    IDataReader reader = cmd.ExecuteReader();</span><br><span class="line">	 Student student = <span class="literal">null</span>;</span><br><span class="line">	 <span class="keyword">if</span>(reader.Read())</span><br><span class="line">	 &#123;</span><br><span class="line">	     <span class="comment">//对student赋值</span></span><br><span class="line">	     student = <span class="keyword">new</span> Student();</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">return</span> student;</span><br><span class="line">&#125;;</span><br><span class="line">Student student = ExcuteSql&lt;Student&gt;(<span class="string">&quot;select top 1 * from [Student]&quot;</span>, func);</span><br><span class="line"><span class="comment">//公用异常处理方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">SafeInvoke</span>(<span class="params">Action act</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">	 &#123;</span><br><span class="line">	     act.Invoke();</span><br><span class="line">	 &#125;</span><br><span class="line">	 catch(Exception exc)</span><br><span class="line">	 &#123;</span><br><span class="line">	     Console.WriteLine(exc.Message);</span><br><span class="line">	 &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//调用</span></span><br><span class="line">SafeInvoke(() =&gt; ExcuteSql&lt;Student&gt;(<span class="string">&quot;select top 1 * from [Student]&quot;</span>, func));</span><br></pre></td></tr></table></figure>
+<h3 id="多播委托"><a href="#多播委托" class="headerlink" title="多播委托"></a>多播委托</h3><ul>
+<li><code>+=</code> 就是在委托的实例后面增加注册更多的方法，像一个链子，执行的时候按添加顺序执行</li>
+<li><code>-=</code> 就是在委托的实例后面移除注册的方法，从链子的尾部开始匹配，找到一个完全匹配的移除，没有不异常</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NoReturnNoParametersDelegate @delegate = DoNothing;</span><br><span class="line">@delegate += DoNothing;</span><br><span class="line">@delegate += DoNothing;</span><br><span class="line">@delegate += DoNothing;</span><br><span class="line">@delegate -= DoNothing;</span><br><span class="line">@delegate.Invoke();</span><br></pre></td></tr></table></figure>
+<h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//观察者模式的标准做法就是将内容抽象 实现抽象接口方法DoAction() 添加到集合后遍历执行DoAction()方法</span></span><br><span class="line">Action miaoAction = () =&gt; Console.WriteLine(<span class="string">&quot;Cat miao!&quot;</span>);<span class="comment">//多播委托做法</span></span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Mourse run!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Dog wang!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Baby cry!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Brother turn!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Mother whisper!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Father roar!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Neighbor awake!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Thief hide!&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><h3 id="事件定义"><a href="#事件定义" class="headerlink" title="事件定义"></a>事件定义</h3><p>委托的实例，加一个 <code>event</code> 关键字（一组方法）</p>
+<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个事件</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EventTestClass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//事件的发布者</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> Action TestEvent;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestEventMethod</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;TestEventMethod invoke.&quot;</span>);</span><br><span class="line">        TestEvent?.Invoke();<span class="comment">//非空才执行</span></span><br><span class="line">        <span class="comment">//if (TestEvent!=null)</span></span><br><span class="line">        <span class="comment">//&#123;</span></span><br><span class="line">        <span class="comment">//    TestEvent.Invoke();</span></span><br><span class="line">        <span class="comment">//&#125;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//事件注册</span></span><br><span class="line">EventTestClass eventTest = <span class="keyword">new</span> EventTestClass();</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Cat miao!&quot;</span>);<span class="comment">//绑定方法 订户的订阅动作</span></span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Mourse run!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Dog wang!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Baby cry!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Brother turn!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Mother whisper!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Father roar!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Neighbor awake!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Thief hide!&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//事件“EventTestClass.TestEvent”只能出现在 += 或 -= 的左边(从类型“EventTestClass”中使用时除外)</span></span><br><span class="line"><span class="comment">//eventTest.TestEvent = null;</span></span><br><span class="line"><span class="comment">//eventTest.TestEvent?.Invoke();</span></span><br><span class="line"></span><br><span class="line">eventTest.TestEventMethod();</span><br></pre></td></tr></table></figure>
+<h3 id="事件与委托的关系"><a href="#事件与委托的关系" class="headerlink" title="事件与委托的关系"></a>事件与委托的关系</h3><p>委托是一种类型，事件是委托的一个实例。  </p>
+<p><code>event</code> 关键字限制了权限，保证安全。  </p>
+<p>事件只能由发布者调用，外部不能调用也不能赋值，但是可以使用 <code>+=</code> 和 <code>-=</code> 向事件注册方法。  </p>
+<p>这个流程可以理解为解耦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(发布者)--&gt;|动作| B(订户A)</span><br><span class="line">A--&gt;|动作| C(订户B)</span><br><span class="line">A--&gt;|动作| D(订户C)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/delegate-and-event-in-csharp" data-id="cklbytr5k000vztev02gb7d70" data-title="C#中的委托与事件" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-lets-just-talk-about-my-view-of-the-smartisan-and-laoluo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/lets-just-talk-about-my-view-of-the-smartisan-and-laoluo" class="article-date">
+  <time class="dt-published" datetime="2019-04-01T11:07:00.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a>►<a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/lets-just-talk-about-my-view-of-the-smartisan-and-laoluo">简单谈谈我对锤子及老罗的看法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>不知不觉间，距上次锤子科技发布手机新品发布会已经接近一年了，而下一次感觉也是遥遥无期。手机行业，就是我这个外行人也知道，没有新品意味着什么 —— “死亡”。</p>
+<h2 id="老罗"><a href="#老罗" class="headerlink" title="老罗"></a>老罗</h2><p>其实开始我并不熟悉老罗，即便他曾经说出过像“彪悍的人生不需要解释”这种网络流行语。</p>
+<p>我和大多数人认识老罗的过程是不一样的，好多人应该是认识老罗后，知道老罗去做手机，而我是在知道锤子手机后才认识的老罗。</p>
+<p>我自认为自己一直是老罗的路人粉，自从看了他的锤子T1发布会之后。</p>
+<p>那个时候还在武汉读书，从几次手机产品的发布，能真真切切的感受到他是想做出一款理想的产品，能够得到他人认可的产品。</p>
+<p>而且可能是因为自己是一个工科男，所以对于其在系统、软件功能的创新，感觉特别的痴迷。</p>
+<p>而现在，老罗这个名字，之前在各个社交网站论坛上，还能经常看到讽刺甚至谩骂他的文章，现在也慢慢少了，偶尔翻到只能是一声叹息。</p>
+<h2 id="手机"><a href="#手机" class="headerlink" title="手机"></a>手机</h2><p>从锤子T1到坚果R1，几乎每场直播我都有追着看，一部分原因可能就像很多人一样，“看相声”。</p>
+<p>比较遗憾的是，到目前为止，我也只买了一款坚果青春款，不过千元的手机把玩了一下，而后因为这个价格区间的性能问题，简单把玩一下就没再用送人了。</p>
+<p>个人看来，就外观锤子手机还是很耐看的，每一款都有自己的特点。</p>
+<p>但是性能和品控问题一直都有争议，比如我曾经买过的坚果刚买不久就发现信号不佳、音量键有点问题。</p>
+<p>基本很少见到身边人用锤子手机的，记得有次出差和另外一个公司的实施人员接触，刚好他用的就是锤子手机，问了一下他的体验也是相比其他手机性能优化要差些，但是对于外观设计赞不绝口。但是也明确表示，下一部手机不会考虑锤子。</p>
+<p>我自己最近也有想，锤子眼看着支持不下去了，无论是对于这段经历的一个纪念，还是补一张发布会的入场券，再买一部坚果。不过这个后面真的入手了再发开箱体验吧。</p>
+<h2 id="Smartisan-OS"><a href="#Smartisan-OS" class="headerlink" title="Smartisan OS"></a>Smartisan OS</h2><p>其实对于一个理工男，做软件开发的人来说，外观有时候并不是那么重要，我更看重的是“有趣的灵魂”。</p>
+<p>说实话，在我看来，可能老罗不是一个合格的老板，但他绝对是一个优秀的产品经理。</p>
+<p>一步、大爆炸、闪念胶囊、TNT，是我最看好的几个产品设计，作为效率工具来说设计新颖，改进的人机交互体验让人耳目一新。</p>
+<p>说实话，发布会的产品介绍视频，外观那部分我感觉并不让我心动，但是系统和软件介绍我基本上都要翻来覆去看几遍。真的，有些设计点真的很戳心。</p>
+<h2 id="TNT工作站"><a href="#TNT工作站" class="headerlink" title="TNT工作站"></a>TNT工作站</h2><p>在我看来，网上对于老罗的讽刺和谩骂，好像都是从“TNT”发布时的“李姐万岁”开始的。</p>
+<p>看着这个产品的没落渐渐销声匿迹真的感觉非常遗憾，我也不止一次的在社交平台上发表过自己对于这个产品的看法，感觉很是惋惜。</p>
+<p><strong>我在B站上的一些回复：</strong></p>
+<blockquote>
+<p>文字工作者基本任务胜任我服，视频媒体呢，程序员呢，建立在这一套软硬件总是有瓶颈的吧，讲真老罗也就适合说相声，下次演讲就是海舟你来吧</p>
+<blockquote>
+<p>5g时代配合云平台，手机不需要太好的性能也不需要做什么适配，复杂运算云服务搞定，还是很不错的选择。不是都说未来只需要一部计算机就行了吗？哈哈。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>手机都不兼容 pc生态圈 他搞这个pc模式有什么意义啊…手机什么时候可以取代pc主机…在考虑这方面问题再说吧…</p>
+<blockquote>
+<p>5g网络时代应该能联网就行，可以远程搞云服务器云计算，可以外接显示器，笔记本就没有用武之地了。挺看好这种模式的，就是不知道锤子能不能坚持到产品更新升级的那一刻。╮(￣▽￣)╭</p>
+</blockquote>
+</blockquote>
+<p><strong>我在知乎上关于『如何评价锤子科技此次发布的坚果 TNT 工作站（显示器）？』的回答：</strong></p>
+<blockquote>
+<p>客观来说，适用的人群比较少，这个也是因为产品不够成熟，能够配套使用的办公软件更少。而且功能上有争议(我不建议用手机功能来对标PC，TNT这个功能应该凸显的是便携，而不是那个带触控的显示器，可能老罗太想卖产品了，其实只是作为一个idea可能不会那么多人喷)。<br><br>我是想如果一个手机，连接一个显示器就能够兼顾家用娱乐与商务办公，那真是省事不少。<br><br>作为一个经常出差的码农，希望手机可以运行ide环境(使用远程工具搭配云主机也是可以的)，搭配一个投影设备或者出差地点提供的显示器工作，那真的是再好不过了。不过短期来看，不太现实，好像没有人向这个方向努力，老罗这一次让我看到了些许希望。<br><br>笔记本再便携，都不如手机方便，希望5G网络时代，能够让手机这种移动设备真正的替代桌面PC。(手机+云计算)</p>
+</blockquote>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>对于老罗这个人，我也不做太多评论，但是网上一些网友的戾气是真的重，很多人都是为了黑而黑，逞口舌之快罢了。</p>
+<p>而在我看来，去年的失利，就是老罗就是步子迈得太大。不知道是不是资金的压力，还是这么多年过去，产品销量上不去着急了，TNT显示器的发布可能是造成后续口碑严重下滑的一个重要因素。</p>
+<p>看到老罗做聊天宝，卖行李箱、空气净化器……其实发布会能感觉到发自内心的不开心，为了资金资本，不能投入全部精力做自己喜欢的产品。听说最近又准备卖电子烟……</p>
+<p>唉，看来真的是离做手机越来越远了啊。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/lets-just-talk-about-my-view-of-the-smartisan-and-laoluo" data-id="cklbytr6d002aztev58nv23qu" data-title="简单谈谈我对锤子及老罗的看法" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-reflector-in-csharp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/reflector-in-csharp" class="article-date">
+  <time class="dt-published" datetime="2019-04-01T06:03:00.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/reflector-in-csharp">C#中的反射</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="dll-IL-metadata-反射"><a href="#dll-IL-metadata-反射" class="headerlink" title="dll-IL-metadata-反射"></a>dll-IL-metadata-反射</h2><p><code>C#</code> 高级语言(人类语言) -&gt; 编译器(编译) -&gt; <code>DLL/EXE</code> (<code>metadata</code>(元数据)+<code>IL</code>(中间语言)) -&gt; <code>CLR/JIT</code> -&gt; 机器码(<code>CPU</code> 执行)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(C#高级语言) --&gt; B(编译器)</span><br><span class="line">B --&gt; C(DLL &#x2F; EXE)</span><br><span class="line">C --&gt; D(CLR &#x2F; JIT)</span><br><span class="line">D --&gt; E(机器码)</span><br></pre></td></tr></table></figure>
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><h3 id="反射-1"><a href="#反射-1" class="headerlink" title="反射"></a>反射</h3><p>反射是 <code>.net framework</code> 提供一个访问 <code>metadata</code> 的帮助类库，可以获取信息并使用。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>创建类型用于测试：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Animal</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Action</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;eat&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GenericClass</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Show</span>(<span class="params">T1 t</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;type is <span class="subst">&#123;<span class="keyword">typeof</span>(T1).Name&#125;</span> value equals <span class="subst">&#123;t&#125;</span>&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Human</span> : <span class="title">Animal</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Human</span>(<span class="params"><span class="built_in">string</span> name, <span class="built_in">string</span> country</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>.Country = country;</span><br><span class="line">        <span class="keyword">this</span>.Name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Country &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Hobby</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;sleep&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SayHi</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;My name is <span class="subst">&#123;<span class="keyword">this</span>.Name&#125;</span>, I&#x27;m come from <span class="subst">&#123;<span class="keyword">this</span>.Country&#125;</span>!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引用命名空间</span></span><br><span class="line"><span class="keyword">using</span> System.Reflection;</span><br><span class="line"><span class="comment">//加载程序集</span></span><br><span class="line">Assembly assembly1 = Assembly.Load(<span class="string">&quot;TestClassLibrary&quot;</span>);<span class="comment">//文件名</span></span><br><span class="line">Assembly assembly2 = Assembly.LoadFile(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, <span class="string">&quot;TestClassLibrary.dll&quot;</span>));<span class="comment">//文件路径</span></span><br><span class="line">Assembly assembly3 = Assembly.LoadFrom(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, <span class="string">&quot;TestClassLibrary.dll&quot;</span>));<span class="comment">//文件名或文件路径</span></span><br><span class="line"><span class="comment">//获取属性 模块 类型</span></span><br><span class="line">assembly1.GetCustomAttributes();</span><br><span class="line">assembly1.GetModules();</span><br><span class="line">assembly1.GetTypes();</span><br><span class="line"><span class="comment">//获取指定类型</span></span><br><span class="line">Type type1 = assembly1.GetType(<span class="string">&quot;TestClassLibrary.Human&quot;</span>);<span class="comment">//普通类</span></span><br><span class="line">Type type2 = assembly1.GetType(<span class="string">&quot;TestClassLibrary.GenericClass`2&quot;</span>);<span class="comment">//泛型类</span></span><br><span class="line"><span class="comment">//泛型类或泛型方法使用前需要指定泛型类型</span></span><br><span class="line">type2 = type2.MakeGenericType(<span class="keyword">typeof</span>(<span class="built_in">string</span>), <span class="keyword">typeof</span>(<span class="built_in">string</span>));<span class="comment">//Method使用MakeGenericMethod方法</span></span><br><span class="line"><span class="comment">//实例化</span></span><br><span class="line"><span class="built_in">object</span> oSingleton1 = Activator.CreateInstance(type1, <span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;Kangkang&quot;</span>, <span class="string">&quot;China&quot;</span> &#125;);<span class="comment">//有参数构造函数实例化</span></span><br><span class="line"><span class="built_in">object</span> oSingleton2 = Activator.CreateInstance(type2);<span class="comment">//调用实例化方法入参需要传入实例化对象 静态方法可忽略</span></span><br><span class="line">type1.GetMethod(<span class="string">&quot;Action&quot;</span>).Invoke(oSingleton1, <span class="literal">null</span>);<span class="comment">//实例化方法</span></span><br><span class="line">type1.GetMethod(<span class="string">&quot;Hobby&quot;</span>).Invoke(oSingleton1, <span class="literal">null</span>);<span class="comment">//静态方法</span></span><br><span class="line">type1.GetMethod(<span class="string">&quot;Hobby&quot;</span>).Invoke(<span class="literal">null</span>, <span class="literal">null</span>);<span class="comment">//静态方法</span></span><br><span class="line">type1.GetMethod(<span class="string">&quot;SayHi&quot;</span>).Invoke(oSingleton1, <span class="literal">null</span>);<span class="comment">//实例化方法</span></span><br><span class="line">type2.GetMethod(<span class="string">&quot;Show&quot;</span>).Invoke(oSingleton2, <span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;test&quot;</span> &#125;);<span class="comment">//泛型类有参数的方法</span></span><br></pre></td></tr></table></figure>
+<h2 id="字段和属性值"><a href="#字段和属性值" class="headerlink" title="字段和属性值"></a>字段和属性值</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Assembly assembly = Assembly.Load(<span class="string">&quot;TestClassLibrary&quot;</span>);</span><br><span class="line">Type type = assembly.GetType(<span class="string">&quot;TestClassLibrary.Human&quot;</span>);</span><br><span class="line"><span class="built_in">object</span> oSingleton = Activator.CreateInstance(type, <span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;Kangkang&quot;</span>, <span class="string">&quot;China&quot;</span> &#125;);</span><br><span class="line"><span class="keyword">var</span> fields = type.GetFields();<span class="comment">//获取字段</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> fields)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;name:<span class="subst">&#123;item.Name&#125;</span> value:<span class="subst">&#123;item.GetValue(oSingleton)&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> properties = type.GetProperties();<span class="comment">//获取属性</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> properties)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;name:<span class="subst">&#123;item.Name&#125;</span> type:<span class="subst">&#123;item.GetValue(oSingleton)&#125;</span>&quot;</span>);<span class="comment">//GetValue() 获取属性或字段值</span></span><br><span class="line">&#125;</span><br><span class="line">type.GetProperty(<span class="string">&quot;Name&quot;</span>).SetValue(oSingleton, <span class="string">&quot;Xiaoming&quot;</span>);<span class="comment">//SetValue() 设置属性或字段值</span></span><br><span class="line">type.GetMethod(<span class="string">&quot;SayHi&quot;</span>).Invoke(oSingleton, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="反射的优点和局限"><a href="#反射的优点和局限" class="headerlink" title="反射的优点和局限"></a>反射的优点和局限</h2><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>代码量较多书写麻烦</li>
+<li>性能消耗较大</li>
+<li>避开编译器检查</li>
+</ul>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>动态可拓展</li>
+<li>工厂模式</li>
+<li>分析类库文件</li>
+<li>访问不能访问的变量和属性破解第三方的代码</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/reflector-in-csharp" data-id="cklbytr6r003aztevf8r711qn" data-title="C#中的反射" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-generic-part-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/generic-part-2" class="article-date">
+  <time class="dt-published" datetime="2019-03-31T14:10:00.000Z" itemprop="datePublished">2019-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/generic-part-2">泛型（Part 2）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="泛型约束"><a href="#泛型约束" class="headerlink" title="泛型约束"></a>泛型约束</h2><h3 id="基类约束"><a href="#基类约束" class="headerlink" title="基类约束"></a>基类约束</h3><p>可以访问基类的属性和方法，限制以后参数类型只能是该类型或其子类。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GenericMethod</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>) <span class="keyword">where</span> T :GenericClass</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接口约束"><a href="#接口约束" class="headerlink" title="接口约束"></a>接口约束</h3><p>可以访问接口的属性和方法，限制以后参数类型必须有实现该接口。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GenericMethod</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>) <span class="keyword">where</span> T : IGeneric</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="引用类型约束"><a href="#引用类型约束" class="headerlink" title="引用类型约束"></a>引用类型约束</h3><p>限制参数类型只能是引用类型。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GenericMethod</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>) <span class="keyword">where</span> T : <span class="keyword">class</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="值类型约束"><a href="#值类型约束" class="headerlink" title="值类型约束"></a>值类型约束</h3><p>限制参数类型只能是值类型。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GenericMethod</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>) <span class="keyword">where</span> T : <span class="keyword">struct</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="无参数构造函数约束"><a href="#无参数构造函数约束" class="headerlink" title="无参数构造函数约束"></a>无参数构造函数约束</h3><p>限制参数类型可以被无参数构造函数实例化。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GenericMethod</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>) <span class="keyword">where</span> T : <span class="keyword">new</span>(<span class="params"></span>)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：以上可以根据需求多重约束，叠加使用，其是“且”的关系。</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GenericMethod</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>) <span class="keyword">where</span> T : GenericClass,IGeneric</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="协变与逆变"><a href="#协变与逆变" class="headerlink" title="协变与逆变"></a>协变与逆变</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>逆变（contravariant）与协变（covariant）是C#4新增的概念，在此之前泛型的参数是不能变化的，无论是“逆”还是“顺”(协)。</p>
+<p>而在泛型参数上添加了in关键字作为泛型修饰符的话，那么那个泛型参数就只能用作方法的输入参数，或者只写属性的参数，不能作为方法返回值等，总之就是只能是“入”，不能出。out关键字反之。</p>
+<ul>
+<li>协变(covariant)：out 修饰返回值。例如 <code>Func&lt;out T&gt;</code></li>
+<li>逆变(contravariant)：in 修饰传入参数。例如 <code>Action&lt;in T&gt;</code></li>
+</ul>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Bird</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Sparrow</span>:<span class="title">Bird</span>&#123;&#125;</span><br><span class="line">&#123;</span><br><span class="line">    Bird bird1 = <span class="keyword">new</span> Bird();</span><br><span class="line">    Bird bird2 = <span class="keyword">new</span> Sparrow();</span><br><span class="line">    Sparrow sparrow1 = <span class="keyword">new</span> Sparrow();</span><br><span class="line">    <span class="comment">//Sparrow sparrow2 = new Bird(); //麻雀是鸟 但是鸟未必是麻雀</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ICustomerOut</span>&lt;<span class="keyword">out</span> <span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">T <span class="title">Get</span>(<span class="params"></span>)</span>;<span class="comment">//协变 只能作为返回值 不能作为传入参数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ICustomerIn</span>&lt;<span class="keyword">in</span> <span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Set</span>(<span class="params">T t</span>)</span>;<span class="comment">//逆变 只能作为传入参数 不能作为返回值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomerOut</span>&lt;<span class="title">T</span>&gt; : <span class="title">ICustomerOut</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">Get</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">default</span>(T);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomerIn</span>&lt;<span class="title">T</span>&gt; : <span class="title">ICustomerIn</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>(<span class="params">T t</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    List&lt;Bird&gt; listBird1 = <span class="keyword">new</span> List&lt;Bird&gt;();</span><br><span class="line">    <span class="comment">//List&lt;Bird&gt; listBird2 = new List&lt;Sparrow&gt;();    //不是父子关系，没有继承关系</span></span><br><span class="line">    List&lt;Bird&gt; listBird3 = <span class="keyword">new</span> List&lt;Sparrow&gt;().Select(s =&gt; s <span class="keyword">as</span> Bird).ToList();<span class="comment">//一群麻雀一定是一群鸟</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment">//协变 只能作为返回值 不能作为传入参数</span></span><br><span class="line">    IEnumerable&lt;Bird&gt; listBird1 = <span class="keyword">new</span> List&lt;Bird&gt;();</span><br><span class="line">    IEnumerable&lt;Bird&gt; listBird2 = <span class="keyword">new</span> List&lt;Sparrow&gt;(); <span class="comment">//协变 一群麻雀一定是一群鸟 类型转换由编译器执行</span></span><br><span class="line">    <span class="comment">//IEnumerable&lt;Sparrow&gt; listBird3 = new List&lt;Bird&gt;();</span></span><br><span class="line">    </span><br><span class="line">    ICustomerOut&lt;Bird&gt; customer4 = <span class="keyword">new</span> CustomerOut&lt;Bird&gt;();</span><br><span class="line">    ICustomerOut&lt;Bird&gt; customer5 = <span class="keyword">new</span> CustomerOut&lt;Sparrow&gt;();</span><br><span class="line">    <span class="comment">//ICustomerOut&lt;Sparrow&gt; customer6 = new CustomerOut&lt;Bird&gt;();//接口应用</span></span><br><span class="line">    </span><br><span class="line">    Action&lt;<span class="built_in">int</span>&gt; action = (a) =&gt; &#123; &#125;;<span class="comment">//委托应用</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment">//逆变 只能作为传入参数 不能作为返回值</span></span><br><span class="line">    ICustomerIn&lt;Bird&gt; customer1 = <span class="keyword">new</span> CustomerIn&lt;Bird&gt;();</span><br><span class="line">    <span class="comment">//ICustomerIn&lt;Bird&gt; customer2 = new CustomerIn&lt;Sparrow&gt;();</span></span><br><span class="line">    ICustomerIn&lt;Sparrow&gt; customer3 = <span class="keyword">new</span> CustomerIn&lt;Bird&gt;();<span class="comment">//接口应用</span></span><br><span class="line">    </span><br><span class="line">    Func&lt;<span class="built_in">int</span>&gt; func = () =&gt; &#123; <span class="keyword">return</span> <span class="literal">default</span>(<span class="built_in">int</span>); &#125;; <span class="comment">//委托应用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>逆变(in) 英语单词字面理解就是入参，而中文的字面意思就是逆向的即从子向父转换，可以参考系统提供的委托 <code>Action&lt;T&gt;</code>。</p>
+<p><code>Action&lt;T&gt;</code> 委托这样使用可以理解为一个已经限制了入参为派生类的委托，那么这个委托将不能赋值给入参为基类型的委托。也就是说如果已经限制了一个委托的入参类型，那么这个委托的入参只能是该类型或该类型的派生类型，否则会影响委托内方法、属性等的调用。所以反之我们可以将一个入参为基类型的委托赋值给一个入参是派生类型的委托。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// public delegate void Action&lt;in T&gt;(T obj);</span></span><br><span class="line">Action&lt;Animal&gt; actAnimal = (animal) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    animal.Eat();</span><br><span class="line">    <span class="comment">//animal.Meow();</span></span><br><span class="line">&#125;;</span><br><span class="line">Action&lt;Cat&gt; actCat = (cat) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    cat.Eat();</span><br><span class="line">    cat.Meow();</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// actAnimal = actCat; //报错：猫咪会喵喵叫，但是不是所有动物都会喵喵叫。</span></span><br><span class="line">actCat = actAnimal;</span><br></pre></td></tr></table></figure>
+<p>协变(out) 英语单词字面理解就是出参，而中文的字面意思就是正向(协有顺的意思)的即从父向子转换，可以参考系统提供的委托 <code>Func&lt;T&gt;</code>。</p>
+<p><code>Func&lt;T&gt;</code> 委托这样使用可以理解为一个已经限制返回值为基类型的委托，那么这个委托将不能赋值给返回值为派生类的委托。也就是说已经限制了一个委托的返回值类型，那么这个委托的返回值只能是该类型或该类型的基类型，因为我们并不能确定该返回值的类型是否是该派生类型。所以反之我们可以将返回值为派生类的委托赋值给一个返回值为基类型的委托。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// public delegate TResult Func&lt;out TResult&gt;();</span></span><br><span class="line">Func&lt;Animal&gt; funcAnimal = () =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    Animal animal = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">new</span> Random().Next() % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        animal = <span class="keyword">new</span> Animal();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        animal = <span class="keyword">new</span> Cat();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> animal;</span><br><span class="line">&#125;;</span><br><span class="line">Func&lt;Cat&gt; funcCat = () =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    Cat cat = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">new</span> Random().Next() % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//cat = new Animal();</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        cat = <span class="keyword">new</span> Cat();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cat;</span><br><span class="line">&#125;;</span><br><span class="line">funcAnimal = funcCat;</span><br><span class="line"><span class="comment">// funcCat = funcAnimal;//报错：猫咪是动物，但是动物未必是喵咪。</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果感觉协变和逆变的内容难以理解，可以参看博客园的文章<a target="_blank" rel="noopener" href="http://www.cnblogs.com/lemontea/archive/2013/02/17/2915065.html">逆变与协变详解</a>，实际我们只需要了解基本概念以及学会如何使用即可，对于内部的实现原理不必深究。</p>
+</blockquote>
+<h2 id="泛型缓存"><a href="#泛型缓存" class="headerlink" title="泛型缓存"></a>泛型缓存</h2><p>因为每一个泛型类型，都会生成不同副本，适合不同类型，需要缓存一份数据的场景。而无论是线程安全性还是检索速度，泛型缓存都要比字典类型表现更佳。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GenericCache</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="title">GenericCache</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        GetCache();</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GenericCache</span>(<span class="params"></span>)<span class="comment">//实例化 相当于手动更新缓存</span></span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">	    _cache = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> List&lt;T&gt; _cache = <span class="literal">null</span>;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;T&gt; <span class="title">GetCache</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (_cache == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//为缓存赋值 若需要实时更新 可以自己设置策略检查更新是否过期</span></span><br><span class="line">            <span class="comment">//_cache = DbHelper.GetAll&lt;T&gt;();</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> _cache;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/generic-part-2" data-id="cklbytr5z001nztev5in83ma3" data-title="泛型（Part 2）" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-generic-part-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/generic-part-1" class="article-date">
+  <time class="dt-published" datetime="2019-03-31T10:12:00.000Z" itemprop="datePublished">2019-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/generic-part-1">泛型 （Part 1）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是泛型"><a href="#什么是泛型" class="headerlink" title="什么是泛型"></a>什么是泛型</h2><p>起始版本为 <em>.net framework 2.0 CLR升级</em> 支持的，非语法糖。<strong>为解决针对不同参数类型，有相同的操作行为。</strong></p>
+<ul>
+<li>延迟声明：声明方法的时候并没有指定参数的类型，而是等调用的时候指定。</li>
+<li>延迟思想：推迟一切可以推迟的。（提高程序的灵活性和扩展性）</li>
+</ul>
+<p>打印泛型集合和字典：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Console.WriteLine(<span class="keyword">typeof</span>(List&lt;&gt;));</span><br><span class="line">Console.WriteLine(<span class="keyword">typeof</span>(Dictionary&lt;,&gt;));</span><br></pre></td></tr></table></figure>
+<p>输出内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.Collections.Generic.List\&#96;1[T]</span><br><span class="line">System.Collections.Generic.Dictionary\&#96;2[TKey,TValue]</span><br></pre></td></tr></table></figure>
+<p>编译的时候，类型参数被编译为占位符，程序运行时，JIT即时编译为是类型，所以其性能近似普通方法。</p>
+<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><ul>
+<li>定义：<code>MethodName&lt;T&gt;(T t)&#123;&#125;</code>  其中T是类型参数，名称不做限制。</li>
+<li>使用：<code>MethodName&lt;int&gt;(123)</code> 或 <code>MethodName(123)</code>  当类型参数可以由编译器推断时，可以不指定参数类型。</li>
+</ul>
+<h3 id="普通方法"><a href="#普通方法" class="headerlink" title="普通方法"></a>普通方法</h3><p>优点是直观、性能较好；缺点为相同逻辑不能重用，拓展性差。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowInt</span>(<span class="params"><span class="built_in">int</span> i</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;i.GetType()&#125;</span>\tvalue:<span class="subst">&#123;i&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowString</span>(<span class="params"><span class="built_in">string</span> s</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;s.GetType()&#125;</span>\tvalue:<span class="subst">&#123;s&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowDateTime</span>(<span class="params">DateTime dt</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;dt.GetType()&#125;</span>\tvalue:<span class="subst">&#123;dt&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="object-方法"><a href="#object-方法" class="headerlink" title="object 方法"></a>object 方法</h3><p>优点是基类型可以用子类代替，解决相同逻辑复用问题；缺点是存在拆装箱，影响性能。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowObject</span>(<span class="params">Object o</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;o.GetType()&#125;</span>\tvalue:<span class="subst">&#123;o&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="泛型方法-1"><a href="#泛型方法-1" class="headerlink" title="泛型方法"></a>泛型方法</h3><p>可以复用，同时不存在性能问题。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Show</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;t.GetType()&#125;</span>\tvalue:<span class="subst">&#123;t&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//普通方法</span></span><br><span class="line">CommonMethod.ShowInt(<span class="number">123</span>);</span><br><span class="line">CommonMethod.ShowString(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">CommonMethod.ShowDateTime(DateTime.Now);</span><br><span class="line"><span class="comment">//object方法</span></span><br><span class="line">CommonMethod.ShowObject(<span class="number">123</span>);</span><br><span class="line">CommonMethod.ShowObject(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">CommonMethod.ShowObject(DateTime.Now);</span><br><span class="line"><span class="comment">//泛型方法</span></span><br><span class="line">CommonMethod.Show(<span class="number">123</span>);</span><br><span class="line">CommonMethod.Show(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">CommonMethod.Show(DateTime.Now);</span><br></pre></td></tr></table></figure>
+<p>输出内容  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">type:System.Int32   value:123</span><br><span class="line">type:System.String  value:123</span><br><span class="line">type:System.DateTime    value:2018&#x2F;5&#x2F;1 20:14:33</span><br><span class="line">type:System.Int32	value:123</span><br><span class="line">type:System.String	value:123</span><br><span class="line">type:System.DateTime	value:2018&#x2F;5&#x2F;1 20:14:33</span><br><span class="line">type:System.Int32	value:123</span><br><span class="line">type:System.String	value:123</span><br><span class="line">type:System.DateTime	value:2018&#x2F;5&#x2F;1 20:14:33</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：object是一切类型的父类；通过继承，子类拥有父类的一切属性和行为；任何子类出现的地方，都可以用父类来代替；值类型转换为引用类型是装箱，引用类型转换为值类型是拆箱。</p>
+</blockquote>
+<h2 id="其他使用场景"><a href="#其他使用场景" class="headerlink" title="其他使用场景"></a>其他使用场景</h2><p>除泛型方法以外，还可以使用泛型类、泛型接口、泛型委托。</p>
+<h3 id="1-泛型类"><a href="#1-泛型类" class="headerlink" title="1. 泛型类"></a>1. 泛型类</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GenericClass</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Show</span>&lt;<span class="title">T1</span>&gt;(<span class="params">T1 t1</span>)</span>&#123; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> T2 <span class="title">Get</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">	    <span class="keyword">return</span> <span class="literal">default</span>(T2);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-泛型接口"><a href="#2-泛型接口" class="headerlink" title="2. 泛型接口"></a>2. 泛型接口</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">IGeneric</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">T <span class="title">IMethod</span>(<span class="params">T t</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-泛型委托"><a href="#3-泛型委托" class="headerlink" title="3. 泛型委托"></a>3. 泛型委托</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> T <span class="title">GetHandler</span>&lt;<span class="title">T</span>&gt;(<span class="params"></span>)</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：普通类不能直接继承自泛型类也不能直接实现泛型接口，指定参数类型后才可以。泛型类可以继承泛型类。</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GenericClass</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Child</span>: <span class="title">GernericClass</span>&lt;<span class="title">int</span>, <span class="title">string</span>&gt;, <span class="title">IStudy</span>&lt;<span class="title">DateTime</span>&gt;&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ChildGeneric</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;: <span class="title">GenericClass</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/generic-part-1" data-id="cklbytr5w001jztev6ytdb3cp" data-title="泛型 （Part 1）" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-disclaimer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/disclaimer" class="article-date">
+  <time class="dt-published" datetime="2019-03-31T06:27:00.000Z" itemprop="datePublished">2019-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a>►<a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/disclaimer">免责声明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>浏览者在访问本站前，请务必阅读本文以下条款并同意以下声明：</p>
+<ol>
+<li><p>华灯博客（以下简称本站）所有原创文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，否则本站有权依法追究其法律责任。</p>
+</li>
+<li><p>关于本站的所有留言评论、引用文纯属文字原作者个人观点，与本站观点及立场无关；浏览者在本站发表信息时需要遵守中国现行相应法律，不得发布违法信息。</p>
+</li>
+<li><p>本站部分内容来自互联网，若无意间侵犯到媒体、公司、企业或个人的知识产权，请及时邮件告知，本站将及时处理。</p>
+</li>
+<li><p>本站转载的部分内容，如有您未署名的作品，请及时邮件联系，本站会及时为您的作品做署名及相关处理。</p>
+</li>
+</ol>
+<p>以上声明内容的最终解释权归<a href="/">华灯博客</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/disclaimer" data-id="cklbytr5l000zztevfeza1jjf" data-title="免责声明" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-common-tools-or-software-recommendations" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/common-tools-or-software-recommendations" class="article-date">
+  <time class="dt-published" datetime="2019-03-30T15:35:00.000Z" itemprop="datePublished">2019-03-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/common-tools-or-software-recommendations">常用工具或软件推荐</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="系统工具"><a href="#系统工具" class="headerlink" title="系统工具"></a>系统工具</h2><p>PE工具：微PE —— 良心PE，情怀PE，没有广告而且很容易得到。</p>
+<p>文件搜索：Wox —— 搜索体验比微软小娜好，支持拼音，搭配Everything简直无敌！</p>
+<p>文件搜索：Everything —— 将磁盘文件建立索引后，搜索极快。</p>
+<p>串口模拟：Virtual  Serial Port Driver —— 简单易用，串口开发调试必备。</p>
+<p>远程工具：Team Viewer —— 远程体验极好，甩QQ远程N条街。</p>
+<p>关闭Win10自动更新： Anti-Windows-Update —— 妈妈再也不怕Win10强制自动更新，而且使用以后仍可以手动更新。</p>
+<p>压缩工具：7zip —— 这个必须吹爆，体验最好的压缩解压缩工具没有之一。</p>
+<p>云端存储：OneDrive —— 购买Office 365一个最主要原因就是它。</p>
+<p>截图录屏：FastStone Capture —— 虽然不是使用体验不是最佳，但是功能最强。兼具截图、录屏、屏幕放大、拾色、标尺等功能，截图可以绘制，录屏可以转gif。</p>
+<h2 id="编程工具"><a href="#编程工具" class="headerlink" title="编程工具"></a>编程工具</h2><p>必备IDE：Visual Studio —— 这个dotnet开发必备，没得解释，宇宙第一IDE不是吹的。</p>
+<p>必备IDE：Visual Studio Code —— 稳定排名第一，就是好用。</p>
+<p>必备IDE：Notepad++ —— 轻量级，小身材大能量。</p>
+<p>文本比较工具：BComapare —— 功能全面，不仅可以对比文件，还可以对比文件夹压缩文件等。</p>
+<p>反编译工具：ILSpy —— 绿色易用，dotnet反编译必备。</p>
+<p>抓包工具：Fiddler —— 这个强推，使用特别方便。</p>
+<p>数据库管理：PL/SQL —— Oracle数据库最佳的伙伴，推荐直接使用12版，支持x64。</p>
+<p>数据库管理：SQLite Studio —— 绿色易用。</p>
+<p>数据库管理：Nvicate  Primium —— 全能数据库管理工具，支持各种数据库。</p>
+<h2 id="学习娱乐"><a href="#学习娱乐" class="headerlink" title="学习娱乐"></a>学习娱乐</h2><p>阅读工具：Kindle —— 还是要多看看书，搭配Kindle Unlimited食用最佳。</p>
+<p>效率工具：有道云笔记 —— 除了检索有点慢，其他体验还算可以，可以使用Markdown，但是个人感觉还有待提高。</p>
+<h2 id="浏览器插件"><a href="#浏览器插件" class="headerlink" title="浏览器插件"></a>浏览器插件</h2><p>编程必备辅助工具：FeHelper(Web前端助手) —— 支持Json序列化、代码压缩、代码美化、二维码生成等等常用功能。</p>
+<p>翻译工具：Google Translate —— 翻译比较准确，特别是一些专业名词。</p>
+<p>网页调试：Postman —— 这个基本都知道，需要模拟Http请求基本都会用到。</p>
+<blockquote>
+<p>暂时就这些，想到再更。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/common-tools-or-software-recommendations" data-id="cklbytr58000dztevh06jbsvz" data-title="常用工具或软件推荐" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-two-or-three-things-about-me-and-the-training-organization" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/two-or-three-things-about-me-and-the-training-organization" class="article-date">
+  <time class="dt-published" datetime="2019-03-30T11:32:00.000Z" itemprop="datePublished">2019-03-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a>►<a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/two-or-three-things-about-me-and-the-training-organization">我与培训机构的二三事</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="对于培训机构的态度"><a href="#对于培训机构的态度" class="headerlink" title="对于培训机构的态度"></a>对于培训机构的态度</h2><p>在武汉读书的时候，由于经常摸鱼，所以专业课学的挺差，印象很深的是一次专业课老师提问，小伙伴们疯狂输出最后自己还是答不上来，印象中只能在电脑前傻笑，现在回想真的像是一个傻子。</p>
+<p>有时候也会问自己，为什么自己要来这个地方，选择这么一个专业，但是当时心态和环境是很难看进去书的，本身自学能力又不是特别好，于是开始从网上搜索一些与专业相关的视频来看。</p>
+<p>所以，基于这段经历，对于大多数培训机构，我是持积极态度去看待的，因为我自己，就是凭借传智播客在网上的一些公开课视频入门并喜欢上编程。</p>
+<h2 id="传智播客"><a href="#传智播客" class="headerlink" title="传智播客"></a>传智播客</h2><p>印象中，传智播客的<code>.NET</code>培训在当时很热门，而且他们本身提供了所谓基础班的视频，所以当时下载下来，从<code>Hello world!</code>都有一直往后看。</p>
+<p>我很认同的一个观点是，培训机构的快餐式教育并不适合所有人，我们可以通过培训机构了解某一个学科，但是真正的熟悉并掌握，还是要靠自己的努力去积累并运用。</p>
+<p>在这一点我要感谢培训视频中的那个老师，他在视频中一直强调的也是多看、多写、多实践。</p>
+<p>所以我自己在学完基础班视频以后，相信培训班能带领我们入门，可以教我们学习的方式方法，但最终还是要靠自己自学，才能成长成才。</p>
+<p>（所以我没有去报名那一万多的就业班，不知道老师讲这些话的时候有没有后悔，但是印象中后来传智播客的<code>.NET</code>培训班就慢慢没落直至不再办学。）</p>
+<h2 id="软谋教育"><a href="#软谋教育" class="headerlink" title="软谋教育"></a>软谋教育</h2><p>软谋教育是我入职一年后接触的，那段时间真的很迷茫。</p>
+<p>虽然毕业前抓紧时间学习了一些基础知识，能够顺利的找到一份实习工作并完成就业，但是实际上自己的能力还是不足，所以自己进了一家企业的“工程部门”，简而言之就是<code>改BUG</code>部门。</p>
+<p>公司设置有产品研发中心开发产品，而我只是在这个的基础上完善、或者捉虫，这其实并不好玩，并且发现自己之前学习的知识也慢慢开始淡忘，这段时间经常感觉自己很快会被淘汰，因为技术是在进步的，而我非但不能进步反而之前掌握的知识也在长期得不到运用的情况下渐渐遗忘。</p>
+<h3 id="Web全栈培训班"><a href="#Web全栈培训班" class="headerlink" title="Web全栈培训班"></a>Web全栈培训班</h3><p>最开始是无意间在QQ上看到了腾讯课堂的推送，当时迷茫的自己首先看到的是软谋的<code>Web全栈</code>培训班，那时候<code>.net core</code>还没有火起来，所以感觉全栈也许未来一个热门的就业方向，于是花了两千多报名了VIP班。（最主要是便宜真香）</p>
+<p>就和之前在看传智播客入门视频时一样，本想借这个机会入门，但是最终发现自己并不喜欢前端，只是学了点皮毛就没有继续学习下去的兴趣，而且实际上所谓的全栈班学习到的后端知识也只是皮毛，所以后来也没提起兴趣继续学习下去。</p>
+<h3 id="NET-高级班"><a href="#NET-高级班" class="headerlink" title=".NET 高级班"></a><code>.NET</code> 高级班</h3><p>就这样在软谋教育的QQ群游荡了一段时间，偶然间看到了他们推广的<code>.NET 高级班</code>，当时那种状态下，他们的课表一下点燃了自己学习的热情，遂又破财报名了VIP班。</p>
+<p>说实话，到现在都非常感谢Eleven老师，教学态度非常认真，知识点剖析的也非常细致，虽然当时工作忙没有将课程全部追上看完，但是课下也基本都补了上来，受益良多。</p>
+<p>比较遗憾的是没有交过作业，哈哈。还好不会被叫家长。</p>
+<p>Eleven老师的教学特点就是专心细致，所以印象中每一个班教学周期都挺长的，有时候真的担心周期太长，收入会不会低，不过这样的老师才能吸引更多小伙伴的注意吧。</p>
+<p>但是，比较不建议没有基础的小伙伴学习，印象中第一个讲到的知识点就是泛型，当时也是咀嚼了很久才会运用。</p>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><p>稀里糊涂写了那么多，培训机构的事情讲完，总归要总结一下，主要提这么几个建议，供大家参考：</p>
+<ol>
+<li>想要学习一门技术，但是不知从何入手的人，可以从培训课程学起。</li>
+<li>培训课程未必要花钱，网上有很多公开的免费资源，特别是编程类。</li>
+<li>学习主要还是靠自学，老师能带你入门，传授给你学习方法，然后就要看自己了。</li>
+<li>学习还要靠兴趣，实在学不下去的时候，就不要死磕了，循序渐进才能体会学习的乐趣，实在没有兴趣要及时“放弃”。</li>
+<li>开发人员，要学会使用各种工具，要有自己解决问题的能力，如果遇事就找人问“为什么”，很难成长。要擅用各种技术文档/搜索引擎/工具书等。</li>
+<li>关注几个自己专业相关的公众号，无论是行业的还是技术的。</li>
+<li>要擅于从网上找轮子，不是所有的代码都要我们自己敲，但是轮子里的代码能看懂尽量还是要多看一看。</li>
+<li>记笔记，学习的时候要强迫自己做笔记，无论是书面的还是电子文档。</li>
+<li>自学能力比较好的，就不建议报名培训班了，专业知识还是专业的工具书说的更明白，买两本纸质书或Kindle上买两本电子书，学习的更快更透彻。</li>
+</ol>
+<p>先说这么多吧，以后想起来了再补，另外后面会更新一些在软谋教育的学习笔记，整理以后发上来，基础学习的时候都是手写早就丢了所以没法整理，后面学习都是用电子档，还好处理一些。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/two-or-three-things-about-me-and-the-training-organization" data-id="cklbytr7j004jztevc0g12exo" data-title="我与培训机构的二三事" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-some-common-technical-terms-in-lis" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/some-common-technical-terms-in-lis" class="article-date">
+  <time class="dt-published" datetime="2019-03-30T09:35:00.000Z" itemprop="datePublished">2019-03-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/some-common-technical-terms-in-lis">LIS通讯常见的一些技术名词</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>实验室信息系统仪器接口，从名称上来看，就可以很明确的知道这是一个负责做数据交互的工具。</p>
+<p>但是对于刚入门的人来说，面对很多专业的名词，这其实并不简单。</p>
+<p>虽然负责接口开发两年了，但是我也不敢说以我粗陋的了解，介绍的一定准确，这里就抛砖引玉，介绍一些专业名词和知识，如有错漏请指点一二。</p>
+<h2 id="HIS与LIS"><a href="#HIS与LIS" class="headerlink" title="HIS与LIS"></a>HIS与LIS</h2><p>这个词既然在看这篇文章，应该都不会陌生，这里摘录一下百度百科对于<code>HIS</code>和<code>LIS</code>的介绍，如果不了解的话可以参考一下：</p>
+<blockquote>
+<p>医院管理和医疗活动中进行信息管理和联机操作的计算机应用系统,英文缩写HIS。HIS是覆盖医院所有业务和业务全过程的信息管理系统。按照学术界公认的MorrisF.Collen所给的定义，应该是：利用电子计算机和通讯设备，为医院所属各部门提供病人诊疗信息 ( Patient Care Information) 和行政管理信息(Administration Information)的收集(Collect)、存储(Store)、处理(Process) 、提取(Retrieve)和数据交换(Communicate) 的能力并满足授权用户 ( Authorized Users)的功能需求的平台。</p>
+</blockquote>
+<blockquote>
+<p>LIS全称Laboratory Information Management System，是专为医院检验科设计的一套实验室信息管理系统，能将实验仪器与计算机组成网络，使病人样品登录、实验数据存取、报告审核、打印分发，实验数据统计分析等繁杂的操作过程实现了智能化、自动化和规范化管理。有助于提高实验室的整体管理水平，减少漏洞，提高检验质量。</p>
+</blockquote>
+<h2 id="通信模式"><a href="#通信模式" class="headerlink" title="通信模式"></a>通信模式</h2><h3 id="手工"><a href="#手工" class="headerlink" title="手工"></a>手工</h3><p>在没有检验信息系统(LIS)时，检验医师需要给病人出具书面的检验报告，一般都是将实验器材出具的结果，或者检验医师观察到的结果，抄录到纸上，或者人工录入到Excel、Word文档再打印，最后提供给病人和医生，作为诊断和治疗的依据，这就是手工。</p>
+<p>当然有一些实验仪器，自带了简单的报告系统，可以直接出具检验报告，这个我们另说不在讨论范围之内。</p>
+<h3 id="单工"><a href="#单工" class="headerlink" title="单工"></a>单工</h3><p>手工出具结果，就存在效率低、易错等问题，而且不方便实验数据统一管理。</p>
+<p>而绝大多数实验仪器都提供了通信方案，可以将实验仪器内的数据发送到LIS，或者提供了固定的存储位置供LIS采集。</p>
+<p>这种仪器向LIS传输结果，或者LIS主动采集实验结果，因为数据的提供是单向的，固定由仪器提供给LIS，所以称之为单工，开发出的数据接收或采集接口称之为单工接口。</p>
+<h3 id="双工"><a href="#双工" class="headerlink" title="双工"></a>双工</h3><p>单工接口解决了抄录实验结果效率低、易错的问题，但是对于每天大量的标本与繁多的检验项目，在上机做实验时，检验医师仍可能出错，例如将不同病人的标本放置错误而导致检验结果混淆，或漏选、多选、错选检验项目浪费试剂或错失最佳的检验时间。</p>
+<p>由于如今信息化建设的逐步完善，HIS与LIS间已经没有隔阂，LIS可以很轻易的访问到医生为病人开具的检验医嘱信息，而医嘱信息是可以与检验项目挂钩，所以LIS系统可以将检验项目直接提供给检验仪器。</p>
+<p>一般这个过程是标本采集后粘贴条码，检验科扫描条码签收，同时从HIS获取到标本的检验医嘱信息。</p>
+<p>LIS接口从LIS中，查询签收条码的检验信息，将条码绑定的检查项目分别发送到指定的检验仪器。</p>
+<p>医生直接将标本放置到对应仪器上，检验自动开始。</p>
+<p>仪器会扫描标本上的条码，匹配LIS接口发送到检验仪器的项目直接进行实验。中间无需检验医师操作仪器选择项目。</p>
+<p>（如果没有匹配到，检验仪器一般会发送查询消息给LIS系统，LIS接口接收到查询请求也可以返回检查项目。）</p>
+<p>实验完成后，仪器自动将结果推送到LIS。</p>
+<p>这个数据双向通信的过程我们称之为双工，而具备这种功能的LIS接口我们称之为双工接口。</p>
+<h3 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h3><p>流水线其实已经应用的很多，但是我实际接触到的不过一两家，因为目前来说大多数还不是特别完善，流水线需要精心保养否则容易出现问题。</p>
+<p>但是流水线的应用前景是特别好的，也是实现检验自动化所必须的。</p>
+<p>流水线就是完全不需要人工干预检验，检验医师只需要在监控整个系统的正常运行，并对于一些异常的检验结果进行处置。</p>
+<p>检验科签收标本后，放置到流水线，流水线将自动将标本进行前处理包括离心、分样后，由传送带传送到对应仪器进行检验。</p>
+<p>当然能供流水线正常运行的基础，是LIS系统必须实现了双工接口，能及时的将检验项目发送到流水线中，再由流水线将检验信息向各仪器分发，实现了检验过程的全自动化。</p>
+<h2 id="常见的通信方式"><a href="#常见的通信方式" class="headerlink" title="常见的通信方式"></a>常见的通信方式</h2><p>为了方便数据传输，一般仪器都提供了至少一种通信的方案，这里我们简单做一下介绍。</p>
+<h3 id="串口"><a href="#串口" class="headerlink" title="串口"></a>串口</h3><p>串口通讯是最常见的通信方案，但是也较容易出现问题，其对于线材、传输距离、通信环境的要求都比较高，而且出现问题比较难排查，所以一般在数据校验上要认真对待避免出错。</p>
+<p>当然处理过程中，如果确认了接口程序不存在问题，也要敢于对硬件提出质疑，包括线材和通讯环境等。</p>
+<h3 id="网口"><a href="#网口" class="headerlink" title="网口"></a>网口</h3><p>网口大家都不会陌生，因为基本都应该学过或接触过Socket通信。</p>
+<p>使用网口实现通信一般使用双网口电脑与实验仪器直连，或是将仪器接入路由器局域网通信，但就要求局域网网络绝对稳定，否则极易出现问题。</p>
+<p>而一般此类通信协议常见的是使用<code>TCP协议</code>，一般是接口作为服务端，监听来自仪器的请求。也有极少数使用<code>UDP协议</code>或<code>HTTP协议</code>。</p>
+<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>就是直接将数据写入到计算机硬盘指定位置，供第三方读取检验结果，一般是普通文本或 <code>*.csv</code> 格式文件，也有输出为 <code>*.xml</code> 或Excel文件的。</p>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>这个大家也不陌生，一般仪器软件是将实验数据写入到数据库中间表，或者提供视图供第三方读取，常见的使用微软的<code>SQL Server</code>数据库和<code>Access</code>数据库。</p>
+<h3 id="USB"><a href="#USB" class="headerlink" title="USB"></a>USB</h3><p>实际接触较少，一般是模拟串口进行数据通信，但是大部分由于驱动的问题极不稳定。</p>
+<p>如果容易出现问题，建议联系仪器厂家沟通有没有其他通信方式，如果可以选择其他方式通信。</p>
+<h2 id="通讯协议"><a href="#通讯协议" class="headerlink" title="通讯协议"></a>通讯协议</h2><p>对于文件、数据库方式数据的交互基本比较简单，能够解读直接解析内容进行传输即可。</p>
+<p>但是对于网口、串口这种通讯方式，没有一个固定的格式，很难区分怎样的数据是一份完整的结果。</p>
+<p>而仪器厂家则会制定规则，并编写通讯协议，提供给LIS厂商参考，确定数据通信的格式，包括起始符，终止符，响应码，数据校验规则等。</p>
+<p>这其中最常见的底层的通讯协议，也是国际上比较认可的通讯协议是 <code>ASTM</code> 协议与 <code>HL7</code> 协议，ASTM协议多见于串口通信，而HL7协议多见于网口通信。</p>
+<p>当然也有一些厂商会在网口通信的情况下使用ASTM协议，这些也只是保证数据传输正确的一些通讯方案，不必诧异。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/some-common-technical-terms-in-lis" data-id="cklbytr7a0041ztev60kh57wd" data-title="LIS通讯常见的一些技术名词" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 10px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 15px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 10px;">串口</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/csharp-expression-script-evaluation-problems">C# 中表达式计算问题</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-001-source-code-compilation-and-debugging">ASP.NET Core - 001 源码编译与调试</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-000-development-environment-configuration">ASP.NET Core - 000 开发环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/dotnet-core-migration-web-service">迁移 Web Service 项目到 .NET Core</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 hd2y<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

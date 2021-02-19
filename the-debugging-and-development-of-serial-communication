@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>串口通讯调试与开发 | 华灯</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="工作中，LIS系统经常需要开发接口与仪器或流水线对接，串口通讯应该是最常见的几种通讯方式之一了。 至于串口是什么、串口通讯又是什么，这些基本概念就不多做介绍了。 这里就针对于我在串口开发中碰到过的一些问题，做一个简单的分享。 串口模拟无论是开发还是测试，肯定都离不开串口的模拟测试，我们不大可能直接在电脑上安装两个串口，所以模拟串口就是最优解了，从网上可以很轻松的搜索到模拟串口的软件。 这里我建议使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="串口通讯调试与开发">
+<meta property="og:url" content="http://example.com/the-debugging-and-development-of-serial-communication">
+<meta property="og:site_name" content="华灯">
+<meta property="og:description" content="工作中，LIS系统经常需要开发接口与仪器或流水线对接，串口通讯应该是最常见的几种通讯方式之一了。 至于串口是什么、串口通讯又是什么，这些基本概念就不多做介绍了。 这里就针对于我在串口开发中碰到过的一些问题，做一个简单的分享。 串口模拟无论是开发还是测试，肯定都离不开串口的模拟测试，我们不大可能直接在电脑上安装两个串口，所以模拟串口就是最优解了，从网上可以很轻松的搜索到模拟串口的软件。 这里我建议使">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport0_1562753721959.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport1_1562753721959.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport2_1562753721959.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport3_1562753721967.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport4_1562753721978.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport5_1562753721992.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport6_1562753722038.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport7_1562753722078.png">
+<meta property="og:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport8_1562753722104.png">
+<meta property="article:published_time" content="2019-05-21T09:44:00.000Z">
+<meta property="article:modified_time" content="2019-07-10T10:17:53.000Z">
+<meta property="article:author" content="hd2y">
+<meta property="article:tag" content="串口">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport0_1562753721959.png">
+  
+    <link rel="alternate" href="/atom.xml" title="华灯" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">华灯</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-the-debugging-and-development-of-serial-communication" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/the-debugging-and-development-of-serial-communication" class="article-date">
+  <time class="dt-published" datetime="2019-05-21T09:44:00.000Z" itemprop="datePublished">2019-05-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      串口通讯调试与开发
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>工作中，LIS系统经常需要开发接口与仪器或流水线对接，串口通讯应该是最常见的几种通讯方式之一了。</p>
+<p>至于串口是什么、串口通讯又是什么，这些基本概念就不多做介绍了。</p>
+<p>这里就针对于我在串口开发中碰到过的一些问题，做一个简单的分享。</p>
+<h2 id="串口模拟"><a href="#串口模拟" class="headerlink" title="串口模拟"></a>串口模拟</h2><p>无论是开发还是测试，肯定都离不开串口的模拟测试，我们不大可能直接在电脑上安装两个串口，所以模拟串口就是最优解了，从网上可以很轻松的搜索到模拟串口的软件。</p>
+<p>这里我建议使用<code>Virtual Serial Port Driver</code>，大家可以搜索<code>VSPD</code>下载：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport0_1562753721959.png" alt="serialport0"></p>
+<p>安装什么的就不过多解释了，安装完成后我们可以打开并添加模拟串口或者删除模拟的串口，界面如下：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport1_1562753721959.png" alt="serialport1"></p>
+<p>如果对应的串口被使用，也可以从这里看出其串口的状态：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport2_1562753721959.png" alt="serialport2"></p>
+<p>当然我们可以在我们的电脑中查看现有的串口，设备管理器中可以查看：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport3_1562753721967.png" alt="serialport3"></p>
+<h2 id="串口调试工具"><a href="#串口调试工具" class="headerlink" title="串口调试工具"></a>串口调试工具</h2><p>串口调试工具就是用于串口数据接收/发送的工具软件，比较简单易用的是“串口调试助手V2.2”。</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport4_1562753721978.png" alt="serialport4"></p>
+<p>但是使用中有几点需要注意：</p>
+<ol>
+<li>偶尔会发生崩溃，这是串口调试工具的问题；</li>
+<li>只能使用COM1-COM4这几个串口，有局限性；</li>
+<li>与某些需要检测串口监听状态的仪器连接，虽然已经打开串口但是可能仪器仍然提示连接失败；</li>
+</ol>
+<p>如果碰到以上问题，那就只能只能自己找解决方案，另外如果具备一定开发经验后，建议根据自身需求来定制自己的串口调试工具，可以避免以上问题。</p>
+<h2 id="串口监视精灵"><a href="#串口监视精灵" class="headerlink" title="串口监视精灵"></a>串口监视精灵</h2><p>除了串口调试助手以外，另外比较推荐的工具就是串口监视精灵了，顾名思义其就是类似于网口通讯中的抓包工具。</p>
+<p>当初从网上找到这个工具的原因是之前LIS系统替换第三方LIS系统，有一个仪器的双工接口开发一直存在问题，所以想看一下第三方LIS怎么实现的双工通讯消息的交互。</p>
+<p>当然如果开发的串口通讯工具中没有输出日志，也可以使用该工具进行监听。</p>
+<p>一般我们网上能够找到的分为无DLL版和安装版，这里建议使用安装版。</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport5_1562753721992.png" alt="serialport5"></p>
+<p>上图为无Dll版，需要选择监听串口所在的进程，中文会乱码，能监听到串口的关闭但是打开的事件则没有输出。</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport6_1562753722038.png" alt="serialport6"></p>
+<p>上图是安装版，使用安装版需要注意如果系统是x64，第一次使用需要点击软件界面上的“启用64位系统驱动签名”，另外重启。如果监听不到数据，尝试先关闭通讯软件，打开监听后再打开通讯软件。</p>
+<p>安装版能够监听到的数据就更完整一些，且每次数据的收发都统一显示为一条记录，这就比无Dll版本的更加友好，但是同样存在的问题是因为是ASC编码所以中文仍然是乱码，需要自己使用HEX编码进行转换。</p>
+<p>另外安装版也附带有一个串口调试工具可以使用：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport7_1562753722078.png" alt="serialport7"></p>
+<h2 id="串口通讯开发"><a href="#串口通讯开发" class="headerlink" title="串口通讯开发"></a>串口通讯开发</h2><h3 id="获取当前电脑的串口"><a href="#获取当前电脑的串口" class="headerlink" title="获取当前电脑的串口"></a>获取当前电脑的串口</h3><p>引入<code>System.IO.Ports</code>命名空间，然后可以使用<code>SerialPort.GetPortNames()</code>获取当前电脑的所有串行端口名称。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.IO.Ports;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">SerialPortTestConsole</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="built_in">string</span>[] ports = SerialPort.GetPortNames();</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="built_in">string</span> port <span class="keyword">in</span> ports)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(port);</span><br><span class="line">            &#125;</span><br><span class="line">            Console.ReadKey();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="串口数据收发"><a href="#串口数据收发" class="headerlink" title="串口数据收发"></a>串口数据收发</h3><p>引入<code>System.IO.Ports</code>命名空间，然后实例化<code>SerialPort</code>对象，使用<code>Open</code>方法打开串口，<code>DataReceived</code>事件进行数据接收，<code>Write</code>方法可以进行数据发送。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.IO.Ports;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">SerialPortTestConsole</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">//注意：以下为串口初始化常用的属性，赋值为默认值，如果没有赋值属性默认也是这些值</span></span><br><span class="line">            SerialPort port = <span class="keyword">new</span> SerialPort()</span><br><span class="line">            &#123;</span><br><span class="line">                PortName = <span class="string">&quot;COM1&quot;</span>,<span class="comment">//端口号</span></span><br><span class="line">                BaudRate = <span class="number">9600</span>,<span class="comment">//波特率</span></span><br><span class="line">                DataBits = <span class="number">8</span>,<span class="comment">//数据位</span></span><br><span class="line">                Parity = Parity.None,<span class="comment">//校验位</span></span><br><span class="line">                StopBits = StopBits.One,<span class="comment">//停止位</span></span><br><span class="line">                Encoding = Encoding.ASCII,<span class="comment">//文本转换编码</span></span><br><span class="line">                WriteBufferSize = <span class="number">2048</span>,<span class="comment">//输出缓存</span></span><br><span class="line">                ReadBufferSize = <span class="number">4096</span>,<span class="comment">//输入缓存</span></span><br><span class="line">                WriteTimeout = <span class="number">-1</span>,<span class="comment">//写超时</span></span><br><span class="line">                ReadTimeout = <span class="number">-1</span>,<span class="comment">//读超时</span></span><br><span class="line">                RtsEnable = <span class="literal">false</span>,<span class="comment">//RTS信号：建议启用</span></span><br><span class="line">                DtrEnable = <span class="literal">false</span>,<span class="comment">//DTR信号：建议启用</span></span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//数据接收事件 输出到控制台</span></span><br><span class="line">            port.DataReceived += <span class="keyword">new</span> SerialDataReceivedEventHandler((sender, e) =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">while</span> (port.BytesToRead &gt; <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">int</span> length = port.BytesToRead;</span><br><span class="line">                    <span class="built_in">byte</span>[] buffer = <span class="keyword">new</span> <span class="built_in">byte</span>[length];</span><br><span class="line">                    port.Read(buffer, <span class="number">0</span>, length);</span><br><span class="line">                    Console.WriteLine(port.Encoding.GetString(buffer));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//打开串口</span></span><br><span class="line">            <span class="keyword">if</span> (!port.IsOpen)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">try</span></span><br><span class="line">                &#123;</span><br><span class="line">                    port.Open();</span><br><span class="line">                    Console.WriteLine(<span class="string">$&quot;串口打开成功：<span class="subst">&#123;port.PortName&#125;</span>&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                catch (Exception exception)</span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine(<span class="string">$&quot;打开串口失败：<span class="subst">&#123;exception.Message&#125;</span>&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (port.IsOpen)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//输入串口发送内容</span></span><br><span class="line">                <span class="built_in">string</span> input = <span class="string">&quot;&quot;</span>;</span><br><span class="line">                <span class="keyword">do</span></span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine(<span class="string">&quot;请输入要发送的内容：&quot;</span>);</span><br><span class="line">                    input = Console.ReadLine();</span><br><span class="line">                    <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(input))</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="built_in">byte</span>[] buffer = port.Encoding.GetBytes(input);</span><br><span class="line">                        port.Write(buffer, <span class="number">0</span>, buffer.Length);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">while</span> (!<span class="built_in">string</span>.IsNullOrEmpty(input));</span><br><span class="line"></span><br><span class="line">                <span class="comment">//关闭串口释放资源</span></span><br><span class="line">                port.Close();</span><br><span class="line">            &#125;</span><br><span class="line">            port.Dispose();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一个简单的调试工具"><a href="#一个简单的调试工具" class="headerlink" title="一个简单的调试工具"></a>一个简单的调试工具</h3><p>通过以上例子基本上对串口数据手法有个简单的了解，这里我们设计一个工具，来实现串口调试工具的基本功能。</p>
+<p><code>SerialPort</code>的属性/方法/事件基本没有什么好说的了，这里主要需要了解HEX数据的转换：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 字符串拓展方法</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">StringExtension</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 将指定字符串转换为十六进制Hex字符串形式。</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;input&quot;&gt;</span>要转换的原始字符串。<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;e&quot;&gt;</span>编码<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>转换后的内容<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">ToHex</span>(<span class="params"><span class="keyword">this</span> <span class="built_in">string</span> input, Encoding e = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        e = e ?? Encoding.UTF8;</span><br><span class="line">        <span class="built_in">byte</span>[] byteArray = e.GetBytes(input);</span><br><span class="line">        <span class="keyword">return</span> BitConverter.ToString(byteArray).Replace(<span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 将十六进制Hex字符串转换为原始字符串。</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;input&quot;&gt;</span>十六进制字符串内容<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;e&quot;&gt;</span>编码<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>原始字符串内容<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">ReHex</span>(<span class="params"><span class="keyword">this</span> <span class="built_in">string</span> input, Encoding e = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        e = e ?? Encoding.UTF8;</span><br><span class="line">        input = Regex.Replace(input, <span class="string">&quot;[^0-9A-F]&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (input.Length &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="built_in">byte</span>[] vBytes = <span class="keyword">new</span> <span class="built_in">byte</span>[input.Length / <span class="number">2</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; vBytes.Length; i++)</span><br><span class="line">            vBytes[i] = <span class="built_in">byte</span>.Parse(input.Substring(i * <span class="number">2</span>, <span class="number">2</span>), NumberStyles.HexNumber);</span><br><span class="line">        <span class="keyword">return</span> e.GetString(vBytes);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 将十六进制Hex字符串转换为二进制数据。</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;input&quot;&gt;</span>十六进制字符串内容<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>原始字符串内容<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">byte</span>[] <span class="title">ReHexToBuffer</span>(<span class="params"><span class="keyword">this</span> <span class="built_in">string</span> input</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        input = Regex.Replace(input, <span class="string">&quot;[^0-9A-F]&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(input)) <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="built_in">byte</span>[] vBytes = <span class="keyword">new</span> <span class="built_in">byte</span>[input.Length / <span class="number">2</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; vBytes.Length; i++)</span><br><span class="line">            vBytes[i] = <span class="built_in">byte</span>.Parse(input.Substring(i * <span class="number">2</span>, <span class="number">2</span>), NumberStyles.HexNumber);</span><br><span class="line">        <span class="keyword">return</span> vBytes;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 二进制数据拓展方法</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">BufferExtension</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 将指定二进制数据转换为十六进制Hex字符串形式。</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;input&quot;&gt;</span>要转换的二进制数据。<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>转换后的内容<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">ToHex</span>(<span class="params"><span class="keyword">this</span> <span class="built_in">byte</span>[] input</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> BitConverter.ToString(input).Replace(<span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后就是简单实现后的效果：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/serialport8_1562753722104.png" alt="serialport8"></p>
+<p>源代码下载：<a target="_blank" rel="noopener" href="https://github.com/hd2y/SerialPortTest">https://github.com/hd2y/SerialPortTest</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/the-debugging-and-development-of-serial-communication" data-id="cklbytr7d0047ztev0bdq4old" data-title="串口通讯调试与开发" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/encoding-in-communication" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          通讯中的编码问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/how-to-repair-corrupted-sqlite-database-files" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">如何修复损坏的SQLite数据库文件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 10px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 15px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 10px;">串口</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/csharp-expression-script-evaluation-problems">C# 中表达式计算问题</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-001-source-code-compilation-and-debugging">ASP.NET Core - 001 源码编译与调试</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-000-development-environment-configuration">ASP.NET Core - 000 开发环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/dotnet-core-migration-web-service">迁移 Web Service 项目到 .NET Core</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 hd2y<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>C#中实现简单爬虫项目 | 华灯</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="什么是爬虫爬虫即网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。另外一些不常使用的名字还有蚂蚁、自动索引、模拟程序或者蠕虫。 我们日常使用的搜索引擎、比价网站等都是通过爬虫技术获取数据，而后经数据提取、分析、优化后供用户使用。当然日常生活中，我们也可以使用爬虫技术，获取我们感兴趣的网站进行数据解析分析，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C#中实现简单爬虫项目">
+<meta property="og:url" content="http://example.com/implementing-a-simple-crawler-project-in-csharp">
+<meta property="og:site_name" content="华灯">
+<meta property="og:description" content="什么是爬虫爬虫即网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。另外一些不常使用的名字还有蚂蚁、自动索引、模拟程序或者蠕虫。 我们日常使用的搜索引擎、比价网站等都是通过爬虫技术获取数据，而后经数据提取、分析、优化后供用户使用。当然日常生活中，我们也可以使用爬虫技术，获取我们感兴趣的网站进行数据解析分析，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-10T12:55:33.000Z">
+<meta property="article:modified_time" content="2019-07-11T03:24:26.000Z">
+<meta property="article:author" content="hd2y">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="华灯" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">华灯</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-implementing-a-simple-crawler-project-in-csharp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/implementing-a-simple-crawler-project-in-csharp" class="article-date">
+  <time class="dt-published" datetime="2019-04-10T12:55:33.000Z" itemprop="datePublished">2019-04-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      C#中实现简单爬虫项目
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是爬虫"><a href="#什么是爬虫" class="headerlink" title="什么是爬虫"></a>什么是爬虫</h2><p>爬虫即网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。另外一些不常使用的名字还有蚂蚁、自动索引、模拟程序或者蠕虫。</p>
+<p>我们日常使用的搜索引擎、比价网站等都是通过爬虫技术获取数据，而后经数据提取、分析、优化后供用户使用。当然日常生活中，我们也可以使用爬虫技术，获取我们感兴趣的网站进行数据解析分析，做出来一些有意思的功能或小工具，比如新闻提醒、事项通知、资料整理等。</p>
+<p>这方面我们需要了解的技术主要是：Http请求、XPath、正则等。以下是一个简单的例子，用于获取京东商城的数据，例子仅供学习。</p>
+<h2 id="抓取京东所有商品类别"><a href="#抓取京东所有商品类别" class="headerlink" title="抓取京东所有商品类别"></a>抓取京东所有商品类别</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ul>
+<li>分析京东商品类别页面<blockquote>
+<p>Chrome浏览器打开页面：<a target="_blank" rel="noopener" href="https://www.jd.com/allsort.aspx">https://www.jd.com/allsort.aspx</a></p>
+</blockquote>
+</li>
+<li>查看页面源代码<blockquote>
+<p>用XPath分析商品类别信息，包括分类ID、分类名、链接，XPath语法可参考：<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/xpath/xpath_syntax.asp">http://www.w3school.com.cn/xpath/xpath_syntax.asp</a></p>
+</blockquote>
+</li>
+<li>获取数据<blockquote>
+<p>使用 <code>System.Net.WebRequest</code>/<code>System.Net.WebClient</code>/<code>HtmlAgilityPack.HtmlWeb</code> 获取数据 (<code>HtmlAgilityPack</code> 可以通过 <code>nuget</code> 添加引用)</p>
+</blockquote>
+</li>
+<li>解析数据<blockquote>
+<p>使用 <code>HtmlAgilityPack.HtmlDocument</code> 解析包含商品类别信息的链接</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h4><p>使用 <code>System.Net.WebRequest/System.Net.HttpWebRequest</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">HtmlAgilityPack.HtmlDocument document = <span class="literal">null</span>;</span><br><span class="line">WebRequest request = WebRequest.Create(<span class="string">&quot;https://www.jd.com/allsort.aspx&quot;</span>);</span><br><span class="line"><span class="keyword">using</span> (WebResponse response = request.GetResponse())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> (Stream stream = response.GetResponseStream())</span><br><span class="line">    &#123;</span><br><span class="line">        document = <span class="keyword">new</span> HtmlAgilityPack.HtmlDocument();</span><br><span class="line">        document.Load(stream, Encoding.UTF8);</span><br><span class="line">        <span class="comment">//MemoryStream memoryStream = (MemoryStream)stream;</span></span><br><span class="line">        <span class="comment">//document.LoadHtml(Encoding.UTF8.GetString(memoryStream.ToArray()));</span></span><br><span class="line">        <span class="comment">//memoryStream.Dispose();</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 <code>System.Net.Client</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HtmlAgilityPack.HtmlDocument document = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">using</span> (WebClient client = <span class="keyword">new</span> WebClient())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> (Stream stream = client.OpenRead(<span class="string">&quot;https://www.jd.com/allsort.aspx&quot;</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        document = <span class="keyword">new</span> HtmlAgilityPack.HtmlDocument();</span><br><span class="line">        document.Load(stream, Encoding.UTF8);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 <code>HtmlAgilityPack.HtmlWeb</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HtmlWeb web = <span class="keyword">new</span> HtmlWeb</span><br><span class="line">&#123;</span><br><span class="line">    OverrideEncoding = Encoding.UTF8</span><br><span class="line">&#125;;</span><br><span class="line">HtmlAgilityPack.HtmlDocument document = web.Load(<span class="string">&quot;https://www.jd.com/allsort.aspx&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h4><p>实体</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Category</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> JDId &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> URL &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Category&gt; listCategory = <span class="keyword">new</span> List&lt;Category&gt;();</span><br><span class="line"><span class="keyword">if</span> (document != <span class="literal">null</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">int</span> iId = <span class="number">1</span>;<span class="comment">//编号</span></span><br><span class="line">    Regex regex = <span class="keyword">new</span> Regex(<span class="string">&quot;cat=(\\d+(\\,\\d+)*)&quot;</span>);<span class="comment">//匹配与提取类别ID正则</span></span><br><span class="line">    <span class="comment">//取出所有链接</span></span><br><span class="line">    HtmlNodeCollection collection = document.DocumentNode.SelectNodes(<span class="string">&quot;//a[@href]&quot;</span>);</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> collection)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//正则匹配出是商品类别的链接</span></span><br><span class="line">        Match match = regex.Match(item.Attributes[<span class="string">&quot;href&quot;</span>].Value.ToLower());</span><br><span class="line">        <span class="keyword">if</span> (match.Success)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//提取商品类别ID 商品类别链接 商品类别名称</span></span><br><span class="line">            listCategory.Add(<span class="keyword">new</span> Category() &#123; Id = iId++, JDId = match.Groups[<span class="number">1</span>].Value, Name = item.InnerText, URL = item.Attributes[<span class="string">&quot;href&quot;</span>].Value.ToLower().StartsWith(<span class="string">&quot;http&quot;</span>) ? item.Attributes[<span class="string">&quot;href&quot;</span>].Value : <span class="string">&quot;https:&quot;</span> + item.Attributes[<span class="string">&quot;href&quot;</span>].Value &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="抓取京东商品信息"><a href="#抓取京东商品信息" class="headerlink" title="抓取京东商品信息"></a>抓取京东商品信息</h2><h3 id="流程-1"><a href="#流程-1" class="headerlink" title="流程"></a>流程</h3><ul>
+<li>选择一个商品类别页面分析<blockquote>
+<p>Chrome浏览器打开页面：<a target="_blank" rel="noopener" href="https://list.jd.com/list.html?cat=1713,4855,4859">https://list.jd.com/list.html?cat=1713,4855,4859</a></p>
+</blockquote>
+</li>
+<li>使用Chrome分析元素<blockquote>
+<p>使用“F12 -&gt; Elements -&gt; 审查元素(Ctrl+Shift+C) -&gt; 右键 -&gt; Copy -&gt; Copy XPath”分析商品总页数、商品DIV解析的XPath语法</p>
+</blockquote>
+</li>
+<li>换页分析不同页码连接特点<blockquote>
+<p><code>GET</code> 参数 <code>page</code> 指定页面：<a target="_blank" rel="noopener" href="https://list.jd.com/list.html?cat=1713,4855,4859&amp;page=2">https://list.jd.com/list.html?cat=1713,4855,4859&amp;page=2</a></p>
+</blockquote>
+</li>
+<li>获取数据<blockquote>
+<p>同抓取商品类别</p>
+</blockquote>
+</li>
+<li>解析数据<blockquote>
+<p>使用 <code>HtmlAgilityPack.HtmlDocument</code> 解析商品信息</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><h4 id="获取数据-1"><a href="#获取数据-1" class="headerlink" title="获取数据"></a>获取数据</h4><p>见类别获取部分实现。</p>
+<h4 id="解析数据-1"><a href="#解析数据-1" class="headerlink" title="解析数据"></a>解析数据</h4><p>实体</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> JDId &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Price &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> ImageURL &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> URL &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (document != <span class="literal">null</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//获取页码信息</span></span><br><span class="line">    <span class="built_in">string</span> sCurrentPager = <span class="built_in">string</span>.Empty;<span class="comment">//当前页数</span></span><br><span class="line">    <span class="built_in">string</span> sAllPager = <span class="built_in">string</span>.Empty;<span class="comment">//总页数</span></span><br><span class="line">    <span class="comment">//List&lt;Product&gt; listProduct = new List&lt;Product&gt;();//商品</span></span><br><span class="line">    <span class="comment">//获取页数信息</span></span><br><span class="line">    HtmlNodeCollection currentPagerNode = document.DocumentNode.SelectNodes(<span class="string">&quot;//*[@id=\&quot;J_topPage\&quot;]/span/b&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (currentPagerNode.Count != <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">&quot;加载当前页码失败！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        sCurrentPager = currentPagerNode[<span class="number">0</span>].InnerText;</span><br><span class="line">    &#125;</span><br><span class="line">    HtmlNodeCollection allPagersNode = document.DocumentNode.SelectNodes(<span class="string">&quot;//*[@id=\&quot;J_topPage\&quot;]/span/i&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (allPagersNode.Count != <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">&quot;加载总页数失败！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        sAllPager = allPagersNode[<span class="number">0</span>].InnerText;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//获取商品信息</span></span><br><span class="line">    <span class="built_in">int</span> iId = <span class="number">1</span>;<span class="comment">//编号</span></span><br><span class="line">    HtmlNodeCollection productNode = document.DocumentNode.SelectNodes(<span class="string">&quot;//*[@id=\&quot;plist\&quot;]/ul/li&quot;</span>);<span class="comment">//符合条件的商品XPath语法</span></span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> productNode)</span><br><span class="line">    &#123;</span><br><span class="line">        Product product = <span class="keyword">new</span> Product();</span><br><span class="line">        HtmlAgilityPack.HtmlDocument tempDocument = <span class="keyword">new</span> HtmlAgilityPack.HtmlDocument();</span><br><span class="line">        tempDocument.LoadHtml(item.OuterHtml);</span><br><span class="line">        <span class="comment">//商品图片链接</span></span><br><span class="line">        HtmlNodeCollection imageNode = tempDocument.DocumentNode.SelectNodes(<span class="string">&quot;//*[@class=\&quot;p-img\&quot;]/a/img&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (imageNode.Count &gt; <span class="number">0</span> &amp;&amp; imageNode[<span class="number">0</span>].Attributes[<span class="string">&quot;src&quot;</span>] != <span class="literal">null</span> &amp;&amp; !<span class="built_in">string</span>.IsNullOrEmpty(imageNode[<span class="number">0</span>].Attributes   [<span class="string">&quot;src&quot;</span>].Value))<span class="comment">// 正常加载图片链接</span></span><br><span class="line">        &#123;</span><br><span class="line">            product.ImageURL = imageNode[<span class="number">0</span>].Attributes[<span class="string">&quot;src&quot;</span>].Value.ToLower().StartsWith(<span class="string">&quot;http&quot;</span>) ? imageNode[<span class="number">0</span>].Attributes [<span class="string">&quot;src&quot;</span>].Value :    <span class="string">&quot;https:&quot;</span> + imageNode[<span class="number">0</span>].Attributes[<span class="string">&quot;src&quot;</span>].Value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (imageNode.Count &gt; <span class="number">0</span> &amp;&amp; imageNode[<span class="number">0</span>].Attributes[<span class="string">&quot;data-lazy-img&quot;</span>] != <span class="literal">null</span> &amp;&amp; !<span class="built_in">string</span>.IsNullOrEmpty(imageNode [<span class="number">0</span>].Attributes   [<span class="string">&quot;data-lazy-img&quot;</span>].Value))<span class="comment">//懒加载图片链接</span></span><br><span class="line">        &#123;</span><br><span class="line">            product.ImageURL = imageNode[<span class="number">0</span>].Attributes[<span class="string">&quot;data-lazy-img&quot;</span>].Value.ToLower().StartsWith(<span class="string">&quot;http&quot;</span>) ? imageNode[<span class="number">0</span>].Attributes   [<span class="string">&quot;data- lazy-img&quot;</span>].Value : <span class="string">&quot;https:&quot;</span> + imageNode[<span class="number">0</span>].Attributes[<span class="string">&quot;data-lazy-img&quot;</span>].Value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//商品ID</span></span><br><span class="line">        HtmlNodeCollection idNode = tempDocument.DocumentNode.SelectNodes(<span class="string">&quot;//li/div&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (idNode.Count &gt; <span class="number">0</span> &amp;&amp; idNode[<span class="number">0</span>].Attributes[<span class="string">&quot;data-sku&quot;</span>] != <span class="literal">null</span> &amp;&amp; !<span class="built_in">string</span>.IsNullOrEmpty(idNode[<span class="number">0</span>].Attributes[<span class="string">&quot;data-  sku&quot;</span>].Value))</span><br><span class="line">        &#123;</span><br><span class="line">            product.JDId = idNode[<span class="number">0</span>].Attributes[<span class="string">&quot;data-sku&quot;</span>].Value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//商品名称</span></span><br><span class="line">        HtmlNodeCollection nameNode = tempDocument.DocumentNode.SelectNodes(<span class="string">&quot;//*[@class=\&quot;p-name\&quot;]/a/em&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (nameNode.Count &gt; <span class="number">0</span> &amp;&amp; !<span class="built_in">string</span>.IsNullOrEmpty(nameNode[<span class="number">0</span>].InnerText.Trim()))</span><br><span class="line">        &#123;</span><br><span class="line">            product.Name = nameNode[<span class="number">0</span>].InnerText.Trim();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//商品链接</span></span><br><span class="line">        HtmlNodeCollection urlNode = tempDocument.DocumentNode.SelectNodes(<span class="string">&quot;//*[@class=\&quot;p-name\&quot;]/a&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (urlNode.Count &gt; <span class="number">0</span> &amp;&amp; urlNode[<span class="number">0</span>].Attributes[<span class="string">&quot;href&quot;</span>] != <span class="literal">null</span> &amp;&amp; !<span class="built_in">string</span>.IsNullOrEmpty(urlNode[<span class="number">0</span>].Attributes[<span class="string">&quot;href&quot;</span>].Value))</span><br><span class="line">        &#123;</span><br><span class="line">            product.URL = urlNode[<span class="number">0</span>].Attributes[<span class="string">&quot;href&quot;</span>].Value.ToLower().StartsWith(<span class="string">&quot;http&quot;</span>) ? urlNode[<span class="number">0</span>].Attributes[<span class="string">&quot;href&quot;</span>].Value :    <span class="string">&quot;https:&quot;</span>  + urlNode[<span class="number">0</span>].Attributes[<span class="string">&quot;href&quot;</span>].Value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        product.Id = iId++;</span><br><span class="line">        listProduct.Add(product);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>图片懒加载，如果解析src属性可能解析不到，需要调试查看懒加载图片属性。</li>
+<li>价格信息抓取会发现为空，观察会发现其calss属性为“J_price”，怀疑为ajax请求获取，下一部分说明获取方法。</li>
+</ul>
+<h2 id="抓取京东商品价格信息"><a href="#抓取京东商品价格信息" class="headerlink" title="抓取京东商品价格信息"></a>抓取京东商品价格信息</h2><h3 id="流程-2"><a href="#流程-2" class="headerlink" title="流程"></a>流程</h3><ul>
+<li>使用Chrome分析网络请求<blockquote>
+<p>使用“F12 -&gt; Network -&gt; JS”分析页面刷新时的ajax请求，发现：<a target="_blank" rel="noopener" href="https://p.3.cn/prices/mgets">https://p.3.cn/prices/mgets</a> 的请求，怀疑为查询价格的请求信息</p>
+</blockquote>
+</li>
+<li>分析请求链接<blockquote>
+<p>过滤GET参数，发现传递参数skuIds即可获取信息，多个用“%2C”分隔即可，例如：<a target="_blank" rel="noopener" href="https://p.3.cn/prices/mgets?skuIds=J_4609652,J_5830869">https://p.3.cn/prices/mgets?skuIds=J_4609652%2CJ_5830869</a> ，获取的数据位JSON格式</p>
+</blockquote>
+</li>
+<li>获取数据<blockquote>
+<p>同抓取商品类别</p>
+</blockquote>
+</li>
+<li>解析数据<blockquote>
+<p>使用 <code>Newtonsoft.Json</code> 解析(<code>Newtonsoft.Json</code> 可以通过 <code>nuget</code> 添加引用)</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h3><h4 id="获取数据-2"><a href="#获取数据-2" class="headerlink" title="获取数据"></a>获取数据</h4><p>见类别获取部分实现。</p>
+<h4 id="解析数据-2"><a href="#解析数据-2" class="headerlink" title="解析数据"></a>解析数据</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 通过京东商品ID获取价格</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;listJDId&quot;&gt;</span>商品ID<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>商品ID对应价格的字典<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; <span class="title">GetPrice</span>(<span class="params">List&lt;<span class="built_in">string</span>&gt; listJDId</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; dicPrice = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line">    <span class="keyword">if</span> (listJDId.Count &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//按照ajax请求连接格式拼接skuID</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; listJDId.Count; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            listJDId[i] = <span class="string">&quot;J_&quot;</span> + listJDId[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//循环每10条查询一次 避免数量过多链接过长</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; (listJDId.Count + <span class="number">9</span>) / <span class="number">10</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//获取数据</span></span><br><span class="line">            HtmlAgilityPack.HtmlDocument document = <span class="keyword">new</span> HtmlAgilityPack.HtmlDocument();</span><br><span class="line">            WebRequest request = WebRequest.Create(<span class="string">&quot;https://p.3.cn/prices/mgets?skuIds=&quot;</span> + <span class="built_in">string</span>.Join(<span class="string">&quot;%2C&quot;</span>, listJDId.Skip(i * <span class="number">10</span>).Take(<span class="number">10</span>)));</span><br><span class="line">            <span class="keyword">using</span> (Stream stream = request.GetResponse().GetResponseStream())</span><br><span class="line">            &#123;</span><br><span class="line">                document.Load(stream, Encoding.UTF8);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//解析数据</span></span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(document.Text))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">object</span> oPrice = Newtonsoft.Json.JsonConvert.DeserializeObject(document.Text);<span class="comment">//转换成对象</span></span><br><span class="line">                <span class="keyword">if</span> (oPrice <span class="keyword">is</span> JArray)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> oPrice <span class="keyword">as</span> JArray)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">if</span> (item <span class="keyword">is</span> JObject &amp;&amp; (item <span class="keyword">as</span> JObject).ContainsKey(<span class="string">&quot;id&quot;</span>) &amp;&amp; (item <span class="keyword">as</span> JObject).ContainsKey(<span class="string">&quot;p&quot;</span>))</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="comment">//提取符合条件的数据</span></span><br><span class="line">                            <span class="keyword">if</span> ((item <span class="keyword">as</span> JObject)[<span class="string">&quot;id&quot;</span>] <span class="keyword">is</span> JValue jId &amp;&amp; (item <span class="keyword">as</span> JObject)[<span class="string">&quot;p&quot;</span>] <span class="keyword">is</span> JValue jPrice &amp;&amp; listJDId.Contains(jId.Value.ToString()) &amp;&amp; !dicPrice.ContainsKey(jId.Value.ToString().TrimStart(<span class="string">&#x27;J&#x27;</span>, <span class="string">&#x27;_&#x27;</span>)))</span><br><span class="line">                            &#123;</span><br><span class="line">                                dicPrice.Add(jId.Value.ToString().TrimStart(<span class="string">&#x27;J&#x27;</span>, <span class="string">&#x27;_&#x27;</span>), jPrice.Value.ToString());</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dicPrice;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>若想使用jQuery选择器可以结合Fizzlerex使用：<a target="_blank" rel="noopener" href="https://archive.codeplex.com/?p=fizzlerex">https://archive.codeplex.com/?p=fizzlerex</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/implementing-a-simple-crawler-project-in-csharp" data-id="cklbytr6a0022ztev26gweaq5" data-title="C#中实现简单爬虫项目" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/using-jint-to-run-js-in-csharp-and-implement-simple-calculator" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          利用Jint在C#中运行JS脚本并实现简单计算器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/kindle" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">入手Kindle</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 10px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 15px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 10px;">串口</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/csharp-expression-script-evaluation-problems">C# 中表达式计算问题</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-001-source-code-compilation-and-debugging">ASP.NET Core - 001 源码编译与调试</a>
+          </li>
+        
+          <li>
+            <a href="/aspnet-core-000-development-environment-configuration">ASP.NET Core - 000 开发环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/dotnet-core-migration-web-service">迁移 Web Service 项目到 .NET Core</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 hd2y<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
