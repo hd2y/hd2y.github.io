@@ -2,7 +2,7 @@
 title: "23种设计模式与常用设计模式"
 date: "2019/04/07 11:09:36"
 updated: "2019/07/10 17:02:31"
-permalink: "23-design-patterns-and-common-design-patterns"
+permalink: "23-design-patterns-and-common-design-patterns/"
 tags:
  - 设计模式
 categories:
