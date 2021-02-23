@@ -152,7 +152,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace YunHuLIS.Util
+namespace JohnSun.Util
 {
     /// <summary>
     /// Image 扩展方法
