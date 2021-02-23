@@ -55,7 +55,7 @@ dotnet build
 
 找到生成的 `002_Debug.dll` 拖到 dnSpy 中，找到程序入口设置断点并运行，即可进入调试：
 
-![debug-with-dnspy](https://www.hd2y.net/upload/2020/11/debug-with-dnspy-8dddc8ba484d41b487ddd11bd554bcd3.png)
+![debug-with-dnspy](https://hd2y.oss-cn-beijing.aliyuncs.com/debug-with-dnspy-8dddc8ba484d41b487ddd11bd554bcd3.png)
 
 ### 2. 源服务器支持
 
@@ -69,7 +69,7 @@ dotnet build
 }
 ```
 
-![debug-with-vsc](https://www.hd2y.net/upload/2020/11/debug-with-vsc-7f07d5a6789c4356a83847d62bc689a0.png)
+![debug-with-vsc](https://hd2y.oss-cn-beijing.aliyuncs.com/debug-with-vsc-7f07d5a6789c4356a83847d62bc689a0.png)
 
 如果时使用 Visual Studio：
 > 选项 → 调试 → 常规 → 取消 “仅我的代码” 的勾选 → 勾选 “启用源链接支持”  
@@ -77,7 +77,7 @@ dotnet build
 
 配置完成后，调试时将会下载符号文件，可以正常调试 `ASP.NET Core` 的源代码。
 
-![debug-with-vs](https://www.hd2y.net/upload/2020/11/debug-with-vs-eb893b497ff2435b97be84efcca271ce.png)
+![debug-with-vs](https://hd2y.oss-cn-beijing.aliyuncs.com/debug-with-vs-eb893b497ff2435b97be84efcca271ce.png)
 
 ### 3. 使用源码调试
 

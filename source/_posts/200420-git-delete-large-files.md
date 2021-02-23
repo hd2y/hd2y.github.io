@@ -124,11 +124,11 @@ To git://example.com/some-big-repo.git
 
 虽然提交时，可以看到仓库大小已经变成了 `2.61 MiB`，但是登录 Gitea 后查看仓库大小仍然是 `91 MiB`。
 
-![91MiB](https://www.hd2y.net/upload/2020/04/91MiB-ecf86eb91bf448788d5ab83fda4f94e5.png)
+![91MiB](https://hd2y.oss-cn-beijing.aliyuncs.com/91MiB-ecf86eb91bf448788d5ab83fda4f94e5.png)
 
 不过不用担心，直接下载该仓库内容，可以看到下载文件大小是正常的。
 
-![ZIP File](https://www.hd2y.net/upload/2020/04/ZIP%20File-cadfc1ec62b540a19a3bd4a15c706a95.png)
+![ZIP File](https://hd2y.oss-cn-beijing.aliyuncs.com/ZIP%20File-cadfc1ec62b540a19a3bd4a15c706a95.png)
 
 > 参考：
 > + CSDN：[彻底删除git中的较大文件（包括历史提交记录）](https://blog.csdn.net/HappyRocking/article/details/89313501)

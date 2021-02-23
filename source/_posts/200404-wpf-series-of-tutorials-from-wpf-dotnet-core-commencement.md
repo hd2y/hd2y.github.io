@@ -23,15 +23,15 @@ categories:
 
 虽然选择很多，但是创建一个代码仓的过程都没什么区别，下图是如何在 github 上创建一个仓库。
 
-![new repository](https://www.hd2y.net/upload/2020/4/new%20repository-7f874e646b2e4875a24b8a75c6559812.png)
+![new repository](https://hd2y.oss-cn-beijing.aliyuncs.com/new%20repository-7f874e646b2e4875a24b8a75c6559812.png)
 
 创建成功后，待仓库初始化完成会自动跳转到如下界面：
 
-![repository homepage](https://www.hd2y.net/upload/2020/4/repository%20homepage-b7820b2b2fa84db0a2c9e30e82098321.png)
+![repository homepage](https://hd2y.oss-cn-beijing.aliyuncs.com/repository%20homepage-b7820b2b2fa84db0a2c9e30e82098321.png)
 
 这时我们可以选择用 `Open in Visual Studio`，使用 Visual Studio 直接克隆下载并打开这个仓库。
 
-![git clone](https://www.hd2y.net/upload/2020/4/git%20clone-6ddd26b0ea2b40eba314fa4eacd30d08.png)
+![git clone](https://hd2y.oss-cn-beijing.aliyuncs.com/git%20clone-6ddd26b0ea2b40eba314fa4eacd30d08.png)
 
 建议也可以安装 git，使用 clone 命令进行下载。下载完成后，可以打开 Visual Studio，选择打开本地文件夹来查看初始化的文件。
 
@@ -45,15 +45,15 @@ git clone https://github.com/hd2y/WpfExample.git
 
 为了方便管理解决方案内的项目，一般我都会新建一个空白的解决方案。有时，使用搜索模板功能是找不到“空白解决方案”的，我们可以在 “所有语言” `->` “所有平台” `->` “其他” 中找到。
 
-![create solution](https://www.hd2y.net/upload/2020/4/create%20solution-11b71c122be1473a80d3552d9b14c663.png)
+![create solution](https://hd2y.oss-cn-beijing.aliyuncs.com/create%20solution-11b71c122be1473a80d3552d9b14c663.png)
 
 然后填写需要创建的解决方案名称，并选择所在文件夹，完成创建。
 
-![set new solution](https://www.hd2y.net/upload/2020/4/set%20new%20solution-c91bfc4a88744d87a55204e98c9f3da4.png)
+![set new solution](https://hd2y.oss-cn-beijing.aliyuncs.com/set%20new%20solution-c91bfc4a88744d87a55204e98c9f3da4.png)
 
 创建完成后，在资源管理器中内容如下图。
 
-![view in explorer](https://www.hd2y.net/upload/2020/4/view%20in%20explorer-f09dd05aeb764bc6931ea5105f4917b6.png)
+![view in explorer](https://hd2y.oss-cn-beijing.aliyuncs.com/view%20in%20explorer-f09dd05aeb764bc6931ea5105f4917b6.png)
 
 但是这时我们的解决方案打开后空无一物，这时我们需要创建两个文件夹，一个是 `Solution Items`，用于管理 `.gitignore`、`LICENSE` 与仓库的自述文件，另外一个是 `src`，用于存放代码文件。
 
@@ -65,11 +65,11 @@ git clone https://github.com/hd2y/WpfExample.git
 
 完成以上以后，我们就可以真正的创建项目了，在 `src` 文件夹上点击右键并添加“新建项目”，选择 “C#” `->` “Windows” `->` “桌面” 中的 `WPF App (.NET Core)`：
 
-![create wpf project](https://www.hd2y.net/upload/2020/4/create%20wpf%20project-fca9da6f50db46aabf289baead0df449.png)
+![create wpf project](https://hd2y.oss-cn-beijing.aliyuncs.com/create%20wpf%20project-fca9da6f50db46aabf289baead0df449.png)
 
 注意需要选择到 `src` 目录下，以上都完成后，我们文件资源管理器以及解决方案中的结构如下：
 
-![view the solution and explorer](https://www.hd2y.net/upload/2020/4/view%20the%20solution%20and%20explorer-c71c938bb5134375a32003663038ed8c.png)
+![view the solution and explorer](https://hd2y.oss-cn-beijing.aliyuncs.com/view%20the%20solution%20and%20explorer-c71c938bb5134375a32003663038ed8c.png)
 
 ## 调整项目依赖框架
 
@@ -91,7 +91,7 @@ git clone https://github.com/hd2y/WpfExample.git
 
 修改完成，可能会提示重新加载项目，确认后我们的依赖项会变成下图：
 
-![project dependencies](https://www.hd2y.net/upload/2020/4/project%20dependencies-604809d5c4d049579588781666a68a64.png)
+![project dependencies](https://hd2y.oss-cn-beijing.aliyuncs.com/project%20dependencies-604809d5c4d049579588781666a68a64.png)
 
 这时我们再生成项目，`\bin\Debug` 文件夹就会生成多个文件夹，与我们选择的依赖框架一一对应。
 

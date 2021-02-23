@@ -28,7 +28,7 @@ categories:
 
 首先我们需要创建一个 `.NET Standard` 的类库项目：
 
-![netstandard](https://www.hd2y.net/upload/2020/09/netstandard-211e1250f9f7456194ff6f3c7684e769.png)
+![netstandard](https://hd2y.oss-cn-beijing.aliyuncs.com/netstandard-211e1250f9f7456194ff6f3c7684e769.png)
 
 创建以后需要编辑我们的 `csproj` 项目文件，内容如下：
 
@@ -171,7 +171,7 @@ IIS Express 的命令行参数可以参考文档：[Running IIS Express from the
 
 至此，托管了一个 Web Service 服务的网站项目就完成了：
 
-![solution-items](https://www.hd2y.net/upload/2020/09/solution-items-905d0428d1b14d7f98a99d5d43b09bb2.png)
+![solution-items](https://hd2y.oss-cn-beijing.aliyuncs.com/solution-items-905d0428d1b14d7f98a99d5d43b09bb2.png)
 
 ## 测试
 
@@ -179,15 +179,15 @@ IIS Express 的命令行参数可以参考文档：[Running IIS Express from the
 
 正常开启调试以后，会弹出命令行：
 
-![iis-express](https://www.hd2y.net/upload/2020/09/iis-express-229bc369e24f47f5b2e990f32793b808.png)
+![iis-express](https://hd2y.oss-cn-beijing.aliyuncs.com/iis-express-229bc369e24f47f5b2e990f32793b808.png)
 
 这时我们在浏览器中可以通过 [http://localhost:10880/Test.asmx](http://localhost:10880/Test.asmx) 正常访问。
 
-![test](https://www.hd2y.net/upload/2020/09/test-f3ad79be66bd4bfd9e9cbf15bfb13cfe.png)
+![test](https://hd2y.oss-cn-beijing.aliyuncs.com/test-f3ad79be66bd4bfd9e9cbf15bfb13cfe.png)
 
 而通过 Soap UI 测试，Web Service 也可以正常的运行。
 
-![soap-ui](https://www.hd2y.net/upload/2020/09/soap-ui-b855026d5e19427eb81961e59449ec25.png)
+![soap-ui](https://hd2y.oss-cn-beijing.aliyuncs.com/soap-ui-b855026d5e19427eb81961e59449ec25.png)
 
 至此，这篇文章正文就结束了，虽然没有解决 `Web Service` 的迁移问题，但是也给大家提供了一个解决思路，希望对大家能有所帮助。
 

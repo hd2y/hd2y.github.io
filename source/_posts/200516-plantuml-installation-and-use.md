@@ -27,7 +27,7 @@ categories:
 
 直接在插件里搜索 `PlantUML`，然后进行安装即可。
 
-![plantuml extension](https://www.hd2y.net/upload/2020/05/plantuml%20extension-e98aebd405bf42aabaa6140a51aff533.png)
+![plantuml extension](https://hd2y.oss-cn-beijing.aliyuncs.com/plantuml%20extension-e98aebd405bf42aabaa6140a51aff533.png)
 
 ### 安装 Java JDK
 
@@ -67,14 +67,14 @@ Path = 'C:\Program Files (x86)\Graphviz2.38\bin\'
 
 首先需要创建文件，需要注意的是支持的文件后缀名是 `*.wsd, *.pu, *.puml, *.plantuml, *.iuml`，否则没有高亮显示关键字、不能使用智能提示、无法使用格式化。
 
-![edit uml diagram](https://www.hd2y.net/upload/2020/05/edit%20uml%20diagram-1e44caaf640d4f90aaef16fde4c58743.png)
+![edit uml diagram](https://hd2y.oss-cn-beijing.aliyuncs.com/edit%20uml%20diagram-1e44caaf640d4f90aaef16fde4c58743.png)
 
 预览需要使用快捷键：`Alt + D`。
 内容格式化：`Shift + Alt + F`。
 
 导出首先使用 `Ctrl + Shift + P`，输入 `PlantUML`，使用 `PlantUML: Export Current File Diagrams`。
 
-![export diagram](https://www.hd2y.net/upload/2020/05/export%20diagram-cdff58005c58456f894b49ee7924820c.png)
+![export diagram](https://hd2y.oss-cn-beijing.aliyuncs.com/export%20diagram-cdff58005c58456f894b49ee7924820c.png)
 
 > 参考：
 > + PlantUML 官网：[https://plantuml.com/zh/](https://plantuml.com/zh/)

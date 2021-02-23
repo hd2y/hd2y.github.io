@@ -234,7 +234,7 @@ public class CalculationShould
 
 测试结果：
 
-![calc-test](https://www.hd2y.net/upload/2020/12/calc-test-2a7b61d2a7ae47bbab8a1d6dcaa7e1bc.png)
+![calc-test](https://hd2y.oss-cn-beijing.aliyuncs.com/calc-test-2a7b61d2a7ae47bbab8a1d6dcaa7e1bc.png)
 
 ## 四、优缺点
 

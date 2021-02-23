@@ -4,7 +4,7 @@ date: "2019/07/19 11:40:32"
 updated: "2020/02/11 13:53:37"
 permalink: "win10-installs-sql-server-2017/"
 categories:
- - [开发, 数据库, PostgreSQL]
+ - [开发, 数据库, "SQL Server"]
 ---
 
 ## 安装
