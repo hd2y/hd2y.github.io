@@ -73,6 +73,93 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-200420-git-delete-large-files" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/git-delete-large-files/" class="article-date">
+  <time class="dt-published" datetime="2020-04-20T08:14:16.000Z" itemprop="datePublished">2020-04-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/git-delete-large-files/">Git 删除大文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>之前创建的一个 git 仓库提交了几个大文件，影响小伙伴的下载体验，于是便想把大文件删除掉，大文件通过网盘等方式分享。</p>
+<p>试过几种方案，最终使用 <code>BFG Repo-Cleaner</code> 解决，这里记录处理的过程。</p>
+<h2 id="查看仓库大文件"><a href="#查看仓库大文件" class="headerlink" title="查看仓库大文件"></a>查看仓库大文件</h2><p>打开 Git Bash，进入到本地仓库，运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">hd2y@DESKTOP-V2RPVP4 MINGW64 /e/LIS接口/Instruments (master)</span><br><span class="line">$ git rev-list --all | xargs -rL1 git ls-tree -r --long | sort -uk3 | sort -rnk4 | head -10</span><br><span class="line">100644 blob e212baea0de1eceda3fb219bb5ef65e51dcfc047 29208376   <span class="string">&quot;dist/Tools/Access\346\225\260\346\215\256\345\272\223\351\251\261\345\212\250/AccessDatabaseEngine_2010_X64.exe&quot;</span></span><br><span class="line">100644 blob 89d525d7930c40f25dbc4a70fe9043a2d5a50a0e 27162256   <span class="string">&quot;dist/Tools/Access\346\225\260\346\215\256\345\272\223\351\251\261\345\212\250/AccessDatabaseEngine_2010_x86.exe&quot;</span></span><br><span class="line">100644 blob d9b021ae60274f40bfec0e6c9c95c4be4be62f45 26481656   <span class="string">&quot;dist/Tools/Access\346\225\260\346\215\256\345\272\223\351\251\261\345\212\250/AccessDatabaseEngine_2007_x86.exe&quot;</span></span><br><span class="line">100644 blob af48c267a4c9b21fbd0db6f6dcdafc38e3f0c4c0 10513579   dist/WPF/LIS.Connector.WpfApp.0.2.2.7z</span><br><span class="line">100644 blob 76a62fd5d9bb82b7d6725c187f0a3031e152d561 3862528    <span class="string">&quot;dist/\345\205\266\344\273\226/\351\230\264\351\201\223\345\276\256\347\224\237\346\200\201 BPR-2014A MDB/Data/BV.mdb&quot;</span></span><br><span class="line">100644 blob bdb57e3515850b78ec861b60cef54a105f43974a 1048495    <span class="string">&quot;dist/\347\224\265\346\263\263\344\273\252/\350\265\233\346\257\224\344\272\232 HYDRASYS/Data/\345\234\260\350\264\253\347\224\265\346\263\263\345\233\276\350\260\261\345\210\244\350\257\273\350\247\204\345\210\231.pptx&quot;</span></span><br><span class="line">100644 blob 8a2b843f42381c22fe8574dce59fa11c09410b99  758498    <span class="string">&quot;dist/\347\224\265\346\263\263\344\273\252/\350\265\233\346\257\224\344\272\232 HYDRASYS/Data/Phoresis Extended 5.6.x.pdf&quot;</span></span><br><span class="line">100644 blob ea69b14549302725315f28b4999c8cd4837e4519  709825    <span class="string">&quot;dist/\350\241\200\346\260\224\344\273\252/GEM3500/Data/GEM 3500\351\200\232\350\256\257\345\215\217\350\256\256 Interface Spec 6.X.pdf&quot;</span></span><br><span class="line">100644 blob db4d2d0f6c405a7e980511d6a1a7ac1290ad350c  330416    <span class="string">&quot;dist/\345\205\266\344\273\226/\351\230\264\351\201\223\345\276\256\347\224\237\346\200\201 BPR-2014A MDB/Data/\351\230\264\351\201\223\345\276\256\347\224\237\346\200\201.jpg&quot;</span></span><br><span class="line">100644 blob f2a467b4fe413cb6fbc10223c6ade54d789d5db8   23120    <span class="string">&quot;dist/\347\224\265\346\263\263\344\273\252/\350\265\233\346\257\224\344\272\232 HYDRASYS/Data/OUT.DAT&quot;</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的是，Git Bash 中使用 <code>cd</code> 进入仓库的路径要调整，将 <code>\</code> 修改为 <code>/</code>。</p>
+<h2 id="尝试删除"><a href="#尝试删除" class="headerlink" title="尝试删除"></a>尝试删除</h2><p>开始是尝试使用博客园 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/bigmango/p/11361344.html">Git 删除大文件的方法</a> 的方案删除，出现如下错误。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hd2y@DESKTOP-V2RPVP4 MINGW64 /e/LIS接口/Instruments (master)</span><br><span class="line">$ git verify-pack -v .git/objects/pack/pack-*.idx | sort -k 3 -g | tail -10</span><br><span class="line">fatal: Cannot open existing pack file <span class="string">&#x27;.git/objects/pack/pack-*.idx&#x27;</span></span><br><span class="line">.git/objects/pack/pack-*.pack: bad</span><br></pre></td></tr></table></figure>
+<p>后搜索该错误，在 Google 发现了 <a target="_blank" rel="noopener" href="https://easeapi.com/blog/blog/62-git-delete-big-file.html">git瘦身：清除大文件或敏感文件记录</a> 这篇文章。</p>
+<p>这里不得不说，用百度搜出来的内容经常都是 <code>Ctrl C + Ctrl V</code> 的 :poop:。</p>
+<h2 id="使用-BFG-删除"><a href="#使用-BFG-删除" class="headerlink" title="使用 BFG 删除"></a>使用 BFG 删除</h2><h3 id="安装-JDK"><a href="#安装-JDK" class="headerlink" title="安装 JDK"></a>安装 JDK</h3><p>首先我们需要安装 JDK，因为该工具是 Java 开发，下载地址：<a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase-downloads.html">Java SE Downloads</a>。</p>
+<p>安装后还需要配置环境变量，否则无法使用 <code>java</code> 命令，当然也可以直接用 <code>java.exe</code> 的绝对路径。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用户变量</span></span><br><span class="line">JAVA_HOME = <span class="string">&#x27;C:\Program Files\Java\jdk-14.0.1&#x27;</span></span><br><span class="line"><span class="comment">// 系统变量</span></span><br><span class="line">CLASSPATH = <span class="string">&#x27;.;%JAVA_HOME%\lib&#x27;</span></span><br><span class="line">Path = <span class="string">&#x27;.;%JAVA_HOME%\bin;&#x27;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：Path 如果是单个编辑框，直接追加到最前，如果是一个列表，那就增加 <code>.</code> 与 <code>%JAVA_HOME%\bin</code>。以上内容复制的时候，不要复制单引号 <code>&#39;</code>。</p>
+</blockquote>
+<p>如果安装正确，运行 <code>java -version</code> 可以看到当前的版本信息，注意配置后命令行需要重启才能生效。</p>
+<h3 id="下载-BFG"><a href="#下载-BFG" class="headerlink" title="下载 BFG"></a>下载 BFG</h3><p>JDK 安装完成后，需要下载 BFG 工具：<a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase-jdk14-downloads.html">BFG Repo-Cleaner</a>。</p>
+<p>需要注意的是，这里提供的是 <code>maven</code> 的下载，国内下载会非常慢，所以建议挂代理。</p>
+<h3 id="下载-Git-仓库"><a href="#下载-Git-仓库" class="headerlink" title="下载 Git 仓库"></a>下载 Git 仓库</h3><p>这里处理完成后，就可以操作删除大文件了，首先需要重新下载仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> --mirror git://example.com/some-big-repo.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：需要重新下载的主要原因就是下载时需要使用 <code>--mirror</code>，所以不要漏掉该参数。</p>
+</blockquote>
+<h3 id="删除文件并提交"><a href="#删除文件并提交" class="headerlink" title="删除文件并提交"></a>删除文件并提交</h3><p>使用 BFG 删除指定文件名的文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -jar bfg.jar --delete-files (filename) some-big-repo.git</span><br></pre></td></tr></table></figure>
+<p>使用 BFG 删除超出指定大小的文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -jar bfg.jar --strip-blobs-bigger-than 100M some-big-repo.git</span><br></pre></td></tr></table></figure>
+<p>以上只是更新所有的分支与提交，并没有真正的删除，所以需要进入仓库，执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> some-big-repo.git</span><br><span class="line">$ git reflog expire --expire=now --all &amp;&amp; git gc --prune=now --aggressive</span><br></pre></td></tr></table></figure>
+<p>删除以后就可以推送到远程分支了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git push</span><br><span class="line">Enumerating objects: 71, <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (71/71), 2.61 MiB | 589.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 71 (delta 0), reused 0 (delta 0)</span><br><span class="line">remote: . Processing 1 references</span><br><span class="line">remote: Processed 1 references <span class="keyword">in</span> total</span><br><span class="line">To git://example.com/some-big-repo.git</span><br><span class="line"> + 07534d2...717da32 master -&gt; master (forced update)</span><br></pre></td></tr></table></figure>
+<h2 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h2><p>虽然提交时，可以看到仓库大小已经变成了 <code>2.61 MiB</code>，但是登录 Gitea 后查看仓库大小仍然是 <code>91 MiB</code>。</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/91MiB-ecf86eb91bf448788d5ab83fda4f94e5.png" alt="91MiB"></p>
+<p>不过不用担心，直接下载该仓库内容，可以看到下载文件大小是正常的。</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/ZIP%20File-cadfc1ec62b540a19a3bd4a15c706a95.png" alt="ZIP File"></p>
+<blockquote>
+<p>参考：</p>
+<ul>
+<li>CSDN：<a target="_blank" rel="noopener" href="https://blog.csdn.net/HappyRocking/article/details/89313501">彻底删除git中的较大文件（包括历史提交记录）</a></li>
+<li>CSDN：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44853744/article/details/103389161">jdk13.0.1配置显示‘java’不是内部或外部命令解决方法</a></li>
+<li>GitHub：<a target="_blank" rel="noopener" href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a></li>
+</ul>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/git-delete-large-files/" data-id="cklhh35z6004syiqk4gp694yb" data-title="Git 删除大文件" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-200404-wpf-series-of-tutorials-from-wpf-dotnet-core-commencement" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/wpf-series-of-tutorials-from-wpf-dotnet-core-commencement/" class="article-date">
@@ -106,32 +193,32 @@
 <h2 id="初始化代码仓库"><a href="#初始化代码仓库" class="headerlink" title="初始化代码仓库"></a>初始化代码仓库</h2><p>因为我是用 git 托管代码，所以创建项目的第一步，就是先创建一个 git 仓库。</p>
 <p>可以选择 github、gitlab，如果担心以后有被美国“制裁”的风险，也可以选择国内的 gitee。当然也可以自己使用 gitlab、gitea 或者 gogs 搭建自己的 git 服务。</p>
 <p>虽然选择很多，但是创建一个代码仓的过程都没什么区别，下图是如何在 github 上创建一个仓库。</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/new%20repository-7f874e646b2e4875a24b8a75c6559812.png" alt="new repository"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/new%20repository-7f874e646b2e4875a24b8a75c6559812.png" alt="new repository"></p>
 <p>创建成功后，待仓库初始化完成会自动跳转到如下界面：</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/repository%20homepage-b7820b2b2fa84db0a2c9e30e82098321.png" alt="repository homepage"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/repository%20homepage-b7820b2b2fa84db0a2c9e30e82098321.png" alt="repository homepage"></p>
 <p>这时我们可以选择用 <code>Open in Visual Studio</code>，使用 Visual Studio 直接克隆下载并打开这个仓库。</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/git%20clone-6ddd26b0ea2b40eba314fa4eacd30d08.png" alt="git clone"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/git%20clone-6ddd26b0ea2b40eba314fa4eacd30d08.png" alt="git clone"></p>
 <p>建议也可以安装 git，使用 clone 命令进行下载。下载完成后，可以打开 Visual Studio，选择打开本地文件夹来查看初始化的文件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br><span class="line"><span class="built_in">cd</span> C:\Users\hd2y\<span class="built_in">source</span>\repos</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/hd2y/WpfExample.git</span><br></pre></td></tr></table></figure>
 <h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>为了方便管理解决方案内的项目，一般我都会新建一个空白的解决方案。有时，使用搜索模板功能是找不到“空白解决方案”的，我们可以在 “所有语言” <code>-&gt;</code> “所有平台” <code>-&gt;</code> “其他” 中找到。</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/create%20solution-11b71c122be1473a80d3552d9b14c663.png" alt="create solution"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/create%20solution-11b71c122be1473a80d3552d9b14c663.png" alt="create solution"></p>
 <p>然后填写需要创建的解决方案名称，并选择所在文件夹，完成创建。</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/set%20new%20solution-c91bfc4a88744d87a55204e98c9f3da4.png" alt="set new solution"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/set%20new%20solution-c91bfc4a88744d87a55204e98c9f3da4.png" alt="set new solution"></p>
 <p>创建完成后，在资源管理器中内容如下图。</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/view%20in%20explorer-f09dd05aeb764bc6931ea5105f4917b6.png" alt="view in explorer"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/view%20in%20explorer-f09dd05aeb764bc6931ea5105f4917b6.png" alt="view in explorer"></p>
 <p>但是这时我们的解决方案打开后空无一物，这时我们需要创建两个文件夹，一个是 <code>Solution Items</code>，用于管理 <code>.gitignore</code>、<code>LICENSE</code> 与仓库的自述文件，另外一个是 <code>src</code>，用于存放代码文件。</p>
 <p>如果需要添加单元测试，还需要增加一个文件夹 <code>test</code> 存放测试代码，而如果有一些静态文件，建议创建 <code>docs</code> 与 <code>row</code> 文件夹进行存储。</p>
 <p>注意，除 <code>Solution Items</code> 文件夹外，其他文件夹还要在文件资源管理器创建文件夹，与解决方案中的文件夹一一对应，因为解决方案中的文件夹实际是虚拟文件夹。</p>
 <p>创建完成后，我们需要从文件资源管理器中将仓库初始化生成的文件，拷贝到解决方案的 <code>Solution Items</code> 文件夹，请注意这个过程中，只是解决方案中可以查看到这几个文件，这些文件的路径并不会发生变化。</p>
 <p>完成以上以后，我们就可以真正的创建项目了，在 <code>src</code> 文件夹上点击右键并添加“新建项目”，选择 “C#” <code>-&gt;</code> “Windows” <code>-&gt;</code> “桌面” 中的 <code>WPF App (.NET Core)</code>：</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/create%20wpf%20project-fca9da6f50db46aabf289baead0df449.png" alt="create wpf project"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/create%20wpf%20project-fca9da6f50db46aabf289baead0df449.png" alt="create wpf project"></p>
 <p>注意需要选择到 <code>src</code> 目录下，以上都完成后，我们文件资源管理器以及解决方案中的结构如下：</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/view%20the%20solution%20and%20explorer-c71c938bb5134375a32003663038ed8c.png" alt="view the solution and explorer"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/view%20the%20solution%20and%20explorer-c71c938bb5134375a32003663038ed8c.png" alt="view the solution and explorer"></p>
 <h2 id="调整项目依赖框架"><a href="#调整项目依赖框架" class="headerlink" title="调整项目依赖框架"></a>调整项目依赖框架</h2><p><code>.NET Standard</code> 类库项目以及 <code>.NET Core</code> 应用项目，在双击项目名后，都可以打开一个 xml 文件。</p>
 <p>我们可以调整 xml 文件的配置，默认的 xml 文件有一个 <code>TargetFramework</code> 节点，如果是依赖框架是多个，我们要改成复数形式，再修改里面依赖框架的值，多个用 <code>;</code> 分隔。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Project</span> <span class="attr">Sdk</span>=<span class="string">&quot;Microsoft.NET.Sdk.WindowsDesktop&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">OutputType</span>&gt;</span>WinExe<span class="tag">&lt;/<span class="name">OutputType</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TargetFrameworks</span>&gt;</span>net40;net472;netcoreapp3.1<span class="tag">&lt;/<span class="name">TargetFrameworks</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">UseWPF</span>&gt;</span>true<span class="tag">&lt;/<span class="name">UseWPF</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">Project</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>修改完成，可能会提示重新加载项目，确认后我们的依赖项会变成下图：</p>
-<p><img src="https://www.hd2y.net/upload/2020/4/project%20dependencies-604809d5c4d049579588781666a68a64.png" alt="project dependencies"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/project%20dependencies-604809d5c4d049579588781666a68a64.png" alt="project dependencies"></p>
 <p>这时我们再生成项目，<code>\bin\Debug</code> 文件夹就会生成多个文件夹，与我们选择的依赖框架一一对应。</p>
 <h2 id="提交修改"><a href="#提交修改" class="headerlink" title="提交修改"></a>提交修改</h2><p>代码写好了，自然要提交到代码仓库，此时团队资源管理器中会显示当前的 Git 仓库。</p>
 <p>选择“项目”下的“更改”，输入一些本次提交的描述信息，点击“全部提交”。</p>
@@ -143,7 +230,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/wpf-series-of-tutorials-from-wpf-dotnet-core-commencement/" data-id="cklc4t7zc004ozuqm6ntigwyh" data-title="WPF 系列教程：从 WPF (.NET Core) 开始" class="article-share-link">分享</a>
+      <a data-url="http://example.com/wpf-series-of-tutorials-from-wpf-dotnet-core-commencement/" data-id="cklhh35z4004oyiqkdgrec0cd" data-title="WPF 系列教程：从 WPF (.NET Core) 开始" class="article-share-link">分享</a>
       
       
       
@@ -196,7 +283,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/wpf-cs0103-a-name-initializecomponent-does-not-exist-in-the-current-context/" data-id="cklc4t7za004kzuqm5w0k652c" data-title="WPF：CS0103-当前上下文中不存在名称 “InitializeComponent”" class="article-share-link">分享</a>
+      <a data-url="http://example.com/wpf-cs0103-a-name-initializecomponent-does-not-exist-in-the-current-context/" data-id="cklhh35z3004kyiqk7k9k3s2k" data-title="WPF：CS0103-当前上下文中不存在名称 “InitializeComponent”" class="article-share-link">分享</a>
       
       
       
@@ -243,9 +330,9 @@
 <p>至此，系统启动进入死循环。</p>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>解决该问题，首先我们需要关机，进入安全模式。</p>
 <p>首先我们右键 Dock 里的 Windows 图标，停止运行 Windows XP 虚拟机：</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/stop%20running-6e2d6923d5884ec7be27de6357e69331.jpg" alt="stop running"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/stop%20running-6e2d6923d5884ec7be27de6357e69331.jpg" alt="stop running"></p>
 <p>然后选择配置，进入“硬件” -&gt; “启动顺序”，将“选择启动时的引导设备”勾选起来。</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/open%20boot-f360cde3b4634f24ac7366f77235acf9.jpg" alt="open boot"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/open%20boot-f360cde3b4634f24ac7366f77235acf9.jpg" alt="open boot"></p>
 <p>重新启动我们的 Windows XP 虚拟机，在启动时按“F8”，选择“安全模式”进入。</p>
 <p>在安全模式下，打开 cmd，运行一下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rundll32.exe syssetup,SetupOobeBnk</span><br></pre></td></tr></table></figure>
@@ -267,7 +354,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/windows-xp-prompt-activation-can-not-start/" data-id="cklc4t7z8004hzuqm67xn3uh2" data-title="Windows XP 提示激活无法启动" class="article-share-link">分享</a>
+      <a data-url="http://example.com/windows-xp-prompt-activation-can-not-start/" data-id="cklhh35z2004hyiqkho411zs7" data-title="Windows XP 提示激活无法启动" class="article-share-link">分享</a>
       
       
       
@@ -334,10 +421,10 @@
 <p>然后重新启动我们的 nexus 容器即可：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start nexus</span><br></pre></td></tr></table></figure>
 <h3 id="配置反向代理"><a href="#配置反向代理" class="headerlink" title="配置反向代理"></a>配置反向代理</h3><p>建议使用 caddy，具体配置可以参考安装 gitea 的那篇博文：<a href="/archives/warehouse-management-system-gitea-construction">代码仓管理系统 Gitea 搭建</a></p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus-a4ceb16aac55487a92d809b669232e6c.png" alt="nexus"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus-a4ceb16aac55487a92d809b669232e6c.png" alt="nexus"></p>
 <h2 id="Nexus-中-NuGet-的简单使用"><a href="#Nexus-中-NuGet-的简单使用" class="headerlink" title="Nexus 中 NuGet 的简单使用"></a>Nexus 中 NuGet 的简单使用</h2><h3 id="登录-Nexus"><a href="#登录-Nexus" class="headerlink" title="登录 Nexus"></a>登录 Nexus</h3><p>登录默认用户名为：admin。</p>
 <p>默认密码可以在文件 <code>/data/nexus/admin.password</code> 查看，登录成功后会提示修改默认密码。</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20welcome-0f96be0aca2947e1a07a62eeea8921aa.png" alt="nexus welcome"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20welcome-0f96be0aca2947e1a07a62eeea8921aa.png" alt="nexus welcome"></p>
 <p>如上图所示，在登录以后，欢迎页面旁会出现一个 <code>小齿轮</code> 的图标。</p>
 <h3 id="创建-HelloNexus-项目"><a href="#创建-HelloNexus-项目" class="headerlink" title="创建 HelloNexus 项目"></a>创建 HelloNexus 项目</h3><p>创建一个 <code>.NET Standard 类库项目</code> 用于测试 Nexus 托管 NuGet 包。</p>
 <p>内容很简单，增加一个 <code>Nexus.cs</code> 文件，定义一个 <code>Hello</code> 方法：</p>
@@ -348,14 +435,14 @@
 <p>可以在项目“属性” -&gt; “打包”界面进行配置。</p>
 </blockquote>
 <p>这样，我们生成项目的时候，将会自动进行打包：</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/package%20hello%20nexus-00e4f6a6569f40da8edd5e024189d5eb.png" alt="package hello nexus"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/package%20hello%20nexus-00e4f6a6569f40da8edd5e024189d5eb.png" alt="package hello nexus"></p>
 <p>当然，也可以使用 NuGet Package Explorer 工具自行打包：</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nuget%20package%20explorer-5ec725ce1db54c9a92c1cd0928210e6a.png" alt="nuget package explorer"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nuget%20package%20explorer-5ec725ce1db54c9a92c1cd0928210e6a.png" alt="nuget package explorer"></p>
 <h3 id="上传-NuGet-包"><a href="#上传-NuGet-包" class="headerlink" title="上传 NuGet 包"></a>上传 NuGet 包</h3><p>我们需要登录 Nexus，进入后台管理与设置界面。</p>
 <h4 id="Repositories"><a href="#Repositories" class="headerlink" title="Repositories"></a>Repositories</h4><p>如下图，进入后台的 Repositories，我们可以看到默认已经配置了 maven 与 nuget：</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20repositories-819290040ec24cba9db3aabd1be0eb44.png" alt="nexus repositories"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20repositories-819290040ec24cba9db3aabd1be0eb44.png" alt="nexus repositories"></p>
 <p>而且点击创建仓库，还有很多类型的仓库供我们选择，主流的仓库类型都可以在列表内找到：</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20create%20repository-e4e4c9df3f184a8490e83ac2ab8fb335.png" alt="nexus create repository"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20create%20repository-e4e4c9df3f184a8490e83ac2ab8fb335.png" alt="nexus create repository"></p>
 <p>当然这里我们主要还是介绍 NuGet，但是其中的仓库类型，我们还是需要了解一下。</p>
 <ul>
 <li><p><code>nuget.org-proxy</code>：类型是 <code>proxy</code>，表示代理仓库。我们向它请求包(package)的时候，如果本地有，它就从本地提供，如果本地没有，它会从 <code>nuget.org</code> 下载到本地，然后给我提供这个包。</p>
@@ -370,29 +457,29 @@
 </blockquote>
 <h4 id="上传-Package"><a href="#上传-Package" class="headerlink" title="上传 Package"></a>上传 Package</h4><p><strong>（一）添加 Nuget Realms</strong></p>
 <p>因为 Nexus 认证 Nuget 是通过 Realms 来认证，因此要添加 Nuget Realms。</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20add%20nuget%20realm-cdfb165ae57d45cfbac4e3fa143a4392.png" alt="nexus add nuget realm"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20add%20nuget%20realm-cdfb165ae57d45cfbac4e3fa143a4392.png" alt="nexus add nuget realm"></p>
 <p><strong>（二）上传 NuGet 包</strong></p>
 <p>回到网站内容浏览的主视图，在 Upload 选中 <code>nuget-hosted</code> 点击进入，为什么要选中 <code>nuget-hosted</code> 上面已经说明。</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20upload-a311613d1bc34ac08da9e06bfd5726e7.png" alt="nexus upload"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20upload-a311613d1bc34ac08da9e06bfd5726e7.png" alt="nexus upload"></p>
 <p>选择我们前文打包的 <code>HelloNexus.1.0.0.nupkg</code> 文件，并点击上传。</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20choose%20assets-55e0a9108e7f4d008f4da6b16be97b28.png" alt="nexus choose assets"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20choose%20assets-55e0a9108e7f4d008f4da6b16be97b28.png" alt="nexus choose assets"></p>
 <p>上传成功后，会出现如下图提示：</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20upload%20success-d3af26c9c9ff4cbf85928cdd1cdb6a15.png" alt="nexus upload success"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20upload%20success-d3af26c9c9ff4cbf85928cdd1cdb6a15.png" alt="nexus upload success"></p>
 <p><strong>（三）检查 NuGet 包</strong></p>
 <p>在 Browse 选中 <code>nuget-hosted</code> 点击进入。我们可以查看所有托管的包，可以查看到 <code>HelloNexus.1.0.0.nupkg</code> 已经上传成功。</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20browse-ce1a75b8a98c4eb0830963322f20d087.png" alt="nexus browse"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20browse-ce1a75b8a98c4eb0830963322f20d087.png" alt="nexus browse"></p>
 <h3 id="使用-NuGet-包"><a href="#使用-NuGet-包" class="headerlink" title="使用 NuGet 包"></a>使用 NuGet 包</h3><h4 id="获取程序包源地址"><a href="#获取程序包源地址" class="headerlink" title="获取程序包源地址"></a>获取程序包源地址</h4><p>在 Nexus 的 Browse 找到 <code>nuget-group</code> 获取到地址。</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nexus%20copy%20url-d27880c9db6447439f36816371883b79.png" alt="nexus copy url"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20copy%20url-d27880c9db6447439f36816371883b79.png" alt="nexus copy url"></p>
 <h4 id="配置-NuGet-程序包源"><a href="#配置-NuGet-程序包源" class="headerlink" title="配置 NuGet 程序包源"></a>配置 NuGet 程序包源</h4><p>打开 NuGet 包管理器，点击程序包源旁的设置按钮，会弹出如下界面：</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/nuget%20add%20packages%20source-f364d5c1877b409593a3d3f9d0c06085.png" alt="nuget add packages source"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nuget%20add%20packages%20source-f364d5c1877b409593a3d3f9d0c06085.png" alt="nuget add packages source"></p>
 <blockquote>
 <p>注意：需要先点击添加，然后选中新增的源进行修改，修改后点击“更新”按钮，不要修改了原来的 <code>nuget.org</code> 源。</p>
 </blockquote>
 <h4 id="查找与安装"><a href="#查找与安装" class="headerlink" title="查找与安装"></a>查找与安装</h4><p>选择程序包源为我们新添加的源，然后查找我们上传的程序包 <code>HelloNexus</code>：</p>
-<p><img src="https://www.hd2y.net/upload/2020/3/search%20hello%20nexus-36dbdb68d2b04b28969fe380cf5d9692.png" alt="search hello nexus"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/search%20hello%20nexus-36dbdb68d2b04b28969fe380cf5d9692.png" alt="search hello nexus"></p>
 <p>选中后，为我们需要的项目勾选安装即可。</p>
 <h2 id="批量上传"><a href="#批量上传" class="headerlink" title="批量上传"></a>批量上传</h2><p>首先，需要查看 <code>NuGet API Key</code>：</p>
-<p><img src="https://www.hd2y.net/upload/2020/08/nexus-nuget-api-key-0b88160ba75c4cd681e0c3599a9513c6.png" alt="nexus-nuget-api-key"></p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/nexus-nuget-api-key-0b88160ba75c4cd681e0c3599a9513c6.png" alt="nexus-nuget-api-key"></p>
 <p>下载 <code>nuget.exe</code>，放在 <code>*.nupkg</code> 所在目录下，并添加一个批处理文件 <code>nuget.bat</code>：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">:: init params</span><br><span class="line"><span class="built_in">set</span> url=https://(这里填写域名)/repository/nuget-hosted/</span><br><span class="line"><span class="built_in">set</span> deployFile=*.nupkg</span><br><span class="line"><span class="built_in">echo</span> Searching nupkg file...</span><br><span class="line">rem 启用<span class="string">&quot;延缓环境变量扩充&quot;</span></span><br><span class="line">SETLOCAL ENABLEDELAYEDEXPANSION</span><br><span class="line"><span class="keyword">for</span> %%f <span class="keyword">in</span> (%deployFile%) <span class="keyword">do</span> (</span><br><span class="line">   <span class="built_in">set</span> name=%%f</span><br><span class="line">   <span class="built_in">echo</span> !name! to deploy to %url%</span><br><span class="line">   rem deploy to server</span><br><span class="line">   nuget push  !name!  (这里填写api-key)  -<span class="built_in">source</span>  %url%  </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
 <p>然后直接运行批处理文件，等待上传。</p>
@@ -410,7 +497,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/nexus3-build-private-nuget-servers/" data-id="cklc4t7z6004ezuqmf7nkevcs" data-title="使用 Nexus3 搭建私人 NuGet 服务器" class="article-share-link">分享</a>
+      <a data-url="http://example.com/nexus3-build-private-nuget-servers/" data-id="cklhh35z0004eyiqk8gtt8go4" data-title="使用 Nexus3 搭建私人 NuGet 服务器" class="article-share-link">分享</a>
       
       
       
@@ -524,7 +611,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/csharp-foundation-float-double-decimal/" data-id="cklc4t7z4004bzuqmb7fj7pps" data-title="C# 基础：float、double 与 decimal" class="article-share-link">分享</a>
+      <a data-url="http://example.com/csharp-foundation-float-double-decimal/" data-id="cklhh35yy004byiqkd658b4wd" data-title="C# 基础：float、double 与 decimal" class="article-share-link">分享</a>
       
       
       
@@ -619,7 +706,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/csharp-foundation-constructor-destructor-deconstruct/" data-id="cklc4t7z30047zuqma506hrro" data-title="C# 基础：构造函数、析构函数、解构函数" class="article-share-link">分享</a>
+      <a data-url="http://example.com/csharp-foundation-constructor-destructor-deconstruct/" data-id="cklhh35yw0047yiqkbr0v5bwt" data-title="C# 基础：构造函数、析构函数、解构函数" class="article-share-link">分享</a>
       
       
       
@@ -716,7 +803,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/multithread-detection-of-available-web-services/" data-id="cklc4t7z10043zuqm80uihw8r" data-title="多线程检测可用的 Web 服务" class="article-share-link">分享</a>
+      <a data-url="http://example.com/multithread-detection-of-available-web-services/" data-id="cklhh35yu0043yiqk0she4wx0" data-title="多线程检测可用的 Web 服务" class="article-share-link">分享</a>
       
       
       
@@ -838,7 +925,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/awsl-those-incomprehensible-english-abbreviations-on-github/" data-id="cklc4t7yz0040zuqmhxpl0n6a" data-title="阿伟死了，GitHub 上那些难以理解的英语缩写" class="article-share-link">分享</a>
+      <a data-url="http://example.com/awsl-those-incomprehensible-english-abbreviations-on-github/" data-id="cklhh35yt0040yiqk9so3fa29" data-title="阿伟死了，GitHub 上那些难以理解的英语缩写" class="article-share-link">分享</a>
       
       
       
@@ -994,77 +1081,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/csharp-package-reference-assemblies-and-dynamic-link-libraries/" data-id="cklc4t81u00dxzuqm7gzch18m" data-title="C# 打包引用程序集与动态链接库" class="article-share-link">分享</a>
+      <a data-url="http://example.com/csharp-package-reference-assemblies-and-dynamic-link-libraries/" data-id="cklhh362100e2yiqk74qvfcwy" data-title="C# 打包引用程序集与动态链接库" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-191228-macos-installation-windows-xp-sp3-test-environment" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/macos-installation-windows-xp-sp3-test-environment/" class="article-date">
-  <time class="dt-published" datetime="2019-12-28T05:34:24.000Z" itemprop="datePublished">2019-12-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/macos-installation-windows-xp-sp3-test-environment/">MacOS 安装 Windows XP SP3 测试环境</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>因为需要做一些兼容性的测试，所以干脆装一个虚拟机，但是有些资料整理以下，方便下次安装的时候查找。</p>
-<h2 id="虚拟机安装环境"><a href="#虚拟机安装环境" class="headerlink" title="虚拟机安装环境"></a>虚拟机安装环境</h2><p>这里使用 Parallels Desktop 安装虚拟环境。</p>
-<p>可以打开 Parallels Link 来执行安装。</p>
-<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/20191228132736_1577510948773.jpg" alt="20191228132736"></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>其实都是简单的下一步下一步……所以过程不赘述。</p>
-<p>这里整理一下安装过程中以及安装以后要使用的一些资料和软件：</p>
-<p>首先是镜像，我这里使用的是：<code>zh-hans_windows_xp_professional_with_service_pack_3_x86_cd_x14-80404.iso</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">文件名：zh-hans_windows_xp_professional_with_service_pack_3_x86_cd_x14-80404.iso</span><br><span class="line">SHA1：69DBF131116760932DCF132ADE111D6B45778098</span><br><span class="line">文件大小：601.04MB</span><br><span class="line">发布时间：2008-05-01</span><br><span class="line">ed2k://|file|zh-hans_windows_xp_professional_with_service_pack_3_x86_cd_x14-80404.iso|630239232|CD0900AFA058ACB6345761969CBCBFF4|/</span><br></pre></td></tr></table></figure>
-<p>然后是安装许可密钥：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">JBJ9Q-JJG2C-DHY68-4K3VR-VX9VD</span><br><span class="line">PJW84-XPMBK-P7GDG-6YBCT-2PK86</span><br><span class="line">DKPHR-9PKW2-KJ6XV-BVKVW-FQ968</span><br><span class="line">TCV4Y-BW62X-QQJPJ-HTXQW-KKMT3</span><br><span class="line">MC4XD-VDY8T-2G9H7-4TM46-69G4M</span><br><span class="line">DCJY7-2QMTB-4RBMQ-TJC9M-RY83T</span><br><span class="line">VTPRF-689V6-8HY4R-XPBGH-6QR9J</span><br><span class="line">HD9R6-2X672-2JJ92-64Y39-9BWPJ</span><br><span class="line">B2FTG-96RH6-72W72-WXKTB-G42R6</span><br><span class="line">PJYB2-QWBC4-TDFWD-WY36Q-H7DRY</span><br><span class="line">BQXJ6-2V339-4M72J-66QMP-M3WDY</span><br><span class="line">MVWCG-T8K4C-82Q4F-7RWPP-2DQ2Q</span><br><span class="line">RRWFH-HYG6J-86XXD-87PWC-DXXWB</span><br><span class="line">MK96F-X47MK-M92HP-F2QDM-CWRDY</span><br><span class="line">W48J6-QJQWY-FB7HM-CB69Y-T8VKW</span><br><span class="line">MPW9P-HY3P8-C6HF6-JBK73-B447Q</span><br><span class="line">PJ9PH-DP2YM-RGV33-R8KFX-9XY4W</span><br><span class="line">W4CY9-KKBT9-RHKF3-C63V3-B2CRD</span><br><span class="line">HDP88-DQP2V-PWDWG-Y4XB6-WXJ98</span><br><span class="line">C3XFT-C98TR-P34TC-TCQKJ-CQPVG</span><br><span class="line">HCGVJ-TFPQJ-HQKPV-9X7HP-T8B3G</span><br><span class="line">WFW8Q-W7RXQ-YHBFH-DDQD8-2XMVY</span><br><span class="line">WKFVB-4BP36-69PM4-C4TM8-VPFM8</span><br><span class="line">JKCPF-2FJHW-4VCK2-27B7Q-9TVVG</span><br><span class="line">C2VKV-BQVXR-GHG7M-6HY6H-QXWQ3</span><br><span class="line">KF9F6-TYWTC-KBXXD-PCXRV-V2T3Q</span><br><span class="line">JTQV9-FG9PX-48GRV-P2H44-C6TG3</span><br><span class="line">QTQMJ-DDD7P-YCGVC-GFBRD-GT2VW</span><br><span class="line">MK6P8-X4PBQ-PKFV9-D277P-CC63B</span><br><span class="line">P224M-2WMK8-B3HMT-6YDP2-DPVKM</span><br><span class="line">HB8KM-WH7VG-H93QD-G3747-DTVMY</span><br><span class="line">K89TK-9X6FR-TK6D7-QXJ79-D8RCJ</span><br><span class="line">QJ769-JYMMM-F97YH-BKCJP-2BQ2T</span><br><span class="line">JTWPD-3CPKB-HXRQ8-DXRWK-7VVXY</span><br><span class="line">XJY7Q-9Y6TT-QP3W8-CF89G-RR9XD</span><br><span class="line">KTXCY-44H4W-K8H4D-DXFGC-K46YB</span><br><span class="line">F268D-F3CHM-R26GV-JRFCW-PR37D</span><br></pre></td></tr></table></figure>
-<p>建议安装的 SDK 和软件：</p>
-<ul>
-<li>Win XP Activator：激活工具</li>
-<li>7z：压缩文件管理工具</li>
-<li>Chrome：安装最后一个支持 XP 的版本</li>
-<li><code>.NET Framework 3.5</code>：唯一能向下兼容的 dotnet 版本</li>
-<li><code>.NET Framework 4.0</code>：Windows XP 上 dotnet 最后一个支持的版本</li>
-<li>补丁 <code>NDP40-KB2468871-v2-x86</code>：使用 <code>Microsoft.Bcl.Async</code> 以使 dotnet40 支持 <code>async/await</code></li>
-<li>Notepad++：文本编辑器</li>
-<li>Fiddler 4：HTTP 抓包工具</li>
-</ul>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>百度网盘：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/13ITHYapvSaberzPQ1wl75A">https://pan.baidu.com/s/13ITHYapvSaberzPQ1wl75A</a>  密码：<code>cqgc</code></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/macos-installation-windows-xp-sp3-test-environment/" data-id="cklc4t7yy003yzuqm32pfabw3" data-title="MacOS 安装 Windows XP SP3 测试环境" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li></ul>
 
     </footer>
   </div>
@@ -1089,7 +1110,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQL-Server/">SQL Server</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -1109,7 +1130,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 10px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 15px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 10px;">串口</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 10px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 17.5px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 12.5px;">串口</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
     </div>
   </div>
 
@@ -1131,6 +1152,10 @@
       <ul>
         
           <li>
+            <a href="/instrument-communication/">检验仪器常见通信方案</a>
+          </li>
+        
+          <li>
             <a href="/back-in-2020/">回顾2020年</a>
           </li>
         
@@ -1144,10 +1169,6 @@
         
           <li>
             <a href="/aspnet-core-000-development-environment-configuration/">ASP.NET Core - 000 开发环境配置</a>
-          </li>
-        
-          <li>
-            <a href="/dotnet-core-migration-web-service/">迁移 Web Service 项目到 .NET Core</a>
           </li>
         
       </ul>
