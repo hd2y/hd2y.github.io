@@ -73,6 +73,371 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-190403-thread-and-thread-pool" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/thread-and-thread-pool/" class="article-date">
+  <time class="dt-published" datetime="2019-04-03T12:21:00.000Z" itemprop="datePublished">2019-04-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/thread-and-thread-pool/">线程与线程池</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h2><ul>
+<li><code>Thread</code> 是前台线程，启动后需要执行完成后才会退出。但是可以通过 <code>IsBackground</code> 将其设置为后台线程，程序退出该线程也会立即退出。</li>
+<li>如果希望等待线程执行完成后再继续执行，可以使用 <code>Join()</code> 方法。</li>
+<li><code>Thread</code> 没有回调，也没有返回值。</li>
+</ul>
+<h2 id="ThreadPool"><a href="#ThreadPool" class="headerlink" title="ThreadPool"></a>ThreadPool</h2><h3 id="CLR线程池："><a href="#CLR线程池：" class="headerlink" title="CLR线程池："></a>CLR线程池：</h3><p>管理线程开销最好的方式：</p>
+<ul>
+<li>尽量少的创建线程并且能将线程反复利用(线程池初始化时没有线程，有程序请求线程则创建线程)；</li>
+<li>最好不要销毁而是挂起线程达到避免性能损失(线程池创建的线程完成任务后以挂起状态回到线程池中，等待下次请求)；</li>
+<li>通过一个技术达到让应用程序一个个执行工作，类似于一个队列(多个应用程序请求线程池，线程池会将各个应用程序排队处理)；</li>
+<li>如果某一线程长时间挂起而不工作的话，需要彻底销毁并且释放资源(线程池自动监控长时间不工作的线程，自动销毁)；</li>
+<li>如果线程不够用的话能够创建线程，并且用户可以自己定制最大线程创建的数量(当队列过长，线程池里的线程不够用时，线程池不会坐视不理)；</li>
+</ul>
+<p>实现：</p>
+<ul>
+<li><code>C#2.0</code> 时支持，实现为享元模式、单例模式。</li>
+<li>CLR线程池并不会在CLR初始化时立即建立线程，而是在应用程序要创建线程来运行任务时，线程池才初始化一个线程。</li>
+<li>线程池初始化时是没有线程的，线程池里的。线程的初始化与其他线程一样，但是在完成任务以后，该线程不会自行销毁，而是以挂起的状态返回到线程池。直到应用程序再次向线程池发出请求时，线程池里挂起的线程就会再度激活执行任务。这样既节省了建立线程所造成的性能损耗，也可以让多个任务反复重用同一线程，从而在应用程序生存期内节约大量开销。</li>
+</ul>
+<p><strong>注意：</strong>通过CLR线程池所建立的线程总是默认为后台线程，优先级数为ThreadPriority.Normal。</p>
+<h3 id="工作者线程与I-O线程"><a href="#工作者线程与I-O线程" class="headerlink" title="工作者线程与I/O线程"></a>工作者线程与I/O线程</h3><p><code>CLR</code> 线程池分为工作者线程( <code>workerThreads</code> )与 <code>I/O</code> 线程( <code>completionPortThreads</code> )两种:</p>
+<ul>
+<li>工作者线程：主要用作管理 <code>CLR</code> 内部对象的运作，通常用于计算密集的任务。</li>
+<li><code>I/O</code> ( <code>Input</code>/ <code>Output</code> )线程主要用于与外部系统交互信息，如输入输出， <code>CPU</code> 仅需在任务开始的时候，将任务的参数传递给设备，然后启动硬件设备即可。等任务完成的时候， <code>CPU</code> 收到一个通知，一般来说是一个硬件的中断信号，此时 <code>CPU</code> 继续后继的处理工作。在处理过程中， <code>CPU</code> 是不必完全参与处理过程的，如果正在运行的线程不交出 <code>CPU</code> 的控制权，那么线程也只能处于等待状态，即使操作系统将当前的 <code>CPU</code> 调度给其他线程，此时线程所占用的空间还是被占用，而并没有 <code>CPU</code> 处理这个线程，可能出现线程资源浪费的问题。如果这是一个网络服务程序，每一个网络连接都使用一个线程管理，可能出现大量线程都在等待网络通信，随着网络连接的不断增加，处于等待状态的线程将会很消耗尽所有的内存资源。可以考虑使用线程池解决这个问题。</li>
+</ul>
+<p>线程池的最大值一般默认为1000、2000。当大于此数目的请求时，将保持排队状态，直到线程池里有线程可用。</p>
+<p>使用 <code>CLR</code> 线程池的工作者线程一般有两种方式：</p>
+<ul>
+<li>通过 <code>ThreadPool.QueueUserWorkItem()</code> 方法；</li>
+<li>通过委托；</li>
+</ul>
+<p><strong>注意：</strong>不论是通过ThreadPool.QueueUserWorkItem()还是委托，调用的都是线程池里的线程。</p>
+<h3 id="ThreadPool-类常用方法"><a href="#ThreadPool-类常用方法" class="headerlink" title="ThreadPool 类常用方法"></a><code>ThreadPool</code> 类常用方法</h3><p>通过以下两个方法可以读取和设置CLR线程池中工作者线程与I/O线程的最大线程数：</p>
+<ul>
+<li><code>ThreadPool.GetMax(out in workerThreads,out int completionPortThreads)</code></li>
+<li><code>ThreadPool.SetMax(int workerThreads,int completionPortThreads)</code></li>
+</ul>
+<p>若想测试线程池中有多少线程正在投入使用，可以通过 <code>ThreadPool.GetAvailableThreads(out in workThreads,out int conoletionPortThreads)</code> 方法。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>GetAvailableThreads</code></td>
+<td align="left">剩余空闲线程数</td>
+</tr>
+<tr>
+<td align="left"><code>GetMaxThreads</code></td>
+<td align="left">最多可用线程数，所有大于此数目的请求将保持排队状态，直到线程池线程变为可用</td>
+</tr>
+<tr>
+<td align="left"><code>GetMinThreads</code></td>
+<td align="left">检索线程池在新请求预测中维护的空闲线程数。</td>
+</tr>
+<tr>
+<td align="left"><code>QueueUserWorkItem</code></td>
+<td align="left">启动线程池里得一个线程(队列的方式，如线程池暂时没空闲线程，则进入队列排队)</td>
+</tr>
+<tr>
+<td align="left"><code>SetMaxThreads</code></td>
+<td align="left">设置线程池中的最大线程数</td>
+</tr>
+<tr>
+<td align="left"><code>SetMinThreads</code></td>
+<td align="left">设置线程池最少需要保留的线程数</td>
+</tr>
+</tbody></table>
+<h3 id="各种调用线程池线程的方法"><a href="#各种调用线程池线程的方法" class="headerlink" title="各种调用线程池线程的方法"></a>各种调用线程池线程的方法</h3><h4 id="通过-QueueUserWorkItem-启动工作者线程"><a href="#通过-QueueUserWorkItem-启动工作者线程" class="headerlink" title="通过 QueueUserWorkItem 启动工作者线程"></a>通过 <code>QueueUserWorkItem</code> 启动工作者线程</h4><p><code>ThreadPool</code> 线程池中有两个重载的静态方法可以直接启动工作者</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadPool.QueueUserWorkItem(waitCallback);</span><br><span class="line">ThreadPool.QueueUserWorkItem(waitCallback,Object);</span><br></pre></td></tr></table></figure>
+<p>通过 <code>ThreadPool.QueueUserWork</code> 启动工作者线程非常方便，但是 <code>WaitCallback</code> 委托指向的必须是一个带有 <code>object</code> 参数的无返回值方法。所以这个方法启动的工作者线程仅仅适合于带单个参数和无返回值的情况。如果要传递多个参数和要有返回值，那就只有通过委托。</p>
+<h4 id="BeginInvoke-与-EndInvoke-委托异步调用线程"><a href="#BeginInvoke-与-EndInvoke-委托异步调用线程" class="headerlink" title="BeginInvoke 与 EndInvoke 委托异步调用线程"></a><code>BeginInvoke</code> 与 <code>EndInvoke</code> 委托异步调用线程</h4><ol>
+<li>建立一个委托对象，通过 <code>IAsyncResult BeginInvoke(string name,AsyncCallback callback,object state)</code> 异步调用委托方法， <code>BeginInvoke</code> 方法除最后的两个参数外，其他参数都是与方法参数相对应的;</li>
+<li>利用 <code>EndInvoke</code> ( <code>IAsyncResult</code> –上一步 <code>BeginInvoke</code> 返回的对象)方法就可以结束异步操作，获取委托的运行结果;</li>
+</ol>
+<p><strong>缺点：</strong>不知道异步操作什么时候执行完，什么时候开始调用EndInvoke，因为一旦EndInvoke主线程就会处于阻塞等待状态。</p>
+<h4 id="IAsyncResult-轮询"><a href="#IAsyncResult-轮询" class="headerlink" title="IAsyncResult 轮询"></a><code>IAsyncResult</code> 轮询</h4><p>克服上面提到的缺点，可以好好利用 <code>IAsyncResult</code> 提高主线程的工作性能：</p>
+<ul>
+<li><code>IsCompleted</code> 属性：获取异步操作是否已完成；</li>
+<li><code>WaitOne</code> ：判断单个异步线程是否完成；</li>
+<li><code>WaitAny</code> ：判断是否异步线程是否有指定数量个已完成；</li>
+<li><code>WaitAll</code> ：判断是否所有的异步线程已完成；</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Func&lt;<span class="built_in">string</span>, <span class="built_in">int</span>, <span class="built_in">string</span>&gt; func = (name, age) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    Thread.Sleep(<span class="number">20000</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">$&quot;My name is <span class="subst">&#123;name&#125;</span>, I&#x27;m <span class="subst">&#123;age&#125;</span> years old.&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line">IAsyncResult asyncResult = func.BeginInvoke(<span class="string">&quot;Jane&quot;</span>, <span class="number">12</span>, <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line"><span class="comment">//IAsyncResult.IsCompleted属性</span></span><br><span class="line"><span class="keyword">while</span> (!asyncResult.IsCompleted)</span><br><span class="line">&#123;</span><br><span class="line">    Thread.Sleep(<span class="number">500</span>);</span><br><span class="line">    Console.WriteLine(<span class="string">&quot;*************WAITING*************&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"><span class="doctag">///</span>/AsyncWaitHandle.WaitOne()方法</span></span><br><span class="line"><span class="comment">//while (!asyncResult.AsyncWaitHandle.WaitOne(200))</span></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//    Console.WriteLine(&quot;*************WAITING*************&quot;);</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span>/WaitHandle.WaitAny()方法</span></span><br><span class="line"><span class="comment">//WaitHandle[] waitHandleList1 = new WaitHandle[] &#123; asyncResult.AsyncWaitHandle &#125;;</span></span><br><span class="line"><span class="comment">//while (WaitHandle.WaitAny(waitHandleList1, 200) &gt; 0)</span></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//    Console.WriteLine(&quot;*************WAITING*************&quot;);</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span>/WaitHandle.WaitAll()方法</span></span><br><span class="line"><span class="comment">//WaitHandle[] waitHandleList2 = new WaitHandle[] &#123; asyncResult.AsyncWaitHandle &#125;;</span></span><br><span class="line"><span class="comment">//while (WaitHandle.WaitAll(waitHandleList2, 200))</span></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//    Console.WriteLine(&quot;*************WAITING*************&quot;);</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line">Console.WriteLine(func.EndInvoke(asyncResult));</span><br></pre></td></tr></table></figure>
+<h4 id="IAsyncResult-回调函数"><a href="#IAsyncResult-回调函数" class="headerlink" title="IAsyncResult 回调函数"></a><code>IAsyncResult</code> 回调函数</h4><p>使用轮询方式来检测异步方法的状态非常麻烦，而且影响了主线程，效率不高。我们可以使用IAsyncResult对象，当异步线程完成了就直接调用实现定义好的处理函数。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Func&lt;<span class="built_in">string</span>, <span class="built_in">int</span>, <span class="built_in">string</span>&gt; func = (name, age) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    Thread.Sleep(<span class="number">2000</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">$&quot;My name is <span class="subst">&#123;name&#125;</span>, I&#x27;m <span class="subst">&#123;age&#125;</span> years old.&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line">IAsyncResult asyncResult = <span class="literal">null</span>;</span><br><span class="line">AsyncCallback callback = (t) =&gt; </span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(func.EndInvoke(asyncResult));</span><br><span class="line">&#125;;</span><br><span class="line">asyncResult = func.BeginInvoke(<span class="string">&quot;Jane&quot;</span>, <span class="number">12</span>, callback, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<ul>
+<li>回调函数依然是在辅助线程中执行的，这样就不会影响主线程的运行。</li>
+<li>线程池的线程默认是后台线程。但是如果主线程比辅助线程优先完成，那么程序已经卸载，回调函数未必会执行。如果不希望丢失回调函数中的操作，要么把异步线程设为前台线程，要么确保主线程将比辅助线程迟完成。</li>
+</ul>
+<h3 id="ManualResetEvent"><a href="#ManualResetEvent" class="headerlink" title="ManualResetEvent"></a><code>ManualResetEvent</code></h3><p>常用方法： <code>Set()</code> 、 <code>ReSet()</code> 、 <code>WaitOne()</code></p>
+<ul>
+<li><code>Set()</code> : 用于向 <code>ManualResetEvent</code> 发送信号，使其取消阻塞状态（唤醒进程）或者开始阻塞进程，这基于  <code>ManualResetEvent</code> 的初始状态。</li>
+<li><code>ReSet()</code> : 将 <code>ManualResetEvent</code> 的状态重置至初始状态（即使用 <code>Set()</code> 方法之前的状态）。</li>
+<li><code>WaitOne()</code> : 使 <code>ManualResetEvent</code> 进入阻塞状态，开始等待唤醒信号。如果有信号，则不会阻塞，直接通过。</li>
+<li>信号 : 当 <code>new ManualResetEvent(bool arg)</code> 时， <code>arg</code> 参数就是信号状态，假如为 <code>false</code> ，则表示当前无信号，如果为 <code>true</code> ，则有信号。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hd2y.github.io/thread-and-thread-pool/" data-id="cklrfrky600170hrc9aq57o7v" data-title="线程与线程池" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-190402-asynchronous-and-multithreading" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/asynchronous-and-multithreading/" class="article-date">
+  <time class="dt-published" datetime="2019-04-02T14:18:00.000Z" itemprop="datePublished">2019-04-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/asynchronous-and-multithreading/">异步多线程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>首先打开任务管理器，可以查看电脑当前运行的进程。  </p>
+<p>从任务管理器里面可以看到当前所有正在运行的进程。</p>
+<p><strong>那么究竟什么是进程呢？</strong></p>
+<p>进程( <code>Process</code> )是 <code>Windows</code> 系统中的一个基本概念，它包含着一个运行程序所需要的资源。一个正在运行的应用程序在操作系统中被视为一个进程，进程可以包括一个或多个线程。  </p>
+<p>线程是操作系统分配处理器时间的基本单元，在进程中可以有多个线程同时执行代码。进程之间是相对独立的，一个进程无法访问另一个进程的数据(除非利用分布式计算方式)，一个进程运行的失败也不会影响其他进程的运行， <code>Windows</code> 系统就是利用进程把工作划分为多个独立的区域的。  </p>
+<p>进程可以理解为一个程序的基本边界。是应用程序的一个运行例程，是应用程序的一次动态执行过程。</p>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>在任务管理器， 性能 -&gt; <code>CPU</code> 中可以查看当前电脑当前运行的线程数量。  </p>
+<p>线程( <code>Thread</code> )是进程中的基本执行单元，是操作系统分配 <code>CPU</code> 时间的基本单位，一个进程可以包含若干个线程，在进程入口执行的第一个线程被视为这个进程的主线程。  </p>
+<p>在 <code>.NET</code> 应用程序中，都是以 <code>Main()</code> 方法作为入口的，当调用此方法时系统就会自动创建一个主线程。线程主要是由 <code>CPU</code> 寄存器、调用栈和线程本地存储器( <code>Thread Local Storage</code> ， <code>TLS</code> )组成的。  </p>
+<p><code>CPU</code> 寄存器主要记录当前所执行线程的状态，调用栈主要用于维护线程所调用到的内存与数据， <code>TLS</code> 主要用于存放线程的状态信息。</p>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h3 id="多线程的优缺点"><a href="#多线程的优缺点" class="headerlink" title="多线程的优缺点"></a>多线程的优缺点</h3><p>多线程的优点：</p>
+<ul>
+<li>可以同时完成多个任务；</li>
+<li>可以使程序的响应速度更快；</li>
+<li>可以让占用大量处理时间的任务或当前没有进行处理的任务定期将处理时间让给别的任务；</li>
+<li>可以随时停止任务；</li>
+<li>可以设置每个任务的优先级以优化程序性能。</li>
+</ul>
+<p>那么可能有人会问：为什么可以多线程执行呢？</p>
+<p>总结起来有下面两方面的原因：</p>
+<ul>
+<li>CPU运行速度太快，硬件处理速度跟不上，所以操作系统进行分时间片管理。这样，从宏观角度来说是多线程并发的，因为CPU速度太快，察觉不到，看起来是同一时刻执行了不同的操作。但是从微观角度来讲，同一时刻只能有一个线程在处理。</li>
+<li>目前电脑都是多核多CPU的，一个CPU在同一时刻只能运行一个线程，但是多个CPU在同一时刻就可以运行多个线程。</li>
+</ul>
+<p>然而，多线程虽然有很多优点，但是也必须认识到多线程可能存在影响系统性能的不利方面，才能正确使用线程。</p>
+<p>不利方面主要有如下几点：</p>
+<ul>
+<li>线程也是程序，所以线程需要占用内存，线程越多，占用内存也越多。</li>
+<li>多线程需要协调和管理，所以需要占用CPU时间以便跟踪线程。</li>
+<li>线程之间对共享资源的访问会相互影响，必须解决争用共享资源的问题。</li>
+<li>线程太多会导致控制太复杂，最终可能造成很多程序缺陷。</li>
+</ul>
+<h4 id="多线程-1"><a href="#多线程-1" class="headerlink" title="多线程"></a>多线程</h4><p>当启动一个可执行程序时，将创建一个主线程。在默认的情况下， <code>C#</code> 程序具有一个线程，此线程执行程序中以 <code>Main</code> 方法开始和结束的代码， <code>Main()</code> 方法直接或间接执行的每一个命令都有默认线程(主线程)执行，当 <code>Main()</code> 方法返回时此线程也将终止。  </p>
+<p>一个进程可以创建一个或多个线程以执行与该进程关联的部分程序代码。在 <code>C#</code> 中，线程是使用 <code>Thread</code> 类处理的，该类在 <code>System.Threading</code> 命名空间中。  </p>
+<p>使用 <code>Thread</code> 类创建线程时，只需要提供线程入口，线程入口告诉程序让这个线程做什么。通过实例化一个 <code>Thread</code> 类的对象就可以创建一个线程。  </p>
+<p>创建新的 <code>Thread</code> 对象时，将创建新的托管线程。 <code>Thread</code> 类接收一个 <code>ThreadStart</code> 委托或 <code>ParameterizedThreadStart</code> 委托的构造函数，该委托包装了调用 <code>Start</code> 方法时由新线程调用的方法，示例代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread thread=<span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadStart(method));<span class="comment">//创建线程</span></span><br><span class="line">thread.Start();                                   <span class="comment">//启动线程</span></span><br></pre></td></tr></table></figure>
+<p>上面代码实例化了一个 <code>Thread</code> 对象，并指明将要调用的方法 <code>method()</code> ，然后启动线程。 <code>ThreadStart</code> 委托中作为参数的方法不需要参数，并且没有返回值。 <code>ParameterizedThreadStart</code> 委托一个对象作为参数，利用这个参数可以很方便地向线程传递参数，示例代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread thread=<span class="keyword">new</span> Thread(<span class="keyword">new</span> ParameterizedThreadStart(method));<span class="comment">//创建线程</span></span><br><span class="line">thread.Start(<span class="number">3</span>);                                               <span class="comment">//启动线程</span></span><br></pre></td></tr></table></figure>
+<p>创建多线程的步骤：</p>
+<ol>
+<li>编写线程所要执行的方法</li>
+<li>实例化 <code>Thread</code> 类，并传入一个指向线程所要执行方法的委托。(这时线程已经产生，但还没有运行)</li>
+<li>调用 <code>Thread</code> 实例的 <code>Start</code> 方法，标记该线程可以被 <code>CPU</code> 执行了，但具体执行时间由 <code>CPU</code> 决定</li>
+</ol>
+<h3 id="System-Threading-Thread-类"><a href="#System-Threading-Thread-类" class="headerlink" title="System.Threading.Thread 类"></a><code>System.Threading.Thread</code> 类</h3><p>Thread类是是控制线程的基础类，位于System.Threading命名空间下，具有4个重载的构造函数：</p>
+<ul>
+<li><code>Thread(ParameterizedThreadStart)</code> 初始化 <code>Thread</code> 类的新实例，指定允许对象在线程启动时传递给线程的委托。要执行的方法是有参的。</li>
+<li><code>Thread(ParameterizedThreadStart, Int32)</code> 初始化 <code>Thread</code> 类的新实例，指定允许对象在线程启动时传递给线程的委托，并指定线程的最大堆栈大小。</li>
+<li><code>Thread(ThreadStart)</code> 初始化 <code>Thread</code> 类的新实例。要执行的方法是无参的。</li>
+<li><code>Thread(ThreadStart, Int32)</code> 初始化 <code>Thread</code> 类的新实例，指定线程的最大堆栈大小。</li>
+<li><code>ThreadStart</code> 是一个无参的、返回值为 <code>void</code> 的委托。</li>
+<li><code>ParameterizedThreadStart</code> 是一个有参的、返回值为 <code>void</code> 的委托。</li>
+</ul>
+<p><strong>注意：</strong> <code>ParameterizedThreadStart</code> 委托的参数类型必须是 <code>Object</code> 的。如果使用的是不带参数的委托，不能使用带参数的 <code>Start</code> 方法运行线程，否则系统会抛出异常。但使用带参数的委托，可以使用 <code>thread.Start()</code> 来运行线程，这时所传递的参数值为 <code>null</code> 。</p>
+<h3 id="线程的常用属性"><a href="#线程的常用属性" class="headerlink" title="线程的常用属性"></a>线程的常用属性</h3><ul>
+<li><code>CurrentContext</code> 获取线程正在其中执行的当前上下文。</li>
+<li><code>CurrentThread</code> 获取当前正在运行的线程。</li>
+<li><code>ExecutionContext</code> 获取一个 <code>ExecutionContext</code> 对象，该对象包含有关当前线程的各种上下文的信息。</li>
+<li><code>IsAlive</code> 获取一个值，该值指示当前线程的执行状态。</li>
+<li><code>IsBackground</code> 获取或设置一个值，该值指示某个线程是否为后台线程。</li>
+<li><code>IsThreadPoolThread</code> 获取一个值，该值指示线程是否属于托管线程池。</li>
+<li><code>ManagedThreadId</code> 获取当前托管线程的唯一标识符。</li>
+<li><code>Name</code> 获取或设置线程的名称。</li>
+<li><code>Priority</code> 获取或设置一个值，该值指示线程的调度优先级。</li>
+<li><code>ThreadState</code> 获取一个值，该值包含当前线程的状态。</li>
+</ul>
+<h4 id="线程的标识符"><a href="#线程的标识符" class="headerlink" title="线程的标识符"></a>线程的标识符</h4><p><code>ManagedThreadId</code> 是确认线程的唯一标识符，程序在大部分情况下都是通过 <code>Thread.ManagedThreadId</code> 来辨别线程的。而Name是一个可变值，在默认时候， <code>Name</code> 为一个空值 <code>Null</code> ，开发人员可以通过程序设置线程的名称，但这只是一个辅助功能。</p>
+<h4 id="线程的优先级别"><a href="#线程的优先级别" class="headerlink" title="线程的优先级别"></a>线程的优先级别</h4><p>当线程之间争夺 <code>CPU</code> 时间时， <code>CPU</code> 按照线程的优先级给予服务。高优先级的线程可以完全阻止低优先级的线程执行。</p>
+<p><code>.NET</code> 为线程设置了 <code>Priority</code> 属性来定义线程执行的优先级别，里面包含5个选项，其中 <code>Normal</code> 是默认值。除非系统有特殊要求，否则不应该随便设置线程的优先级别。</p>
+<ul>
+<li><code>Lowest</code> 可以将 <code>Thread</code> 安排在具有任何其他优先级的线程之后。</li>
+<li><code>BelowNormal</code> 可以将 <code>Thread</code> 安排在具有 <code>Normal</code> 优先级的线程之后，在具有 <code>Lowest</code> 优先级的线程之前。</li>
+<li><code>Normal</code> 默认选择。可以将 <code>Thread</code> 安排在具有 <code>AboveNormal</code> 优先级的线程之后，在具有 <code>BelowNormal</code> 优先级的线程之前。</li>
+<li><code>AboveNormal</code> 可以将 <code>Thread</code> 安排在具有 <code>Highest</code> 优先级的线程之后，在具有 <code>Normal</code> 优先级的线程之前。</li>
+<li><code>Highest</code>     可以将 <code>Thread</code> 安排在具有任何其他优先级的线程之前。</li>
+</ul>
+<h4 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h4><p>通过 <code>ThreadState</code> 可以检测线程是处于 <code>Unstarted</code> 、 <code>Sleeping</code> 、 <code>Running</code> 等等状态，它比 <code>IsAlive</code> 属性能提供更多的特定信息。  </p>
+<p>前面说过，一个应用程序域中可能包括多个上下文，而通过 <code>CurrentContext</code> 可以获取线程当前的上下文。</p>
+<p><code>CurrentThread</code> 是最常用的一个属性，它是用于获取当前运行的线程。</p>
+<h4 id="System-Threading-Thread-的方法"><a href="#System-Threading-Thread-的方法" class="headerlink" title="System.Threading.Thread 的方法"></a><code>System.Threading.Thread</code> 的方法</h4><p><code>Thread</code> 中包括了多个方法来控制线程的创建、挂起、停止、销毁，以后来的例子中会经常使用。</p>
+<ul>
+<li><code>Abort()</code> 终止本线程。</li>
+<li><code>GetDomain()</code> 返回当前线程正在其中运行的当前域。</li>
+<li><code>GetDomainId()</code> 返回当前线程正在其中运行的当前域Id。</li>
+<li><code>Interrupt()</code> 中断处于 <code>WaitSleepJoin</code> 线程状态的线程。</li>
+<li><code>Join()</code> 已重载。 阻塞调用线程，直到某个线程终止时为止。</li>
+<li><code>Resume()</code> 继续运行已挂起的线程。</li>
+<li><code>Start()</code> 执行本线程。</li>
+<li><code>Suspend()</code> 挂起当前线程，如果当前线程已属于挂起状态则此不起作用</li>
+<li><code>Sleep()</code> 把正在运行的线程挂起一段时间。</li>
+</ul>
+<h3 id="前台线程和后台线程"><a href="#前台线程和后台线程" class="headerlink" title="前台线程和后台线程"></a>前台线程和后台线程</h3><ul>
+<li>前台线程：只有所有的前台线程都结束，应用程序才能结束。默认情况下创建的线程都是前台线程。</li>
+<li>后台线程：只要所有的前台线程结束，后台线程自动结束。通过 <code>Thread.IsBackground</code> 设置后台线程。必须在调用 <code>Start</code> 方法之前设置线程的类型，否则一旦线程运行，将无法改变其类型。通过 <code>BeginXXX</code> 方法运行的线程都是后台线程。后台线程一般用于处理不重要的事情，应用程序结束时，后台线程是否执行完成对整个应用程序没有影响。如果要执行的事情很重要，需要将线程设置为前台线程。</li>
+</ul>
+<h3 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h3><p>所谓同步：是指在某一时刻只有一个线程可以访问变量。  </p>
+<p>如果不能确保对变量的访问是同步的，就会产生错误。  </p>
+<p><code>C#</code> 为同步访问变量提供了一个非常简单的方式，即使用 <code>C#</code> 语言的关键字 <code>Lock</code> ，它可以把一段代码定义为互斥段，互斥段在一个时刻内只允许一个线程进入执行，而其他线程必须等待。在 <code>C#</code> 中，关键字 <code>Lock</code> 定义如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Lock(expression)</span><br><span class="line">&#123;</span><br><span class="line">    statement_block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>expression</code> 代表你希望跟踪的对象：如果你想保护一个类的实例，一般地，你可以使用 <code>this</code> ；如果你想保护一个静态变量(如互斥代码段在一个静态方法内部)，一般使用类名就可以了。而 <code>statement_block</code> 就算互斥段的代码，这段代码在一个时刻内只可能被一个线程执行。</p>
+<h3 id="跨线程访问"><a href="#跨线程访问" class="headerlink" title="跨线程访问"></a>跨线程访问</h3><p>创建窗体应用程序，增加一个测试按钮和一个文本框，点击“测试”，创建一个线程，从0循环到10000给文本框赋值，代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btn_Test_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//创建一个线程去执行这个方法:创建的线程默认是前台线程</span></span><br><span class="line">    Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadStart(Test));</span><br><span class="line">    <span class="comment">//Start方法标记这个线程就绪了，可以随时被执行，具体什么时候执行这个线程，由CPU决定</span></span><br><span class="line">    <span class="comment">//将线程设置为后台线程</span></span><br><span class="line">    thread.IsBackground = <span class="literal">true</span>;</span><br><span class="line">    thread.Start();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Test</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++)</span><br><span class="line">    &#123;               </span><br><span class="line">        <span class="keyword">this</span>.textBox1.Text = i.ToString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行结果会报错：线程间操作无效：不是创建“textBox1”的线程访问它。  </p>
+</blockquote>
+<blockquote>
+<p>产生错误的原因：textBox1是由主线程创建的，thread线程是另外创建的一个线程，在.NET上执行的是托管代码，C#强制要求这些代码必须是线程安全的，即不允许跨线程访问Windows窗体的控件。</p>
+</blockquote>
+<p>解决方案：</p>
+<ol>
+<li>在窗体的加载事件中，将 <code>C#</code> 内置控件( <code>Control</code> )类的 <code>CheckForIllegalCrossThreadCalls</code> 属性设置为 <code>false</code> ，屏蔽掉 <code>C#</code> 编译器对跨线程调用的检查。</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Form1_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">       <span class="comment">//取消跨线程的访问</span></span><br><span class="line">       Control.CheckForIllegalCrossThreadCalls = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用上述的方法虽然可以保证程序正常运行并实现应用的功能，但是在实际的软件开发中，做如此设置是不安全的(不符合 <code>.NET</code> 的安全规范)，在产品软件的开发中，此类情况是不允许的。如果要在遵守.NET安全标准的前提下，实现从一个线程成功地访问另一个线程创建的空间，要使用 <code>C#</code> 的方法回调机制。</p>
+</blockquote>
+<ol start="2">
+<li>使用回调函数</li>
+</ol>
+<p>回调实现的一般过程： <code>C#</code> 的方法回调机制，也是建立在委托基础上的，下面给出它的典型实现过程。</p>
+<ul>
+<li>定义、声明回调。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义回调</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">DoSomeCallBack</span>(<span class="params">Type para</span>)</span>;</span><br><span class="line"><span class="comment">//声明回调</span></span><br><span class="line">DoSomeCallBack doSomaCallBack;</span><br></pre></td></tr></table></figure>
+<p>可以看出，这里定义声明的“回调”( <code>doSomaCallBack</code> )其实就是一个委托。</p>
+<ul>
+<li>初始化回调方法。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doSomeCallBack = <span class="keyword">new</span> DoSomeCallBack(DoSomeMethod);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>所谓“初始化回调方法”实际上就是实例化刚刚定义了的委托，这里作为参数的 <code>DoSomeMethod</code> 称为“回调方法”，它封装了对另一个线程中目标对象（窗体控件或其他类）的操作代码。</p>
+</blockquote>
+<ul>
+<li>触发对象动作</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Opt obj.Invoke(doSomeCallBack, arg);</span><br></pre></td></tr></table></figure>
+<p>其中 <code>Opt obj</code> 为目标操作对象，在此假设它是某控件，故调用其 <code>Invoke</code> 方法。 <code>Invoke</code> 方法签名为：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">object</span> Control.Invoke(Delegate method, <span class="keyword">params</span> <span class="built_in">object</span>[] args);</span><br></pre></td></tr></table></figure>
+<p>它的第一个参数为委托类型，可见“触发对象动作”的本质，就是把委托 <code>doSomeCallBack</code> 作为参数传递给控件的 <code>Invoke</code> 方法，这与委托的使用方式是一模一样的。<br>最终作用于对象 <code>Opt obj</code> 的代码是置于回调方法体 <code>DoSomeMethod()</code> 中的，如下所示：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">DoSomeMethod</span>(<span class="params">type para</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//方法体</span></span><br><span class="line">    Opt obj.someMethod(para);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果不用回调，而是直接在程序中使用 <code>Opt obj.someMethod(para);</code> ，则当对象 <code>Opt obj</code> 不在本线程（跨线程访问）时就会发生上面所示的错误。</p>
+<p>从以上回调实现的一般过程可知： <code>C#</code> 的回调机制，实质上是委托的一种应用。在 <code>C#</code> 网络编程中，回调的应用是非常普遍的，有了方法回调，就可以在 <code>.NET</code> 上写出线程安全的代码了。</p>
+<p>使用方法回调，实现给文本框赋值：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">MultiThreadDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Form1</span> : <span class="title">Form</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Form1</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            InitializeComponent();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//定义回调</span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">setTextValueCallBack</span>(<span class="params"><span class="built_in">int</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">        <span class="comment">//声明回调</span></span><br><span class="line">        <span class="keyword">private</span> setTextValueCallBack setCallBack;</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btn_Test_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">//实例化回调</span></span><br><span class="line">            setCallBack = <span class="keyword">new</span> setTextValueCallBack(SetValue);</span><br><span class="line">            <span class="comment">//创建一个线程去执行这个方法:创建的线程默认是前台线程</span></span><br><span class="line">            Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadStart(Test));</span><br><span class="line">            <span class="comment">//Start方法标记这个线程就绪了，可以随时被执行，具体什么时候执行这个线程，由CPU决定</span></span><br><span class="line">            <span class="comment">//将线程设置为后台线程</span></span><br><span class="line">            thread.IsBackground = <span class="literal">true</span>;</span><br><span class="line">            thread.Start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Test</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++)</span><br><span class="line">            &#123;               </span><br><span class="line">                <span class="comment">//使用回调</span></span><br><span class="line">                textBox1.Invoke(setCallBack, i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 定义回调使用的方法</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;value&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SetValue</span>(<span class="params"><span class="built_in">int</span> <span class="keyword">value</span></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">this</span>.textBox1.Text = <span class="keyword">value</span>.ToString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="终止线程"><a href="#终止线程" class="headerlink" title="终止线程"></a>终止线程</h3><p>若想终止正在运行的线程，可以使用 <code>Abort()</code> 方法。</p>
+<h2 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h2><p>同步和异步是对方法执行顺序的描述。</p>
+<p>同步：等待上一行完成计算之后，才会进入下一行。</p>
+<blockquote>
+<p>例如：请同事吃饭，同事说很忙，然后就等着同事忙完，然后一起去吃饭。</p>
+</blockquote>
+<p>异步：不会等待方法的完成，会直接进入下一行，是非阻塞的。</p>
+<blockquote>
+<p>例如：请同事吃饭，同事说很忙，那同事先忙，自己去吃饭，同事忙完了他自己去吃饭。</p>
+</blockquote>
+<p>同步方法和异步方法的区别：</p>
+<ol>
+<li><ul>
+<li>同步方法由于主线程忙于计算，所以会卡住界面。</li>
+<li>异步方法由于主线程执行完了，其他计算任务交给子线程去执行，所以不会卡住界面，用户体验性好。</li>
+</ul>
+</li>
+<li><ul>
+<li>同步方法由于只有一个线程在计算，所以执行速度慢。</li>
+<li>异步方法由多个线程并发运算，所以执行速度快，但并不是线性增长的（资源可能不够）。多线程也不是越多越好，只有多个独立的任务同时运行，才能加快速度。</li>
+</ul>
+</li>
+<li><ul>
+<li>同步方法是有序的。</li>
+<li>异步多线程是无序的：启动无序，执行时间不确定，所以结束也是无序的。一定不要通过等待几毫秒的形式来控制线程启动/执行时间/结束。</li>
+</ul>
+</li>
+</ol>
+<h3 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h3><ul>
+<li>异步多线程是无序的，可以通过使用回调解决异步多线程是无序的问题。</li>
+<li>获取委托异步调用的返回值：使用 <code>EndInvoke()</code> 可以获取委托异步调用的返回值。注意调用该方法会等待异步执行完成，所以在主线程中执行，会强制等待委托执行完成，而在回调中执行因为委托其实已经执行完成，所以此时 <code>EndInvoke()</code> 单纯为了获取委托执行的结果。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hd2y.github.io/asynchronous-and-multithreading/" data-id="cklrfrl2w00dh0hrced4s2n2g" data-title="异步多线程" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-190402-review-of-object-oriented-knowledge-points" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/review-of-object-oriented-knowledge-points/" class="article-date">
@@ -166,7 +531,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/review-of-object-oriented-knowledge-points/" data-id="cklhsu16v001105rj8j6ocyas" data-title="面向对象知识点回顾" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/review-of-object-oriented-knowledge-points/" data-id="cklrfrky100110hrc28ir9jtm" data-title="面向对象知识点回顾" class="article-share-link">分享</a>
       
       
       
@@ -222,7 +587,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/common-serializer/" data-id="cklhsu16r000s05rjbji465lp" data-title="常见序列化器" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/common-serializer/" data-id="cklrfrkxu000s0hrc712uawda" data-title="常见序列化器" class="article-share-link">分享</a>
       
       
       
@@ -287,7 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/file-operations-in-csharp/" data-id="cklhsu16t000y05rj4rk80gsm" data-title="C#中的文件操作" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/file-operations-in-csharp/" data-id="cklrfrkxz000y0hrcgwyb3xsa" data-title="C#中的文件操作" class="article-share-link">分享</a>
       
       
       
@@ -353,7 +718,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/anonymous-type-extension-method-var-dynamic/" data-id="cklhsu16q000q05rje9bgas4r" data-title="匿名类型、扩展方法、var、dynamic" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/anonymous-type-extension-method-var-dynamic/" data-id="cklrfrkxt000q0hrcdtf77o26" data-title="匿名类型、扩展方法、var、dynamic" class="article-share-link">分享</a>
       
       
       
@@ -413,7 +778,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/delegate-and-event-in-csharp/" data-id="cklhsu16s000w05rjgcvocw2k" data-title="C#中的委托与事件" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/delegate-and-event-in-csharp/" data-id="cklrfrkxx000w0hrc7om37qrt" data-title="C#中的委托与事件" class="article-share-link">分享</a>
       
       
       
@@ -497,7 +862,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/lets-just-talk-about-my-view-of-the-smartisan-and-laoluo/" data-id="cklhsu16m000k05rja5unarm8" data-title="简单谈谈我对锤子及老罗的看法" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/lets-just-talk-about-my-view-of-the-smartisan-and-laoluo/" data-id="cklrfrkxq000k0hrc3vx85z52" data-title="简单谈谈我对锤子及老罗的看法" class="article-share-link">分享</a>
       
       
       
@@ -558,7 +923,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/reflector-in-csharp/" data-id="cklhsu16p000o05rjfb6zgf6y" data-title="C#中的反射" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/reflector-in-csharp/" data-id="cklrfrkxs000o0hrc71vkek1d" data-title="C#中的反射" class="article-share-link">分享</a>
       
       
       
@@ -634,143 +999,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/generic-part-2/" data-id="cklhsu16l000i05rjg69o08zo" data-title="泛型（Part 2）" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/generic-part-2/" data-id="cklrfrkxo000i0hrc060jce1s" data-title="泛型（Part 2）" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-190331-generic-part-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/generic-part-1/" class="article-date">
-  <time class="dt-published" datetime="2019-03-31T10:12:00.000Z" itemprop="datePublished">2019-03-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/generic-part-1/">泛型 （Part 1）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是泛型"><a href="#什么是泛型" class="headerlink" title="什么是泛型"></a>什么是泛型</h2><p>起始版本为 <em>.net framework 2.0 CLR升级</em> 支持的，非语法糖。<strong>为解决针对不同参数类型，有相同的操作行为。</strong></p>
-<ul>
-<li>延迟声明：声明方法的时候并没有指定参数的类型，而是等调用的时候指定。</li>
-<li>延迟思想：推迟一切可以推迟的。（提高程序的灵活性和扩展性）</li>
-</ul>
-<p>打印泛型集合和字典：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Console.WriteLine(<span class="keyword">typeof</span>(List&lt;&gt;));</span><br><span class="line">Console.WriteLine(<span class="keyword">typeof</span>(Dictionary&lt;,&gt;));</span><br></pre></td></tr></table></figure>
-<p>输出内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.Collections.Generic.List\&#96;1[T]</span><br><span class="line">System.Collections.Generic.Dictionary\&#96;2[TKey,TValue]</span><br></pre></td></tr></table></figure>
-<p>编译的时候，类型参数被编译为占位符，程序运行时，JIT即时编译为是类型，所以其性能近似普通方法。</p>
-<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><ul>
-<li>定义：<code>MethodName&lt;T&gt;(T t)&#123;&#125;</code>  其中T是类型参数，名称不做限制。</li>
-<li>使用：<code>MethodName&lt;int&gt;(123)</code> 或 <code>MethodName(123)</code>  当类型参数可以由编译器推断时，可以不指定参数类型。</li>
-</ul>
-<h3 id="普通方法"><a href="#普通方法" class="headerlink" title="普通方法"></a>普通方法</h3><p>优点是直观、性能较好；缺点为相同逻辑不能重用，拓展性差。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowInt</span>(<span class="params"><span class="built_in">int</span> i</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;i.GetType()&#125;</span>\tvalue:<span class="subst">&#123;i&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowString</span>(<span class="params"><span class="built_in">string</span> s</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;s.GetType()&#125;</span>\tvalue:<span class="subst">&#123;s&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowDateTime</span>(<span class="params">DateTime dt</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;dt.GetType()&#125;</span>\tvalue:<span class="subst">&#123;dt&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="object-方法"><a href="#object-方法" class="headerlink" title="object 方法"></a>object 方法</h3><p>优点是基类型可以用子类代替，解决相同逻辑复用问题；缺点是存在拆装箱，影响性能。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowObject</span>(<span class="params">Object o</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;o.GetType()&#125;</span>\tvalue:<span class="subst">&#123;o&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="泛型方法-1"><a href="#泛型方法-1" class="headerlink" title="泛型方法"></a>泛型方法</h3><p>可以复用，同时不存在性能问题。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Show</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;type:<span class="subst">&#123;t.GetType()&#125;</span>\tvalue:<span class="subst">&#123;t&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//普通方法</span></span><br><span class="line">CommonMethod.ShowInt(<span class="number">123</span>);</span><br><span class="line">CommonMethod.ShowString(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">CommonMethod.ShowDateTime(DateTime.Now);</span><br><span class="line"><span class="comment">//object方法</span></span><br><span class="line">CommonMethod.ShowObject(<span class="number">123</span>);</span><br><span class="line">CommonMethod.ShowObject(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">CommonMethod.ShowObject(DateTime.Now);</span><br><span class="line"><span class="comment">//泛型方法</span></span><br><span class="line">CommonMethod.Show(<span class="number">123</span>);</span><br><span class="line">CommonMethod.Show(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">CommonMethod.Show(DateTime.Now);</span><br></pre></td></tr></table></figure>
-<p>输出内容  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">type:System.Int32   value:123</span><br><span class="line">type:System.String  value:123</span><br><span class="line">type:System.DateTime    value:2018&#x2F;5&#x2F;1 20:14:33</span><br><span class="line">type:System.Int32	value:123</span><br><span class="line">type:System.String	value:123</span><br><span class="line">type:System.DateTime	value:2018&#x2F;5&#x2F;1 20:14:33</span><br><span class="line">type:System.Int32	value:123</span><br><span class="line">type:System.String	value:123</span><br><span class="line">type:System.DateTime	value:2018&#x2F;5&#x2F;1 20:14:33</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：object是一切类型的父类；通过继承，子类拥有父类的一切属性和行为；任何子类出现的地方，都可以用父类来代替；值类型转换为引用类型是装箱，引用类型转换为值类型是拆箱。</p>
-</blockquote>
-<h2 id="其他使用场景"><a href="#其他使用场景" class="headerlink" title="其他使用场景"></a>其他使用场景</h2><p>除泛型方法以外，还可以使用泛型类、泛型接口、泛型委托。</p>
-<h3 id="1-泛型类"><a href="#1-泛型类" class="headerlink" title="1. 泛型类"></a>1. 泛型类</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GenericClass</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Show</span>&lt;<span class="title">T1</span>&gt;(<span class="params">T1 t1</span>)</span>&#123; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> T2 <span class="title">Get</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">	    <span class="keyword">return</span> <span class="literal">default</span>(T2);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-泛型接口"><a href="#2-泛型接口" class="headerlink" title="2. 泛型接口"></a>2. 泛型接口</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">IGeneric</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">T <span class="title">IMethod</span>(<span class="params">T t</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-泛型委托"><a href="#3-泛型委托" class="headerlink" title="3. 泛型委托"></a>3. 泛型委托</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> T <span class="title">GetHandler</span>&lt;<span class="title">T</span>&gt;(<span class="params"></span>)</span>;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：普通类不能直接继承自泛型类也不能直接实现泛型接口，指定参数类型后才可以。泛型类可以继承泛型类。</p>
-</blockquote>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GenericClass</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Child</span>: <span class="title">GernericClass</span>&lt;<span class="title">int</span>, <span class="title">string</span>&gt;, <span class="title">IStudy</span>&lt;<span class="title">DateTime</span>&gt;&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ChildGeneric</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;: <span class="title">GenericClass</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/generic-part-1/" data-id="cklhsu16i000f05rjbs17fosh" data-title="泛型 （Part 1）" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-190331-disclaimer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/disclaimer/" class="article-date">
-  <time class="dt-published" datetime="2019-03-31T06:27:00.000Z" itemprop="datePublished">2019-03-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a>►<a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/disclaimer/">免责声明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>浏览者在访问本站前，请务必阅读本文以下条款并同意以下声明：</p>
-<ol>
-<li><p>华灯博客（以下简称本站）所有原创文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，否则本站有权依法追究其法律责任。</p>
-</li>
-<li><p>关于本站的所有留言评论、引用文纯属文字原作者个人观点，与本站观点及立场无关；浏览者在本站发表信息时需要遵守中国现行相应法律，不得发布违法信息。</p>
-</li>
-<li><p>本站部分内容来自互联网，若无意间侵犯到媒体、公司、企业或个人的知识产权，请及时邮件告知，本站将及时处理。</p>
-</li>
-<li><p>本站转载的部分内容，如有您未署名的作品，请及时邮件联系，本站会及时为您的作品做署名及相关处理。</p>
-</li>
-</ol>
-<p>以上声明内容的最终解释权归<a href="/">华灯博客</a>。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/disclaimer/" data-id="cklhsu16i000e05rjbpee0tj8" data-title="免责声明" class="article-share-link">分享</a>
-      
-      
-      
     </footer>
   </div>
   
@@ -804,7 +1038,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%94%E7%AC%94/" rel="tag">五笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" rel="tag">图片压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%BC%E9%9F%B3/" rel="tag">拼音</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%89%E5%AD%97/" rel="tag">汉字</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fiddler/" rel="tag">Fiddler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%94%E7%AC%94/" rel="tag">五笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" rel="tag">图片压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%BC%E9%9F%B3/" rel="tag">拼音</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%89%E5%AD%97/" rel="tag">汉字</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
     </div>
   </div>
 
@@ -814,7 +1048,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12.5px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 12.5px;">GDI</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12.5px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12.5px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12.5px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12.5px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 20px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 17.5px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12.5px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 15px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 15px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12.5px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 12.5px;">串口</a> <a href="/tags/%E4%BA%94%E7%AC%94/" style="font-size: 10px;">五笔</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12.5px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12.5px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">图片压缩</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 20px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%8B%BC%E9%9F%B3/" style="font-size: 10px;">拼音</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 15px;">正则</a> <a href="/tags/%E6%B1%89%E5%AD%97/" style="font-size: 10px;">汉字</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12.5px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 10px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12.5px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/DBeaver/" style="font-size: 12px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fiddler/" style="font-size: 10px;">Fiddler</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 12px;">GDI</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 20px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 16px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 14px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 16px;">WebService</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 12px;">串口</a> <a href="/tags/%E4%BA%94%E7%AC%94/" style="font-size: 10px;">五笔</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">图片压缩</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 18px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%8B%BC%E9%9F%B3/" style="font-size: 10px;">拼音</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 14px;">正则</a> <a href="/tags/%E6%B1%89%E5%AD%97/" style="font-size: 10px;">汉字</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 12px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
     </div>
   </div>
 
@@ -823,7 +1057,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
     </div>
   </div>
 
@@ -836,6 +1070,14 @@
       <ul>
         
           <li>
+            <a href="/debugging-web-service-services-using-fiddler/">使用 Fiddler 调试 WebService 服务</a>
+          </li>
+        
+          <li>
+            <a href="/get-the-database-password-of-ruimei-system/">获取瑞美系统数据库密码</a>
+          </li>
+        
+          <li>
             <a href="/chinese-helper/">汉字帮助类——获取拼音与五笔简码</a>
           </li>
         
@@ -845,14 +1087,6 @@
         
           <li>
             <a href="/instrument-communication/">检验仪器常见通信方案</a>
-          </li>
-        
-          <li>
-            <a href="/back-in-2020/">回顾2020年</a>
-          </li>
-        
-          <li>
-            <a href="/csharp-expression-script-evaluation-problems/">C# 中表达式计算问题</a>
           </li>
         
       </ul>
