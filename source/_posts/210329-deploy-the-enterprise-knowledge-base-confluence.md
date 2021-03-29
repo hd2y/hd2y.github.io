@@ -1,7 +1,7 @@
 ---
 title: "部署企业知识库 Confluence"
-date: "2020/03/29 15:11:00"
-updated: "2020/03/29 15:11:00"
+date: "2021/03/29 15:11:00"
+updated: "2021/03/29 15:11:00"
 permalink: "deploy-the-enterprise-knowledge-base-confluence/"
 tags:
  - Confluence
