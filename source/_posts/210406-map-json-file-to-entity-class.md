@@ -1,29 +1,29 @@
 ---
-title: "Ó³Éä JSON ÎÄ¼şµÄÊµÌåÀà"
+title: "æ˜ å°„ JSON æ–‡ä»¶çš„å®ä½“ç±»"
 date: "2021/04/06 19:24:40"
 updated: "2021/04/06 19:24:40"
 permalink: "map-json-file-to-entity-class/"
 tags:
  - json
 categories:
- - [¿ª·¢, C#]
+ - [å¼€å‘, C#]
 ---
 
-## Ç°ÑÔ
+## å‰è¨€
 
-ÏëÒªÊ¹ÓÃ½Ó¿Ú·µ»ØµÄÄÚÈİ£¬Ö±½ÓÉú³ÉÊµÌåÀà£¬ÓÃÓÚºóÆÚ¿ª·¢¡£
+æƒ³è¦ä½¿ç”¨æ¥å£è¿”å›çš„å†…å®¹ï¼Œç›´æ¥ç”Ÿæˆå®ä½“ç±»ï¼Œç”¨äºåæœŸå¼€å‘ã€‚
 
-Èç¹û¼òµ¥Ê¹ÓÃ¿ÉÒÔ²Î¿¼£ºhttp://tools.jb51.net/code/json2csharp/
+å¦‚æœç®€å•ä½¿ç”¨å¯ä»¥å‚è€ƒï¼šhttp://tools.jb51.net/code/json2csharp/
 
-µ«ÊÇÒòÎªÆäÉú³ÉµÄÊôĞÔÃû²»¹æ·¶£¬ÒÔ¼°¶ÔÓÚÌØÊâÊôĞÔÃûÀıÈç `Fflag.appType.brands` Ã»ÓĞ×öºÃ´¦Àí£¬ËùÒÔ×Ô¼ºĞ´ÁËÒ»¸ö¹¤¾ßÀà¡£
+ä½†æ˜¯å› ä¸ºå…¶ç”Ÿæˆçš„å±æ€§åä¸è§„èŒƒï¼Œä»¥åŠå¯¹äºç‰¹æ®Šå±æ€§åä¾‹å¦‚ `Fflag.appType.brands` æ²¡æœ‰åšå¥½å¤„ç†ï¼Œæ‰€ä»¥è‡ªå·±å†™äº†ä¸€ä¸ªå·¥å…·ç±»ã€‚
 
-## ÊµÏÖ´úÂë
+## å®ç°ä»£ç 
 
-Ê×ÏÈĞèÒªÒıÓÃ `Newtonsoft.Json`£¬`json` ÎÄ¼şµÄ½âÎö£¬ÒÔ¼°Éú³ÉÊµÌåµÄÄÚÈİ¶¼ÒÀÀµÕâ¸ö°ü¡£
+é¦–å…ˆéœ€è¦å¼•ç”¨ `Newtonsoft.Json`ï¼Œ`json` æ–‡ä»¶çš„è§£æï¼Œä»¥åŠç”Ÿæˆå®ä½“çš„å†…å®¹éƒ½ä¾èµ–è¿™ä¸ªåŒ…ã€‚
 
-ÁíÍâÎªÁË´¦Àíµ¥¸´ÊıÎÊÌâ£¬»¹ÒıÓÃÁË `PluralizeService.Core`¡£
+å¦å¤–ä¸ºäº†å¤„ç†å•å¤æ•°é—®é¢˜ï¼Œè¿˜å¼•ç”¨äº† `PluralizeService.Core`ã€‚
 
-¹¤¾ßÀà´úÂëÄÚÈİÈçÏÂ£º
+å·¥å…·ç±»ä»£ç å†…å®¹å¦‚ä¸‹ï¼š
 
 ```csharp
 using Newtonsoft.Json;
@@ -38,15 +38,15 @@ using System.Text.RegularExpressions;
 namespace Utils
 {
     /// <summary>
-    /// Json ¹¤¾ßÀà
+    /// Json å·¥å…·ç±»
     /// </summary>
     public static class JsonUtil
     {
         /// <summary>
-        /// ½« Json ÄÚÈİ×ª»»Îª C# ÊµÌåÀà
+        /// å°† Json å†…å®¹è½¬æ¢ä¸º C# å®ä½“ç±»
         /// </summary>
-        /// <param name="json">json ÄÚÈİ</param>
-        /// <returns>×ª»¯ºóµÄÊµÌåÀàÄÚÈİ</returns>
+        /// <param name="json">json å†…å®¹</param>
+        /// <returns>è½¬åŒ–åçš„å®ä½“ç±»å†…å®¹</returns>
         public static string ToEntityClass(string json)
         {
             var obj = JsonConvert.DeserializeObject(json);
@@ -58,7 +58,7 @@ namespace Utils
 
             foreach (var entity in entities)
             {
-                // ¿ªÊ¼
+                // å¼€å§‹
                 content.AppendLine($"public class {PluralizationProvider.Singularize(GetPascalName(entity.Key))}");
                 content.AppendLine("{");
 
@@ -69,7 +69,7 @@ namespace Utils
                     content.AppendLine();
                 }
 
-                // ½áÊø
+                // ç»“æŸ
                 content.AppendLine("}");
                 content.AppendLine();
             }
@@ -90,7 +90,7 @@ namespace Utils
 
             if (string.IsNullOrEmpty(name)) return string.Empty;
 
-            // Æ¥Åä ÌØÊâ×Ö·û+Ğ¡Ğ´×ÖÄ¸
+            // åŒ¹é… ç‰¹æ®Šå­—ç¬¦+å°å†™å­—æ¯
             var regex = new Regex("[^0-9a-zA-Z]+([0-9a-zA-Z]{1})");
             var matches = regex.Matches(name);
             foreach (Match match in matches)
@@ -98,10 +98,10 @@ namespace Utils
                 name = name.Replace(match.Value, match.Result("$1").ToUpper());
             }
 
-            // ÒÆ³ı·ÇÊı×Ö¡¢×ÖÄ¸µÄÄÚÈİ
+            // ç§»é™¤éæ•°å­—ã€å­—æ¯çš„å†…å®¹
             name = new Regex("[^0-9a-zA-Z]+").Replace(name, string.Empty);
 
-            // Ê××ÖÄ¸×ª´óĞ´
+            // é¦–å­—æ¯è½¬å¤§å†™
             if (name.Length > 0) name = string.Concat(name.Substring(0, 1).ToUpper(), name.Substring(1));
 
             return name;
@@ -109,19 +109,19 @@ namespace Utils
 
         private static EntityInfo MapEntityInfo(string name, Dictionary<string, EntityInfo> entities, JToken token)
         {
-            // »ñÈ¡ÊµÌåĞÅÏ¢
+            // è·å–å®ä½“ä¿¡æ¯
             if (!entities.TryGetValue(name, out EntityInfo entity))
             {
                 entity = new EntityInfo();
                 entities.TryAdd(name, entity);
             }
 
-            // ÊµÌåµÄÊôĞÔĞÅÏ¢
+            // å®ä½“çš„å±æ€§ä¿¡æ¯
             var properties = entity.Properties;
 
             if (token is JObject obj)
             {
-                // ÄÚÈİÊÇ¶ÔÏóÊ±£¬ĞèÒª»ñÈ¡ÊôĞÔĞÅÏ¢
+                // å†…å®¹æ˜¯å¯¹è±¡æ—¶ï¼Œéœ€è¦è·å–å±æ€§ä¿¡æ¯
                 foreach (var kv in obj)
                 {
                     string key = kv.Key;
@@ -165,7 +165,7 @@ namespace Utils
                                     property.Type = typeof(TimeSpan).FullName;
                                     break;
                                 default:
-                                    throw new Exception("½âÎöÊıÖµ³öÏÖÎ´ÖªµÄÊı¾İÀàĞÍ£¡");
+                                    throw new Exception("è§£ææ•°å€¼å‡ºç°æœªçŸ¥çš„æ•°æ®ç±»å‹ï¼");
                             }
                         }
                         else if (value is JArray jArray)
@@ -177,7 +177,7 @@ namespace Utils
                                 var firstType = jArray.First(a => a.Type != JTokenType.Null).Type;
                                 if (jArray.Any(a => a.Type != firstType && a.Type != JTokenType.Null))
                                 {
-                                    throw new Exception("½âÎöÊı×é³ÉÔ±ÀàĞÍ²»Î¨Ò»£¡");
+                                    throw new Exception("è§£ææ•°ç»„æˆå‘˜ç±»å‹ä¸å”¯ä¸€ï¼");
                                 }
 
                                 switch (firstType)
@@ -214,7 +214,7 @@ namespace Utils
                                         property.Type = typeof(TimeSpan).FullName;
                                         break;
                                     default:
-                                        throw new Exception("½âÎöÊı×é³öÏÖÎ´ÖªµÄÊı¾İÀàĞÍ£¡");
+                                        throw new Exception("è§£ææ•°ç»„å‡ºç°æœªçŸ¥çš„æ•°æ®ç±»å‹ï¼");
                                 }
                             }
                         }
@@ -284,9 +284,9 @@ namespace Utils
 }
 ```
 
-## ²âÊÔ
+## æµ‹è¯•
 
-²âÊÔ `json` ÄÚÈİ£º
+æµ‹è¯• `json` å†…å®¹ï¼š
 
 ```json
 {
@@ -294,15 +294,15 @@ namespace Utils
         {
             "Sku": "58396277",
             "CategoryFirstCode": "4841",
-            "CategoryFirstName": "¼Ò¾ÓºÍÔ°ÒÕ",
+            "CategoryFirstName": "å®¶å±…å’Œå›­è‰º",
             "CategoryFirstNameEN": "Home & Garden",
             "CategorySecondCode": "48410020",
-            "CategorySecondName": "¼Ò×°Îå½ğ",
+            "CategorySecondName": "å®¶è£…äº”é‡‘",
             "CategorySecondNameEN": "Home Improvement",
             "CategoryThirdCode": "484100206798",
-            "CategoryThirdName": "¼ÒÍ¥°²È«",
+            "CategoryThirdName": "å®¶åº­å®‰å…¨",
             "CategoryThirdNameEN": "Home Security",
-            "CnName": "Ó¢ÎÄ×ÖµäÃÔÄã±£ÏÕ¹ñ´æÇ®ºĞ´óºÅÔ¿³×¿î À¶É« 27*20*6.5CM",
+            "CnName": "è‹±æ–‡å­—å…¸è¿·ä½ ä¿é™©æŸœå­˜é’±ç›’å¤§å·é’¥åŒ™æ¬¾ è“è‰² 27*20*6.5CM",
             "EnName": "Cute Simulation English Dictionary Style Mini Safety Storage Box Blue L",
             "SpecLength": 27.50,
             "SpecWidth": 21.00,
@@ -311,7 +311,7 @@ namespace Utils
             "Published": false,
             "IsClear": false,
             "FreightAttrCode": "X0018",
-            "FreightAttrName": "ÆÕ»õ",
+            "FreightAttrName": "æ™®è´§",
             "PlatformCommodityCode": "C13145463",
             "CommodityWarehouseMode": 0,
             "GoodsImageList": [
@@ -507,37 +507,37 @@ namespace Utils
                     ],
                     "GoodsDescriptionLabelList": [
                         {
-                            "LabelName": "Ó¢ÎÄ"
+                            "LabelName": "è‹±æ–‡"
                         }
                     ],
                     "GoodsDescriptionParagraphList": [
                         {
-                            "ParagraphName": "Ê×¶ÎÃèÊö",
+                            "ParagraphName": "é¦–æ®µæè¿°",
                             "SortNo": 1,
                             "GoodsDescription": "<p><STRONG>Introductions:</STRONG><BR>Fantastic dictionary look makes this storage box rather distinctive from ordinary ones. Due to this feature, it can well protect your secrets without being found easily. Made with high-class material as well exquisite craftsmanship, this storage box is wear-resistant for long-term use. With quite spacious space, it allows you to put important things inside. Close and then place it on the book shelf, it seems to be a real English dictionary. Such a mini gadget can also be a good decoration for your room. Well, wanna give it a try? Just click to buy our Cute Simulation English Dictionary Style Mini Safety Storage Box!<BR></p>"
                         },
                         {
-                            "ParagraphName": "ÌØÕ÷",
+                            "ParagraphName": "ç‰¹å¾",
                             "SortNo": 2,
                             "GoodsDescription": "<p><STRONG>Features:</STRONG><BR>1. Specially designed into English dictionary style, quite mini and cute<BR>2. Great for deceiving the public so as to keep your belongings safe and unnoticed<BR>3. Made with first-rate material and exquisite workmanship, of great durability and reliability<BR>4. Compact size, lightweight and room-saving<BR>5. Hollow dictionary, can be used for storing important gadgets<BR>6. Also a nice decoration for room fitment&nbsp;&nbsp;<BR></p>"
                         },
                         {
-                            "ParagraphName": "¹æ¸ñ",
+                            "ParagraphName": "è§„æ ¼",
                             "SortNo": 3,
                             "GoodsDescription": "<p><P><STRONG>Specifications:</STRONG><BR>1. Material: Iron &amp; ABS &amp; Specialty Paper/Imitation Cloth<BR>2. Color: Blue<BR>3. Dimensions: (10.62 x 7.87 x 2.56)\" / (27 x 20 x 6.5)cm (L x W x H)<BR>4. Weight: 35.27oz / 1000g</P>\n<P>&nbsp;</P></p>"
                         },
                         {
-                            "ParagraphName": "°ü×°ÄÚº¬",
+                            "ParagraphName": "åŒ…è£…å†…å«",
                             "SortNo": 4,
                             "GoodsDescription": "<p><STRONG>Package Includes:</STRONG><BR>1 x English Dictionary Mini Safety Box</p>"
                         },
                         {
-                            "ParagraphName": "Í¨ÓÃĞÔ",
+                            "ParagraphName": "é€šç”¨æ€§",
                             "SortNo": 5,
                             "GoodsDescription": "<p></p>"
                         },
                         {
-                            "ParagraphName": "¸½¼ÓĞÅÏ¢",
+                            "ParagraphName": "é™„åŠ ä¿¡æ¯",
                             "SortNo": 6,
                             "GoodsDescription": "<p></p>"
                         }
@@ -570,7 +570,7 @@ namespace Utils
 }
 ```
 
-Éú³ÉµÄÊµÌåÀàÄÚÈİ£º
+ç”Ÿæˆçš„å®ä½“ç±»å†…å®¹ï¼š
 
 ```csharp
 public class BaseEntity
