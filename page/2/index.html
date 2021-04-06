@@ -73,6 +73,193 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-201122-aspnet-core-000-development-environment-configuration" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/aspnet-core-000-development-environment-configuration/" class="article-date">
+  <time class="dt-published" datetime="2020-11-22T10:26:03.000Z" itemprop="datePublished">2020-11-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/aspnet-core-000-development-environment-configuration/">ASP.NET Core - 000 开发环境配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="IDE-推荐"><a href="#IDE-推荐" class="headerlink" title="IDE 推荐"></a>IDE 推荐</h2><p>主流的 C# 开发工具如下：</p>
+<ul>
+<li>Rider：收费、跨平台，习惯使用 JetBrains 家的产品首选。</li>
+<li>Visual Studio：社区版免费、不支持跨平台，Windows 下首选。</li>
+<li>Visual Studio Code：免费、跨平台、流行，配置、调试以及使用不及以上两个傻瓜化，有学习成本。</li>
+</ul>
+<h2 id="我的开发环境"><a href="#我的开发环境" class="headerlink" title="我的开发环境"></a>我的开发环境</h2><p>这里我的开发环境是：<code>Windows</code> + <code>Visual Studio Code</code> + <code>WSL 2</code>。</p>
+<p>当然，我平时不这么用，因为 <code>Visual Studio 2019</code> 还是香的，但是接下来内容主要抱着学习的目的，这样的环境可以帮助我了解 <code>.NET Core</code> 的一些细节。</p>
+<h3 id="Terminal-与-WSL-2"><a href="#Terminal-与-WSL-2" class="headerlink" title="Terminal 与 WSL 2"></a><code>Terminal</code> 与 <code>WSL 2</code></h3><p>该环境需要 <code>Windows 10</code> 版本不低于 <code>2004</code>，升级可以前往官网下载 <a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/software-download/windows10">升级工具</a>。</p>
+<p>安装 WSL 2 需要启用 <code>适用于 Linux 的 Windows 子系统</code> 选项，也可以使用 PowerShell 运行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</span><br></pre></td></tr></table></figure>
+<p>接下来前往应用商店安装 <code>Ubuntu 20.04 LTS</code> 以及 <code>Windows Terminal</code>。</p>
+<p>详细的 <code>Windows Terminal</code> 以及 <code>WSL 2</code> 安装美化参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/willick/p/13924325.html">Win10 Terminal + WSL 2 安装配置指南，精致开发体验 - 精致码农 - 博客园 (cnblogs.com)</a></p>
+<h3 id="WSL-2-安装-NET-Core"><a href="#WSL-2-安装-NET-Core" class="headerlink" title="WSL 2 安装 .NET Core"></a><code>WSL 2</code> 安装 <code>.NET Core</code></h3><p>首先修改镜像源，修改 <code>sources.list</code> 文件，我的路径是：<code>C:\Users\hd2y\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\rootfs\etc\apt</code></p>
+<p>修改为阿里云的源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<p>修改以后执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>然后安装 <code>.NET Core SDK</code>，分别需要执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 Microsoft 包签名密钥添加到受信任密钥列表，并添加包存储库</span></span><br><span class="line">wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb</span><br><span class="line">sudo dpkg -i packages-microsoft-prod.deb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 .NET SDK</span></span><br><span class="line">sudo apt-get update; \</span><br><span class="line">  sudo apt-get install -y apt-transport-https &amp;&amp; \</span><br><span class="line">  sudo apt-get update &amp;&amp; \</span><br><span class="line">  sudo apt-get install -y dotnet-sdk-5.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 .NET Core 3.1 SDK</span></span><br><span class="line">sudo apt-get install -y dotnet-sdk-3.1</span><br></pre></td></tr></table></figure>
+<p>安装完成后可以运行 <code>dotnet --list-sdks</code> 命令查看已安装的 SDK ，可以运行 <code>dotnet --help</code> 命令查看帮助信息。</p>
+<p>以上步骤安装完成以后，<code>dotnet</code> 命令使用的是 <code>.NET 5.0</code> 的 SDK，可以通过以下命令切换到 <code>.NET Core 3.1</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet new globaljson --sdk-version 3.1.404 --force</span><br></pre></td></tr></table></figure>
+<p>以上命令会在文件夹创建一个 <code>global.json</code> 文件：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;sdk&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;3.1.404&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>详细的 <code>WSL 2</code> 中配置 <code>.NET Core</code> 开发环境可以参考系列文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/talentzemin/p/12575606.html">WSL 2 准备 .NET Core 开发环境 - luzemin - 博客园 (cnblogs.com)</a></p>
+<h3 id="VS-Code-配置"><a href="#VS-Code-配置" class="headerlink" title="VS Code 配置"></a><code>VS Code</code> 配置</h3><p>需要安装的几个插件：</p>
+<ul>
+<li>C#</li>
+<li>Visual Studio IntelliCode</li>
+<li>.NET Core Test Explorer</li>
+<li>vscode-solution-explorer</li>
+<li>Remote - WSL</li>
+</ul>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/vscode-keyboard-shortcuts-for-windows-acb5985293e84e8e8394611748d2d75f.png" alt="vscode-keyboard-shortcuts-for-windows"></p>
+<p>具体使用 <code>Visual Studio Code</code> 开发 <code>.NET Core</code> 可以参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yilezhu/p/9926078.html">使用 Visual Studio Code 开发 .NET Core 看这篇就够了 - 依乐祝 - 博客园 (cnblogs.com)</a></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>创建一个控制台项目，输出经典的 <code>Hello world!</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir code</span><br><span class="line"><span class="built_in">cd</span> code</span><br><span class="line">mkdir 001_HelloWorld</span><br><span class="line"><span class="built_in">cd</span> 001_HelloWorld</span><br><span class="line">dotnet new console --name HelloWorld</span><br></pre></td></tr></table></figure>
+<p>在 VS Code 中使用 <code>Ctrl + Shift + P</code> 搜索 <code>Remote-WSL: Open Folder in WSL</code>，打开我们新建项目所在的文件夹。</p>
+<p>修改 Main 函数内容为：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Console.WriteLine(Environment.OSVersion);</span><br><span class="line">Console.WriteLine(<span class="string">&quot;Hello World!&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>此时在终端输入 <code>dotnet run</code>，将打印：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Unix 4.4.0.19041</span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/demo-41682b793120418fae6532bee902ae87.png" alt="demo"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hd2y.github.io/aspnet-core-000-development-environment-configuration/" data-id="ckn5z34e9005b15qc8syrecjj" data-title="ASP.NET Core - 000 开发环境配置" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-200925-dotnet-core-migration-web-service" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/dotnet-core-migration-web-service/" class="article-date">
+  <time class="dt-published" datetime="2020-09-25T09:59:53.000Z" itemprop="datePublished">2020-09-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/dotnet-core-migration-web-service/">迁移 Web Service 项目到 .NET Core</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>目前公司产品由 <code>.NET Framework</code> 升级到 <code>.NET Core</code> 过程中，因一部分对内或对外界接口使用的是 <code>Web Service</code>。</p>
+<p>为了保证这些接口在升级后正常提供服务，开始考虑过使用 <a target="_blank" rel="noopener" href="https://github.com/DigDes/SoapCore">SoapCore</a> 对这些接口进行实现。</p>
+<p>但是尝试之后发现 <code>SoapHeader</code> 问题不好解决，所以暂时放弃将 <code>Web Service</code> 迁移到 <code>.NET Core</code>，而是将 <code>Web Service</code> 进行独立部署。</p>
+<p>最终开发时决定使用的方案有以下两种：</p>
+<ol>
+<li>“类库” 的目标框架调整为可供 <code>.NET Framework</code> 使用的 SDK，例如 <code>netstandard2.0</code>（使用 TargetFrameworks 指定多个依赖项也可），方便托管 Web Service 的 <code>ASP.NET Web</code> 网站使用；</li>
+<li><code>.NET Core</code> 中提供 <code>Web API</code> 接口，<code>Web Service</code> 的项目内不涉及具体业务，将请求转发到 <code>.NET Core</code> 的项目中处理。</li>
+</ol>
+<blockquote>
+<p>考虑到如果采用方案一，每次发布要发布两套程序，即 <code>.NET Core</code> 与 <code>ASP.NET Web</code>，并且使用 <code>Web Service</code> 转发消息产生的延迟可以接受，所以最终采用方案二来进行实现。</p>
+</blockquote>
+<p>接下来的内容最好了解一下 <code>*.csproj</code> 项目文件，可以参考：<a target="_blank" rel="noopener" href="https://blog.walterlv.com/post/understand-the-csproj.html">理解 C# 项目 csproj 文件格式的本质和编译流程</a></p>
+<h2 id="创建项目并编辑项目文件"><a href="#创建项目并编辑项目文件" class="headerlink" title="创建项目并编辑项目文件"></a>创建项目并编辑项目文件</h2><p>首先我们需要创建一个 <code>.NET Standard</code> 的类库项目：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/netstandard-211e1250f9f7456194ff6f3c7684e769.png" alt="netstandard"></p>
+<p>创建以后需要编辑我们的 <code>csproj</code> 项目文件，内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Project</span> <span class="attr">Sdk</span>=<span class="string">&quot;Microsoft.NET.Sdk&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TargetFramework</span>&gt;</span>net452<span class="tag">&lt;/<span class="name">TargetFramework</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">OutputPath</span>&gt;</span>bin\<span class="tag">&lt;/<span class="name">OutputPath</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">AppendTargetFrameworkToOutputPath</span>&gt;</span>false<span class="tag">&lt;/<span class="name">AppendTargetFrameworkToOutputPath</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">ItemGroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Reference</span> <span class="attr">Include</span>=<span class="string">&quot;System.Web.Services&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ItemGroup</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">Project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>配置文件中我们做了这些事情：</p>
+<ul>
+<li>TargetFramework：指定目标框架为 <code>.NET Framework 4.5.2</code>；</li>
+<li>OutputPath：指定了生成文件的目录；</li>
+<li>AppendTargetFrameworkToOutputPath：指定不附加目标框架到生成目录，不指定目录会是 <code>bin\net452\*</code>；</li>
+<li>Reference：添加了 <code>Web Service</code> 所依赖的程序集；</li>
+</ul>
+<p>关于 <code>TargetFramework</code> 可以参考文档：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/standard/net-standard">.NET Standard</a></p>
+<h2 id="增加-Web-Service-文件"><a href="#增加-Web-Service-文件" class="headerlink" title="增加 Web Service 文件"></a>增加 Web Service 文件</h2><p><code>Test.asmx</code> 文件内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ WebService Language&#x3D;&quot;C#&quot; CodeBehind&#x3D;&quot;Test.asmx.cs&quot; Class&#x3D;&quot;WebServiceTest.Test&quot; %&gt;</span><br></pre></td></tr></table></figure>
+<p><code>Test.asmx.cs</code> 文件内容：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Net;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Web.Services;</span><br><span class="line"><span class="keyword">using</span> System.Web.Services.Protocols;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">WebServiceTest</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">WebService(Namespace = <span class="meta-string">&quot;http://tempuri.org/&quot;</span>)</span>]</span><br><span class="line">    [<span class="meta">WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)</span>]</span><br><span class="line">    [<span class="meta">System.ComponentModel.ToolboxItem(false)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Test</span> : <span class="title">System.Web.Services.WebService</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> TokenHeader TokenHeader &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">WebMethod</span>]</span><br><span class="line">        [<span class="meta">SoapHeader(<span class="meta-string">&quot;TokenHeader&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">Get</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">if</span> (TokenHeader == <span class="literal">null</span> || TokenHeader.Token != <span class="string">&quot;123&quot;</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;Error&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">using</span> (WebClient client = <span class="keyword">new</span> WebClient())</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> data = client.DownloadData(<span class="string">&quot;https://api.lovelive.tools/api/SweetNothings&quot;</span>);</span><br><span class="line">                    <span class="keyword">return</span> Encoding.UTF8.GetString(data);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TokenHeader</span> : <span class="title">SoapHeader</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Token &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上 <code>Web Service</code> 添加了一个简单的 <code>Get</code> 方法，当请求该方法并传入了正确的 <code>token</code>，服务将转发请求到 <code>Web API</code>，并将结果返回。</p>
+<blockquote>
+<p>可以直接从其他项目拷贝，因为没有模板，从项目中添加会稍麻烦一些。</p>
+</blockquote>
+<h2 id="添加-Web-config-文件"><a href="#添加-Web-config-文件" class="headerlink" title="添加 Web.config 文件"></a>添加 Web.config 文件</h2><p>了解 <code>ASP.NET MVC</code> 的大佬们对这个配置文件应该都很熟悉：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">defaultDocument</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">files</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">value</span>=<span class="string">&quot;Test.asmx&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">files</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">defaultDocument</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.web</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">compilation</span> <span class="attr">debug</span>=<span class="string">&quot;true&quot;</span> <span class="attr">targetFramework</span>=<span class="string">&quot;4.5.2&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">httpRuntime</span> <span class="attr">targetFramework</span>=<span class="string">&quot;4.5.2&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.web</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>稍稍调整了网站的默认文档为我们刚刚添加的 Web Service 服务，避免请求根目录出现 400 错误。</p>
+<h2 id="增加用于调试的配置文件"><a href="#增加用于调试的配置文件" class="headerlink" title="增加用于调试的配置文件"></a>增加用于调试的配置文件</h2><p>项目中增加 <code>Properties</code> 文件夹，并创建 <code>launchSetting.json</code> 文件，内容如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;iisSettings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;windowsAuthentication&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;anonymousAuthentication&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;iisExpress&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;applicationUrl&quot;</span>: <span class="string">&quot;http://localhost:10880/&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;sslPort&quot;</span>: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;profiles&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;IIS Express&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;commandName&quot;</span>: <span class="string">&quot;Executable&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;executablePath&quot;</span>: <span class="string">&quot;C:\\Program Files\\IIS Express\\iisexpress.exe&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;commandLineArgs&quot;</span>: <span class="string">&quot;/path:\&quot;$(SolutionDir)src\\$(ProjectName)\&quot; /port:10880&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;launchBrowser&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">&quot;launchUrl&quot;</span>: <span class="string">&quot;/&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;environmentVariables&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;ASPNETCORE_ENVIRONMENT&quot;</span>: <span class="string">&quot;Development&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该部分内容指定了 IIS Express 进行调试，因为我的解决方案中，Web 项目放在 <code>src</code> 文件夹下，所以命令行参数路径中加了 <code>src</code>，实际可能要根据自己的项目进行调整。</p>
+<p>IIS Express 的命令行参数可以参考文档：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/iis/extensions/using-iis-express/running-iis-express-from-the-command-line">Running IIS Express from the Command Line</a></p>
+<blockquote>
+<p>不是必须添加这个文件，发布到 IIS，通过附加到 <code>w3wp</code> 进程的方式进行调试也是可以的。</p>
+</blockquote>
+<p>至此，托管了一个 Web Service 服务的网站项目就完成了：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/solution-items-905d0428d1b14d7f98a99d5d43b09bb2.png" alt="solution-items"></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>如果一切准备就绪后，无法正常运行调试，可能需要重启一下 VS。</p>
+<p>正常开启调试以后，会弹出命令行：</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/iis-express-229bc369e24f47f5b2e990f32793b808.png" alt="iis-express"></p>
+<p>这时我们在浏览器中可以通过 <a target="_blank" rel="noopener" href="http://localhost:10880/Test.asmx">http://localhost:10880/Test.asmx</a> 正常访问。</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/test-f3ad79be66bd4bfd9e9cbf15bfb13cfe.png" alt="test"></p>
+<p>而通过 Soap UI 测试，Web Service 也可以正常的运行。</p>
+<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/soap-ui-b855026d5e19427eb81961e59449ec25.png" alt="soap-ui"></p>
+<p>至此，这篇文章正文就结束了，虽然没有解决 <code>Web Service</code> 的迁移问题，但是也给大家提供了一个解决思路，希望对大家能有所帮助。</p>
+<p>源码已经提交到 github：<a target="_blank" rel="noopener" href="https://github.com/hd2y/WebServiceCore">https://github.com/hd2y/WebServiceCore</a></p>
+<p>而接下来会出一篇使用将 <code>ASP.NET MVC</code> 的项目迁移到 <code>Microsoft.NET.Sdk</code> 的避坑说明。</p>
+<p>虽然有些老项目不能快速迁移到 <code>ASP.NET Core MVC</code>，但是使用 <code>.NET Core SDK</code> 风格管理项目还是很香的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hd2y.github.io/dotnet-core-migration-web-service/" data-id="ckn5z34e9005915qcf4390ery" data-title="迁移 Web Service 项目到 .NET Core" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-200526-his-development-environment" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/his-development-environment/" class="article-date">
@@ -137,7 +324,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/his-development-environment/" data-id="ckmua84g600551kucckrqgzfd" data-title="环境部署" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/his-development-environment/" data-id="ckn5z34e8005515qcgvfu00c4" data-title="环境部署" class="article-share-link">分享</a>
       
       
       
@@ -211,7 +398,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/plantuml-installation-and-use/" data-id="ckmua84g300531kuc8x478vzh" data-title="PlantUML 的安装与使用" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/plantuml-installation-and-use/" data-id="ckn5z34e7005315qc9zupeeft" data-title="PlantUML 的安装与使用" class="article-share-link">分享</a>
       
       
       
@@ -333,7 +520,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/frp-access-the-intranet-computer/" data-id="ckmua84g1004z1kuc5of71n9p" data-title="使用 frp 实现内网穿透访问内网电脑" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/frp-access-the-intranet-computer/" data-id="ckn5z34e6004z15qc3rpk6zew" data-title="使用 frp 实现内网穿透访问内网电脑" class="article-share-link">分享</a>
       
       
       
@@ -468,7 +655,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/wpf-controls-and-layout/" data-id="ckmua84g0004w1kucdznk70mu" data-title="WPF 系列教程：控件之布局" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/wpf-controls-and-layout/" data-id="ckn5z34e5004w15qchszjee1m" data-title="WPF 系列教程：控件之布局" class="article-share-link">分享</a>
       
       
       
@@ -553,7 +740,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/git-delete-large-files/" data-id="ckmua84fy004s1kuc836bbsc2" data-title="Git 删除大文件" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/git-delete-large-files/" data-id="ckn5z34dq004s15qcg0s358ki" data-title="Git 删除大文件" class="article-share-link">分享</a>
       
       
       
@@ -637,7 +824,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/wpf-series-of-tutorials-from-wpf-dotnet-core-commencement/" data-id="ckmua84fw004o1kuc9q7u005z" data-title="WPF 系列教程：从 WPF (.NET Core) 开始" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/wpf-series-of-tutorials-from-wpf-dotnet-core-commencement/" data-id="ckn5z34do004o15qceim9hexw" data-title="WPF 系列教程：从 WPF (.NET Core) 开始" class="article-share-link">分享</a>
       
       
       
@@ -717,7 +904,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/wpf-tutorials-using-the-mahapps-metro-control-library/" data-id="ckmua84ji00g91kucb6z9edxv" data-title="WPF 系列教程：使用 MahApps.Metro 控件库" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/wpf-tutorials-using-the-mahapps-metro-control-library/" data-id="ckn5z34gn00f915qc5m1z48w7" data-title="WPF 系列教程：使用 MahApps.Metro 控件库" class="article-share-link">分享</a>
       
       
       
@@ -772,183 +959,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/wpf-cs0103-a-name-initializecomponent-does-not-exist-in-the-current-context/" data-id="ckmua84ft004k1kucezyf9mhh" data-title="WPF：CS0103-当前上下文中不存在名称 “InitializeComponent”" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/wpf-cs0103-a-name-initializecomponent-does-not-exist-in-the-current-context/" data-id="ckn5z34dm004k15qc0j36fh26" data-title="WPF：CS0103-当前上下文中不存在名称 “InitializeComponent”" class="article-share-link">分享</a>
       
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-210329-deploy-the-enterprise-knowledge-base-confluence" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/deploy-the-enterprise-knowledge-base-confluence/" class="article-date">
-  <time class="dt-published" datetime="2020-03-29T07:11:00.000Z" itemprop="datePublished">2020-03-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/deploy-the-enterprise-knowledge-base-confluence/">部署企业知识库 Confluence</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、Docker-部署"><a href="#一、Docker-部署" class="headerlink" title="一、Docker 部署"></a>一、Docker 部署</h2><p>Confluence Docker Hub：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/cptactionhank/atlassian-confluence">https://hub.docker.com/r/cptactionhank/atlassian-confluence</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建容器</span></span><br><span class="line"><span class="comment"># 映射端口如果被占用可以调整例如 18090:8090</span></span><br><span class="line">docker run -d --name confluence -p 8090:8090 --user root:root cptactionhank/atlassian-confluence:latest</span><br></pre></td></tr></table></figure>
-<h2 id="二、安装过程"><a href="#二、安装过程" class="headerlink" title="二、安装过程"></a>二、安装过程</h2><p>以下过程是在 Windows 下操作，将 Confluence 部署到 CentOS，需要拷贝文件或编辑文件，建议使用 <code>finalshell</code> 工具连接创建 SSH 连接。</p>
-<h3 id="1-数据库"><a href="#1-数据库" class="headerlink" title="1. 数据库"></a>1. 数据库</h3><p>准备一个数据库，MySQL、PostgreSQL 等数据库均可，这里以 MySQL 为例，安装过程略。</p>
-<p>首先需要调整 InnoDB 日志文件大小，Confluence 建议日志文件大小再 256M 以上。</p>
-<p>在 Linux 下设置过程如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂停 MySQL 服务</span></span><br><span class="line">service mysqld stop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除旧的日志文件</span></span><br><span class="line">rm -f /var/lib/mysql/ib_logfile*</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑 my.cnf 调整 innodb_log_file_size=256M</span></span><br><span class="line">vim /etc/my.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新启动 MySQL</span></span><br><span class="line">service mysqld start</span><br></pre></td></tr></table></figure>
-<p>然后就是创建数据库以及授权：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建数据库</span></span><br><span class="line"><span class="keyword">CREATE</span> DATABASE `confluence` <span class="keyword">DEFAULT</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_bin;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建用户</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;confluence&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;password&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 授权</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">ON</span> confluence.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;confluence&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 登录 root 用户更改事务隔离级别</span></span><br><span class="line"><span class="comment">-- MySQL 8.x</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> transaction_isolation<span class="operator">=</span><span class="string">&#x27;READ-COMMITTED&#x27;</span>;</span><br><span class="line"><span class="comment">-- MySQL 5.x</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> tx_isolation<span class="operator">=</span><span class="string">&#x27;READ-COMMITTED&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="2-代理配置"><a href="#2-代理配置" class="headerlink" title="2. 代理配置"></a>2. 代理配置</h3><p>首先调整 Confluence 的 Tomcat 配置，默认使用 <code>HTTPS</code> 代理访问。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 复制配置文件</span></span><br><span class="line">docker cp confluence:/opt/atlassian/confluence/conf/server.xml /opt/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑配置文件 Connector 节点，修改为示例 HTTPS 代理部分的内容、</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#    &lt;Connector port=&quot;8090&quot; connectionTimeout=&quot;20000&quot; redirectPort=&quot;8443&quot;</span></span><br><span class="line"><span class="comment">#               maxThreads=&quot;48&quot; minSpareThreads=&quot;10&quot;</span></span><br><span class="line"><span class="comment">#               enableLookups=&quot;false&quot; acceptCount=&quot;10&quot; debug=&quot;0&quot; URIEncoding=&quot;UTF-8&quot;</span></span><br><span class="line"><span class="comment">#               protocol=&quot;org.apache.coyote.http11.Http11NioProtocol&quot;</span></span><br><span class="line"><span class="comment">#               scheme=&quot;https&quot; secure=&quot;true&quot; proxyName=&quot;&lt;subdomain&gt;.&lt;domain&gt;.com&quot; proxyPort=&quot;443&quot;/&gt;</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 注意需要修改 proxyName 属性为自己的域名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将配置文件覆盖回去</span></span><br><span class="line">docker cp /opt/server.xml confluence:/opt/atlassian/confluence/conf/server.xml</span><br></pre></td></tr></table></figure>
-<p>这里使用 Caddy 进行代理：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 Caddy 软件包</span></span><br><span class="line">yum install caddy -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 vim 编辑 Caddyfile</span></span><br><span class="line">vim /etc/caddy/conf.d/Caddyfile.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件，代理指定接口并且 HTTP 访问自动跳转到 HTTPS</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># https://&lt;subdomain&gt;.&lt;domain&gt;.com &#123;</span></span><br><span class="line"><span class="comment">#  gzip</span></span><br><span class="line"><span class="comment">#  tls &lt;user&gt;@&lt;emaildomain&gt;.com</span></span><br><span class="line"><span class="comment">#  proxy / localhost:18090 &#123;</span></span><br><span class="line"><span class="comment">#   transparent</span></span><br><span class="line"><span class="comment">#  &#125;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># http://&lt;subdomain&gt;.&lt;domain&gt;.com &#123;</span></span><br><span class="line"><span class="comment">#  redir https://&lt;subdomain&gt;.&lt;domain&gt;.com&#123;url&#125;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 注意需要调整域名信息以及邮箱，邮箱用于自动是申请域名证书</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启自启 Caddy 服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> caddy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 Caddy</span></span><br><span class="line">service caddy start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止运行 Caddy</span></span><br><span class="line">service caddy stop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启 Caddy</span></span><br><span class="line">service caddy restart</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Caddy 运行状态</span></span><br><span class="line">service caddy status</span><br></pre></td></tr></table></figure>
-<h3 id="3-安装及破解"><a href="#3-安装及破解" class="headerlink" title="3. 安装及破解"></a>3. 安装及破解</h3><p>访问 <code>https://&lt;subdomain&gt;.&lt;domain&gt;.com</code> 执行以下安装流程。</p>
-<p>安装页面可以调整语言，建议修改为中文。</p>
-<ol>
-<li><code>设置 Confluence</code> 选择 <code>产品安装</code>。</li>
-<li><code>选择功能</code> 根据需求选择。</li>
-<li><code>授权码</code> 过程见下方破解流程。<ul>
-<li>下载授权工具：<a target="_blank" rel="noopener" href="https://pan.xunlei.com/s/VMSNMp0MczvkJfcam4CAxLXlA1">https://pan.xunlei.com/s/VMSNMp0MczvkJfcam4CAxLXlA1</a> 提取码：<code>zrv6</code>。</li>
-<li>复制 jar 包：<code>docker cp confluence:/opt/atlassian/confluence/confluence/WEB-INF/lib/atlassian-extras-decoder-v2-3.4.1.jar /opt/</code>。</li>
-<li>打开授权工具：<code>java -jar confluence_keygen.jar</code>。</li>
-<li>将授权页面的 <code>Server ID</code> 拷贝到授权工具中，并补充必填信息后点击 <code>.gen!</code> 按钮生成 Key。</li>
-<li>将从容器中拷贝下来的 <code>atlassian-extras-decoder-v2-3.4.1.jar</code> 更名为 <code>atlassian-extras-2.4.jar</code>，然后点击 <code>.patch!</code> 进行破解。</li>
-<li>当显示 <code>Jar successfully patched.</code> 表示破解成功，将破解后的文件名改回 <code>atlassian-extras-decoder-v2-3.4.1.jar</code>。</li>
-<li>将文件拷贝回容器中覆盖原有文件：<code>docker cp /opt/atlassian-extras-decoder-v2-3.4.1.jar confluence:/opt/atlassian/confluence/confluence/WEB-INF/lib/atlassian-extras-decoder-v2-3.4.1.jar</code>。</li>
-<li>刷新页面，将授权工具生成的 Key 填入并继续。</li>
-</ul>
-</li>
-<li><code>配置数据库</code> 选择 <code>我自己的数据库</code>。</li>
-<li><code>设置你的数据库</code> 填写自己的数据库信息及密码，填写以后等待安装完成即可。</li>
-</ol>
-<p><strong>注意：</strong> 使用授权工具需要安装 Java。</p>
-<h2 id="三、常用目录"><a href="#三、常用目录" class="headerlink" title="三、常用目录"></a>三、常用目录</h2><ul>
-<li>产品开发<ul>
-<li>001-团队大纲</li>
-<li>002-团队成员</li>
-<li>003-新人指南</li>
-<li>004-技术架构</li>
-<li>005-会议纪要</li>
-<li>006-团队规范</li>
-<li>007-踩坑历程</li>
-<li>008-业务梳理</li>
-<li>009-部门团建</li>
-<li>010-团队分享</li>
-<li>011-业务小组</li>
-<li>012-团队总结</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>参考：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36154886/article/details/113246166">教你如何通过Docker安装配置知识管理系统：confluence</a></li>
-</ul>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/deploy-the-enterprise-knowledge-base-confluence/" data-id="ckmua84ij00dg1kuc41bpc38i" data-title="部署企业知识库 Confluence" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Confluence/" rel="tag">Confluence</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Wiki/" rel="tag">Wiki</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-200324-windows-xp-prompt-activation-can-not-start" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/windows-xp-prompt-activation-can-not-start/" class="article-date">
-  <time class="dt-published" datetime="2020-03-24T03:30:08.000Z" itemprop="datePublished">2020-03-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/windows-xp-prompt-activation-can-not-start/">Windows XP 提示激活无法启动</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://www.hd2y.net/archives/macos-installation-windows-xp-sp3-test-environment">MacOS 安装 Windows XP SP3 测试环境</a> 一文我在 MacOS 中使用 Parallels Desktop 安装了 Windows XP 用于测试。</p>
-<p>但是最近使用时出现了一些问题，这里记录一下。</p>
-<h2 id="提示激活死循环"><a href="#提示激活死循环" class="headerlink" title="提示激活死循环"></a>提示激活死循环</h2><p>当成功启动虚拟机后，Windows XP 系统提示：“在您可以登录前，此副本的 Windows 必须被 Microsoft 激活。您现在想激活它吗？”</p>
-<p>选择“否”，系统关机。（没有成功关机，卡在壁纸上无响应。）</p>
-<p>选择“是”，提示：“Windows已激活，单击‘确定’以退出。”</p>
-<p>但是我们点击“确定”后，却闪回“在您可以登录前，此副本的 Windows 必须被 Microsoft 激活。您现在想激活它吗？”</p>
-<p>至此，系统启动进入死循环。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>解决该问题，首先我们需要关机，进入安全模式。</p>
-<p>首先我们右键 Dock 里的 Windows 图标，停止运行 Windows XP 虚拟机：</p>
-<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/stop%20running-6e2d6923d5884ec7be27de6357e69331.jpg" alt="stop running"></p>
-<p>然后选择配置，进入“硬件” -&gt; “启动顺序”，将“选择启动时的引导设备”勾选起来。</p>
-<p><img src="https://hd2y.oss-cn-beijing.aliyuncs.com/open%20boot-f360cde3b4634f24ac7366f77235acf9.jpg" alt="open boot"></p>
-<p>重新启动我们的 Windows XP 虚拟机，在启动时按“F8”，选择“安全模式”进入。</p>
-<p>在安全模式下，打开 cmd，运行一下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rundll32.exe syssetup,SetupOobeBnk</span><br></pre></td></tr></table></figure>
-<p>运行后重启，即可正常进入系统。</p>
-<blockquote>
-<p>以上命令只是延长试用期，建议直接安装 VOL 版，使用密钥激活。</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ed2k://|file|zh-hans_windows_xp_professional_with_service_pack_3_x86_cd_vl_x14-74070.iso|630237184|EC51916C9D9B8B931195EE0D6EE9B40E|/</span><br><span class="line"></span><br><span class="line">key MRX3F-47B9T-2487J-KWKMF-RPWBY</span><br></pre></td></tr></table></figure>
-<h2 id="安装-IE8"><a href="#安装-IE8" class="headerlink" title="安装 IE8"></a>安装 IE8</h2><p>系统内置的为 IE6，可以下载 IE8 的安装包进行安装：<a target="_blank" rel="noopener" href="http://download.microsoft.com/download/1/6/1/16174D37-73C1-4F76-A305-902E9D32BAC9/IE8-WindowsXP-x86-CHS.exe">下载地址</a></p>
-<blockquote>
-<p>参考：</p>
-<ul>
-<li>百度知道：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/139652708321204485.html">等求助，XP提示已激活，确是个死循环进不了系统</a></li>
-<li>MOS：<a target="_blank" rel="noopener" href="https://mos86.com/1087.html">苹果电脑虚拟机装windows7双系统 进入安全模式</a></li>
-<li>轻松E站：<a target="_blank" rel="noopener" href="https://www.51-n.com/t-4492-1-1.html">Internet Explorer 8 官方离线安装包下载地址</a></li>
-</ul>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/windows-xp-prompt-activation-can-not-start/" data-id="ckmua84fr004h1kuc2on06ju4" data-title="Windows XP 提示激活无法启动" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li></ul>
-
     </footer>
   </div>
   
@@ -972,7 +986,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQL-Server/">SQL Server</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/ASP-NET-Core/">ASP.NET Core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/C/WPF/">WPF</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E4%B8%9A%E5%8A%A1/">业务</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/Oracle/">Oracle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQL-Server/">SQL Server</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/SQLite/">SQLite</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/MacOS/">MacOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BD%AF%E4%BB%B6/">软件</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%85%AC%E5%91%8A/">公告</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E5%BC%80%E7%AE%B1/">开箱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%BF%97/%E6%9D%82%E8%B0%88/">杂谈</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/">����</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/C/">C#</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -982,7 +996,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Confluence/" rel="tag">Confluence</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fiddler/" rel="tag">Fiddler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MahApps-Metro/" rel="tag">MahApps.Metro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wiki/" rel="tag">Wiki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%94%E7%AC%94/" rel="tag">五笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" rel="tag">图片压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%BC%E9%9F%B3/" rel="tag">拼音</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%89%E5%AD%97/" rel="tag">汉字</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NET-Standard/" rel="tag">.NET Standard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveX/" rel="tag">ActiveX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute/" rel="tag">Attribute</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Autofac/" rel="tag">Autofac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFG/" rel="tag">BFG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CCProxy/" rel="tag">CCProxy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Confluence/" rel="tag">Confluence</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DBeaver/" rel="tag">DBeaver</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expression/" rel="tag">Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fiddler/" rel="tag">Fiddler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fody/" rel="tag">Fody</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDI/" rel="tag">GDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub/" rel="tag">GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitea/" rel="tag">Gitea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HIS/" rel="tag">HIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HongYang/" rel="tag">HongYang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IE/" rel="tag">IE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jint/" rel="tag">Jint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/" rel="tag">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kindle/" rel="tag">Kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LIS/" rel="tag">LIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LODOP/" rel="tag">LODOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVC/" rel="tag">MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MacOS/" rel="tag">MacOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MahApps-Metro/" rel="tag">MahApps.Metro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/" rel="tag">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NHibernate/" rel="tag">NHibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nexus3/" rel="tag">Nexus3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Note/" rel="tag">Note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NuGet/" rel="tag">NuGet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SOA/" rel="tag">SOA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Telegram/" rel="tag">Telegram</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TreeView/" rel="tag">TreeView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tuple/" rel="tag">Tuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSCode/" rel="tag">VSCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ValueTuple/" rel="tag">ValueTuple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WCF/" rel="tag">WCF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPF/" rel="tag">WPF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebApi/" rel="tag">WebApi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebService/" rel="tag">WebService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wiki/" rel="tag">Wiki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinForm/" rel="tag">WinForm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows-XP/" rel="tag">Windows XP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xml/" rel="tag">Xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/decimal/" rel="tag">decimal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frp/" rel="tag">frp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/" rel="tag">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/json/" rel="tag">json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mstsc/" rel="tag">mstsc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%B2%E5%8F%A3/" rel="tag">串口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%94%E7%AC%94/" rel="tag">五笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="tag">依赖注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%83%E7%BB%84/" rel="tag">元组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" rel="tag">动态链接库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" rel="tag">图片压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%83%E5%85%83/" rel="tag">弃元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%B0/" rel="tag">打印</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%BC%E9%9F%B3/" rel="tag">拼音</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag">构造函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">析构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%89%E5%AD%97/" rel="tag">汉字</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%91%9E%E7%BE%8E/" rel="tag">瑞美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="tag">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" rel="tag">血球仪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" rel="tag">解构函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" rel="tag">贝克曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" rel="tag">身份证读卡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B/" rel="tag">远程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%97%AA%E9%80%80/" rel="tag">闪退</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag">项目</a></li></ul>
     </div>
   </div>
 
@@ -992,7 +1006,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Confluence/" style="font-size: 10px;">Confluence</a> <a href="/tags/DBeaver/" style="font-size: 12px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fiddler/" style="font-size: 10px;">Fiddler</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 12px;">GDI</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 20px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/MahApps-Metro/" style="font-size: 10px;">MahApps.Metro</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 16px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 12px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 14px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 16px;">WebService</a> <a href="/tags/Wiki/" style="font-size: 10px;">Wiki</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 12px;">串口</a> <a href="/tags/%E4%BA%94%E7%AC%94/" style="font-size: 10px;">五笔</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">图片压缩</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 18px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%8B%BC%E9%9F%B3/" style="font-size: 10px;">拼音</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 14px;">正则</a> <a href="/tags/%E6%B1%89%E5%AD%97/" style="font-size: 10px;">汉字</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 12px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Confluence/" style="font-size: 10px;">Confluence</a> <a href="/tags/DBeaver/" style="font-size: 12px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fiddler/" style="font-size: 10px;">Fiddler</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 12px;">GDI</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 20px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/MahApps-Metro/" style="font-size: 10px;">MahApps.Metro</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 16px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 12px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 14px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 16px;">WebService</a> <a href="/tags/Wiki/" style="font-size: 10px;">Wiki</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 12px;">串口</a> <a href="/tags/%E4%BA%94%E7%AC%94/" style="font-size: 10px;">五笔</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">图片压缩</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 18px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%8B%BC%E9%9F%B3/" style="font-size: 10px;">拼音</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 14px;">正则</a> <a href="/tags/%E6%B1%89%E5%AD%97/" style="font-size: 10px;">汉字</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 12px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
     </div>
   </div>
 
@@ -1001,7 +1015,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
     </div>
   </div>
 
@@ -1014,6 +1028,14 @@
       <ul>
         
           <li>
+            <a href="/map-json-file-to-entity-class/">ӳ�� JSON �ļ���ʵ����</a>
+          </li>
+        
+          <li>
+            <a href="/deploy-the-enterprise-knowledge-base-confluence/">部署企业知识库 Confluence</a>
+          </li>
+        
+          <li>
             <a href="/debugging-web-service-services-using-fiddler/">使用 Fiddler 调试 WebService 服务</a>
           </li>
         
@@ -1023,14 +1045,6 @@
         
           <li>
             <a href="/chinese-helper/">汉字帮助类——获取拼音与五笔简码</a>
-          </li>
-        
-          <li>
-            <a href="/how-to-process-images/">如何处理图片</a>
-          </li>
-        
-          <li>
-            <a href="/instrument-communication/">检验仪器常见通信方案</a>
           </li>
         
       </ul>
