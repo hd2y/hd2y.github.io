@@ -73,6 +73,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-190402-delegate-and-event-in-csharp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/delegate-and-event-in-csharp/" class="article-date">
+  <time class="dt-published" datetime="2019-04-02T09:04:00.000Z" itemprop="datePublished">2019-04-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>►<a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/C/">C#</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/delegate-and-event-in-csharp/">C#中的委托与事件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="委托"><a href="#委托" class="headerlink" title="委托"></a>委托</h2><h3 id="关于委托"><a href="#关于委托" class="headerlink" title="关于委托"></a>关于委托</h3><p><code>delegate</code> 关键字创建的类型就是 <code>System.MuticastDelegate</code> (多播委托)，使用反编译工具可以查看， <code>System.MuticastDelegate</code> 是保留类不允许继承。本质上委托都是多播委托，后期定义委托只有添加了多个方法才称为多播委托。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">NoReturnNoParametersDelegate</span>(<span class="params"></span>)</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="常见实例化方式"><a href="#常见实例化方式" class="headerlink" title="常见实例化方式"></a>常见实例化方式</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//new关键字实例化</span></span><br><span class="line">NoReturnNoParametersDelegate delegate1 = <span class="keyword">new</span> NoReturnNoParametersDelegate(DoNothing);</span><br><span class="line"><span class="comment">//赋值一个方法</span></span><br><span class="line">NoReturnNoParametersDelegate delegate2 = DoNothing;</span><br><span class="line"><span class="comment">//lambda表达式</span></span><br><span class="line">NoReturnNoParametersDelegate delegate3 = () =&gt;Console.WriteLine(<span class="string">&quot;This is a do nothing method.&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="常见调用方式"><a href="#常见调用方式" class="headerlink" title="常见调用方式"></a>常见调用方式</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">delegate1.Invoke();<span class="comment">//常规调用</span></span><br><span class="line">delegate2();<span class="comment">//像方法一样调用</span></span><br><span class="line">delegate3.BeginInvoke(<span class="literal">null</span>, <span class="literal">null</span>);<span class="comment">//异步调用</span></span><br></pre></td></tr></table></figure>
+<h3 id="委托的意义"><a href="#委托的意义" class="headerlink" title="委托的意义"></a>委托的意义</h3><p>逻辑和行为作为参数来传递</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//公用的SQL执行方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">ExcuteSql</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> sql, Func&lt;IDbCommand, T&gt; func</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span>(SqlConnection conn = <span class="keyword">new</span> SqlConnection(<span class="string">&quot;&quot;</span>))</span><br><span class="line">	 &#123;</span><br><span class="line">	     conn.Open();</span><br><span class="line">		 IDbCommand cmd = conn.CreateCommand();</span><br><span class="line">		 cmd.CommandText = sql;</span><br><span class="line">		 cmd.CommandType = CommandType.Text;</span><br><span class="line">		 <span class="keyword">return</span> func(cmd);</span><br><span class="line">	 &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//执行查询</span></span><br><span class="line">Func&lt;IDbCommand, Student&gt; func = (cmd) =&gt; </span><br><span class="line">&#123;</span><br><span class="line">    IDataReader reader = cmd.ExecuteReader();</span><br><span class="line">	 Student student = <span class="literal">null</span>;</span><br><span class="line">	 <span class="keyword">if</span>(reader.Read())</span><br><span class="line">	 &#123;</span><br><span class="line">	     <span class="comment">//对student赋值</span></span><br><span class="line">	     student = <span class="keyword">new</span> Student();</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">return</span> student;</span><br><span class="line">&#125;;</span><br><span class="line">Student student = ExcuteSql&lt;Student&gt;(<span class="string">&quot;select top 1 * from [Student]&quot;</span>, func);</span><br><span class="line"><span class="comment">//公用异常处理方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">SafeInvoke</span>(<span class="params">Action act</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">	 &#123;</span><br><span class="line">	     act.Invoke();</span><br><span class="line">	 &#125;</span><br><span class="line">	 catch(Exception exc)</span><br><span class="line">	 &#123;</span><br><span class="line">	     Console.WriteLine(exc.Message);</span><br><span class="line">	 &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//调用</span></span><br><span class="line">SafeInvoke(() =&gt; ExcuteSql&lt;Student&gt;(<span class="string">&quot;select top 1 * from [Student]&quot;</span>, func));</span><br></pre></td></tr></table></figure>
+<h3 id="多播委托"><a href="#多播委托" class="headerlink" title="多播委托"></a>多播委托</h3><ul>
+<li><code>+=</code> 就是在委托的实例后面增加注册更多的方法，像一个链子，执行的时候按添加顺序执行</li>
+<li><code>-=</code> 就是在委托的实例后面移除注册的方法，从链子的尾部开始匹配，找到一个完全匹配的移除，没有不异常</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NoReturnNoParametersDelegate @delegate = DoNothing;</span><br><span class="line">@delegate += DoNothing;</span><br><span class="line">@delegate += DoNothing;</span><br><span class="line">@delegate += DoNothing;</span><br><span class="line">@delegate -= DoNothing;</span><br><span class="line">@delegate.Invoke();</span><br></pre></td></tr></table></figure>
+<h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//观察者模式的标准做法就是将内容抽象 实现抽象接口方法DoAction() 添加到集合后遍历执行DoAction()方法</span></span><br><span class="line">Action miaoAction = () =&gt; Console.WriteLine(<span class="string">&quot;Cat miao!&quot;</span>);<span class="comment">//多播委托做法</span></span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Mourse run!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Dog wang!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Baby cry!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Brother turn!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Mother whisper!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Father roar!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Neighbor awake!&quot;</span>);</span><br><span class="line">miaoAction += () =&gt; Console.WriteLine(<span class="string">&quot;Thief hide!&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><h3 id="事件定义"><a href="#事件定义" class="headerlink" title="事件定义"></a>事件定义</h3><p>委托的实例，加一个 <code>event</code> 关键字（一组方法）</p>
+<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个事件</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EventTestClass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//事件的发布者</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> Action TestEvent;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestEventMethod</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;TestEventMethod invoke.&quot;</span>);</span><br><span class="line">        TestEvent?.Invoke();<span class="comment">//非空才执行</span></span><br><span class="line">        <span class="comment">//if (TestEvent!=null)</span></span><br><span class="line">        <span class="comment">//&#123;</span></span><br><span class="line">        <span class="comment">//    TestEvent.Invoke();</span></span><br><span class="line">        <span class="comment">//&#125;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//事件注册</span></span><br><span class="line">EventTestClass eventTest = <span class="keyword">new</span> EventTestClass();</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Cat miao!&quot;</span>);<span class="comment">//绑定方法 订户的订阅动作</span></span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Mourse run!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Dog wang!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Baby cry!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Brother turn!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Mother whisper!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Father roar!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Neighbor awake!&quot;</span>);</span><br><span class="line">eventTest.TestEvent += () =&gt; Console.WriteLine(<span class="string">&quot;Thief hide!&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//事件“EventTestClass.TestEvent”只能出现在 += 或 -= 的左边(从类型“EventTestClass”中使用时除外)</span></span><br><span class="line"><span class="comment">//eventTest.TestEvent = null;</span></span><br><span class="line"><span class="comment">//eventTest.TestEvent?.Invoke();</span></span><br><span class="line"></span><br><span class="line">eventTest.TestEventMethod();</span><br></pre></td></tr></table></figure>
+<h3 id="事件与委托的关系"><a href="#事件与委托的关系" class="headerlink" title="事件与委托的关系"></a>事件与委托的关系</h3><p>委托是一种类型，事件是委托的一个实例。  </p>
+<p><code>event</code> 关键字限制了权限，保证安全。  </p>
+<p>事件只能由发布者调用，外部不能调用也不能赋值，但是可以使用 <code>+=</code> 和 <code>-=</code> 向事件注册方法。  </p>
+<p>这个流程可以理解为解耦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(发布者)--&gt;|动作| B(订户A)</span><br><span class="line">A--&gt;|动作| C(订户B)</span><br><span class="line">A--&gt;|动作| D(订户C)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hd2y.github.io/delegate-and-event-in-csharp/" data-id="ckn9osebu000wzlkmfjy27i9y" data-title="C#中的委托与事件" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A7%94%E6%89%98/" rel="tag">委托</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-190401-lets-just-talk-about-my-view-of-the-smartisan-and-laoluo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/lets-just-talk-about-my-view-of-the-smartisan-and-laoluo/" class="article-date">
@@ -143,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/lets-just-talk-about-my-view-of-the-smartisan-and-laoluo/" data-id="ckn5za8dj000kz3rn444i0uiu" data-title="简单谈谈我对锤子及老罗的看法" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/lets-just-talk-about-my-view-of-the-smartisan-and-laoluo/" data-id="ckn9osebp000kzlkmdksp5qct" data-title="简单谈谈我对锤子及老罗的看法" class="article-share-link">分享</a>
       
       
       
@@ -204,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/reflector-in-csharp/" data-id="ckn5za8dl000oz3rngvdo4tus" data-title="C#中的反射" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/reflector-in-csharp/" data-id="ckn9osebr000ozlkmcru40aj7" data-title="C#中的反射" class="article-share-link">分享</a>
       
       
       
@@ -280,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/generic-part-2/" data-id="ckn5za8di000iz3rn0dgq7k4z" data-title="泛型（Part 2）" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/generic-part-2/" data-id="ckn9osebl000izlkmhqm2gw9t" data-title="泛型（Part 2）" class="article-share-link">分享</a>
       
       
       
@@ -357,7 +419,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/generic-part-1/" data-id="ckn5za8df000fz3rn81f89c3i" data-title="泛型 （Part 1）" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/generic-part-1/" data-id="ckn9osebg000fzlkm6fkc88rc" data-title="泛型 （Part 1）" class="article-share-link">分享</a>
       
       
       
@@ -413,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/disclaimer/" data-id="ckn5za8df000ez3rnhj8w4980" data-title="免责声明" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/disclaimer/" data-id="ckn9osebf000ezlkm0n8f6udm" data-title="免责声明" class="article-share-link">分享</a>
       
       
       
@@ -481,7 +543,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/common-tools-or-software-recommendations/" data-id="ckn5za8d70003z3rn2fdf8ts2" data-title="常用工具或软件推荐" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/common-tools-or-software-recommendations/" data-id="ckn9oseb80003zlkmdmun3inc" data-title="常用工具或软件推荐" class="article-share-link">分享</a>
       
       
       
@@ -556,7 +618,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/two-or-three-things-about-me-and-the-training-organization/" data-id="ckn5za8db000az3rn2qd56rcf" data-title="我与培训机构的二三事" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/two-or-three-things-about-me-and-the-training-organization/" data-id="ckn9osebd000azlkmdmad27yh" data-title="我与培训机构的二三事" class="article-share-link">分享</a>
       
       
       
@@ -642,7 +704,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/some-common-technical-terms-in-lis/" data-id="ckn5za8d90006z3rn9y8gca3q" data-title="LIS通讯常见的一些技术名词" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/some-common-technical-terms-in-lis/" data-id="ckn9osebb0006zlkm4nv04bkp" data-title="LIS通讯常见的一些技术名词" class="article-share-link">分享</a>
       
       
       
@@ -708,67 +770,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/the-problem-of-calculating-age-at-csharp/" data-id="ckn5za8ia00daz3rn7jfebc0n" data-title="年龄的计算问题 C# 篇" class="article-share-link">分享</a>
+      <a data-url="https://hd2y.github.io/the-problem-of-calculating-age-at-csharp/" data-id="ckn9osege00bqzlkm1tvzapaa" data-title="年龄的计算问题 C# 篇" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B4%E9%BE%84/" rel="tag">年龄</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-190330-why-write-blog" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/why-write-blog/" class="article-date">
-  <time class="dt-published" datetime="2019-03-30T05:53:00.000Z" itemprop="datePublished">2019-03-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%97%A5%E5%BF%97/">日志</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/why-write-blog/">为什么突然开博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="1-分享"><a href="#1-分享" class="headerlink" title="1. 分享"></a>1. 分享</h2><p>一直想将自己学到的东西分享出来，不管是什么方式，博客文章也好，视频也好，一个是记录自己的成长供自己在往后的生活中回顾曾经那个傻小子，另外一个就是渴望得到他人的认同吧。</p>
-<p>曾经开过博客，分享别人的文章，别人的故事，别人的技术，渐渐没有了更新下去的兴趣，但是现在的自己在这个社会上成长，感觉有些东西还是要表达出来。</p>
-<h2 id="2-相互学习"><a href="#2-相互学习" class="headerlink" title="2. 相互学习"></a>2. 相互学习</h2><p>学习和工作中总会有自己无法解决的问题，第一想法自然是 <code>百度一下</code>，百度不行就 <code>google</code>，虽然很多时候都能依赖别人的经验方法，找到解决方案，但是还是会有一些问题是很难找到答案，甚至没有答案的。</p>
-<p>如果这类问题自己想方设法解决了，或者自己通过更优的方法实现，而没有记录下来提供给大家相互学习就太过遗憾了。</p>
-<h2 id="3-记录"><a href="#3-记录" class="headerlink" title="3. 记录"></a>3. 记录</h2><p>其实工作以后已经很少写那么长的文字，感觉自己的想法很凌乱，需要一个地方整理下来，特别是经常有灵感，不写下来真的是转瞬即逝。</p>
-<h2 id="4-成长"><a href="#4-成长" class="headerlink" title="4. 成长"></a>4. 成长</h2><p>一直想在技术上有一些突破，工作的时间越久，越感觉自己被一些东西束缚禁锢。</p>
-<p>但是偷懒真的是一个人的本性，下班或者周末躺在床上，都不知道自己在做什么，刷知乎、B站、游戏、看小说、甚至刷购物网站，这些也有一个度，过了这个度就会感觉毫无意义，虚度光阴。</p>
-<p>但是就像在人前要保持体面，其实一个人生活的时候实际也会经常是蓬头垢面，邋里邋遢，一旦将一些行为展现在人前，总会注意点形象，人毕竟是社交动物，也是希望自己能够通过这种方式自律，慢慢戒除一些不好的习惯。</p>
-<h2 id="5-决心"><a href="#5-决心" class="headerlink" title="5. 决心"></a>5. 决心</h2><p>另外就是丢三落四，服务器已经买了两年了，一直有写笔记的习惯，所以也一直打算建博客，原本准备自己一点点码代码，但是经常被一些琐碎小事打断，就放弃了，而且前端没有学好的我，设计一个赏心悦目的界面也是不容易。</p>
-<p>看到<code>GitbubDaily</code>推荐的<code>Halo</code>也是犹豫了两天，但是还是下定决心要先把博客做起来，于是将服务器重装了Ubuntu，使用Docker安装了Halo，顺便接触了一下Nginx，一个小破站就这样诞生了。但是昨天还是因为主题安装上的一些问题郁闷了良久，看到爪哇的报错眉头紧锁。</p>
-<p>或许也该抽时间了解了解Java了，什么才能实现当初说过的，实现学好一门编程语言转行只要俩月的“豪言壮语”。</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>好的，1234列举完了，其实就是瞎写，这样写下来，排版也会比较好看吧。哈哈。😄</p>
-<p>后续也要把一些笔记分享上来，填充一下博客空白的版面了，还是要加油啊。这里要感谢一下 <a target="_blank" rel="noopener" href="https://weibo.com/GitHubDaily">GitHubDaily</a> 与 <a target="_blank" rel="noopener" href="https://github.com/halo-dev/halo">Halo</a>。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hd2y.github.io/why-write-blog/" data-id="ckn5za8dd000bz3rnecxh4v3i" data-title="为什么突然开博客" class="article-share-link">分享</a>
-      
-      
-      
     </footer>
   </div>
   
@@ -812,7 +819,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Confluence/" style="font-size: 10px;">Confluence</a> <a href="/tags/DBeaver/" style="font-size: 12px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fiddler/" style="font-size: 10px;">Fiddler</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 12px;">GDI</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 20px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/MahApps-Metro/" style="font-size: 10px;">MahApps.Metro</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 16px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 12px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 14px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 16px;">WebService</a> <a href="/tags/Wiki/" style="font-size: 10px;">Wiki</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 12px;">串口</a> <a href="/tags/%E4%BA%94%E7%AC%94/" style="font-size: 10px;">五笔</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">图片压缩</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 18px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%8B%BC%E9%9F%B3/" style="font-size: 10px;">拼音</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 14px;">正则</a> <a href="/tags/%E6%B1%89%E5%AD%97/" style="font-size: 10px;">汉字</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 12px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
+      <a href="/tags/NET-Standard/" style="font-size: 10px;">.NET Standard</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/ASCII/" style="font-size: 10px;">ASCII</a> <a href="/tags/ActiveX/" style="font-size: 10px;">ActiveX</a> <a href="/tags/Attribute/" style="font-size: 10px;">Attribute</a> <a href="/tags/Autofac/" style="font-size: 10px;">Autofac</a> <a href="/tags/BFG/" style="font-size: 10px;">BFG</a> <a href="/tags/CCProxy/" style="font-size: 10px;">CCProxy</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Confluence/" style="font-size: 10px;">Confluence</a> <a href="/tags/DBeaver/" style="font-size: 12px;">DBeaver</a> <a href="/tags/Expression/" style="font-size: 10px;">Expression</a> <a href="/tags/Fiddler/" style="font-size: 10px;">Fiddler</a> <a href="/tags/Fody/" style="font-size: 10px;">Fody</a> <a href="/tags/GDI/" style="font-size: 12px;">GDI</a> <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/GitHub/" style="font-size: 12px;">GitHub</a> <a href="/tags/Gitea/" style="font-size: 10px;">Gitea</a> <a href="/tags/HIS/" style="font-size: 12px;">HIS</a> <a href="/tags/HongYang/" style="font-size: 10px;">HongYang</a> <a href="/tags/IDE/" style="font-size: 10px;">IDE</a> <a href="/tags/IE/" style="font-size: 10px;">IE</a> <a href="/tags/JavaScript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/Jint/" style="font-size: 12px;">Jint</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tags/LIS/" style="font-size: 20px;">LIS</a> <a href="/tags/LODOP/" style="font-size: 10px;">LODOP</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/MacOS/" style="font-size: 10px;">MacOS</a> <a href="/tags/MahApps-Metro/" style="font-size: 10px;">MahApps.Metro</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NHibernate/" style="font-size: 10px;">NHibernate</a> <a href="/tags/Nexus3/" style="font-size: 10px;">Nexus3</a> <a href="/tags/Note/" style="font-size: 10px;">Note</a> <a href="/tags/NuGet/" style="font-size: 10px;">NuGet</a> <a href="/tags/OOP/" style="font-size: 10px;">OOP</a> <a href="/tags/Oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/SOA/" style="font-size: 16px;">SOA</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Telegram/" style="font-size: 10px;">Telegram</a> <a href="/tags/TreeView/" style="font-size: 10px;">TreeView</a> <a href="/tags/Tuple/" style="font-size: 10px;">Tuple</a> <a href="/tags/UI/" style="font-size: 12px;">UI</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/VSCode/" style="font-size: 10px;">VSCode</a> <a href="/tags/ValueTuple/" style="font-size: 10px;">ValueTuple</a> <a href="/tags/WCF/" style="font-size: 12px;">WCF</a> <a href="/tags/WPF/" style="font-size: 10px;">WPF</a> <a href="/tags/WebApi/" style="font-size: 14px;">WebApi</a> <a href="/tags/WebService/" style="font-size: 16px;">WebService</a> <a href="/tags/Wiki/" style="font-size: 10px;">Wiki</a> <a href="/tags/WinForm/" style="font-size: 10px;">WinForm</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/Windows-XP/" style="font-size: 12px;">Windows XP</a> <a href="/tags/Xml/" style="font-size: 10px;">Xml</a> <a href="/tags/decimal/" style="font-size: 10px;">decimal</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/json/" style="font-size: 12px;">json</a> <a href="/tags/mstsc/" style="font-size: 10px;">mstsc</a> <a href="/tags/%E4%B8%B2%E5%8F%A3/" style="font-size: 12px;">串口</a> <a href="/tags/%E4%BA%94%E7%AC%94/" style="font-size: 10px;">五笔</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 12px;">代理</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" style="font-size: 10px;">依赖注入</a> <a href="/tags/%E5%85%83%E7%BB%84/" style="font-size: 12px;">元组</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 10px;">动态链接库</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 10px;">反射</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">图片压缩</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 18px;">多线程</a> <a href="/tags/%E5%A7%94%E6%89%98/" style="font-size: 10px;">委托</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E5%B9%B4%E9%BE%84/" style="font-size: 10px;">年龄</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BC%83%E5%85%83/" style="font-size: 10px;">弃元</a> <a href="/tags/%E6%89%93%E5%8D%B0/" style="font-size: 10px;">打印</a> <a href="/tags/%E6%8B%BC%E9%9F%B3/" style="font-size: 10px;">拼音</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 10px;">日志</a> <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" style="font-size: 10px;">构造函数</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 14px;">正则</a> <a href="/tags/%E6%B1%89%E5%AD%97/" style="font-size: 10px;">汉字</a> <a href="/tags/%E6%B3%9B%E5%9E%8B/" style="font-size: 12px;">泛型</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%91%9E%E7%BE%8E/" style="font-size: 12px;">瑞美</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 12px;">虚拟机</a> <a href="/tags/%E8%A1%80%E7%90%83%E4%BB%AA/" style="font-size: 10px;">血球仪</a> <a href="/tags/%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">解构函数</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12px;">设计模式</a> <a href="/tags/%E8%B0%83%E8%AF%95/" style="font-size: 10px;">调试</a> <a href="/tags/%E8%B4%9D%E5%85%8B%E6%9B%BC/" style="font-size: 10px;">贝克曼</a> <a href="/tags/%E8%BA%AB%E4%BB%BD%E8%AF%81%E8%AF%BB%E5%8D%A1/" style="font-size: 10px;">身份证读卡</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tags/%E8%BF%9C%E7%A8%8B/" style="font-size: 10px;">远程</a> <a href="/tags/%E9%97%AA%E9%80%80/" style="font-size: 10px;">闪退</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">项目</a>
     </div>
   </div>
 
@@ -834,6 +841,10 @@
       <ul>
         
           <li>
+            <a href="/map-http-request-key-value-pair-parameters-to-json/">映射 HTTP 请求入参键值对到 JSON</a>
+          </li>
+        
+          <li>
             <a href="/map-json-file-to-entity-class/">映射 JSON 文件的实体类</a>
           </li>
         
@@ -847,10 +858,6 @@
         
           <li>
             <a href="/get-the-database-password-of-ruimei-system/">获取瑞美系统数据库密码</a>
-          </li>
-        
-          <li>
-            <a href="/chinese-helper/">汉字帮助类——获取拼音与五笔简码</a>
           </li>
         
       </ul>
