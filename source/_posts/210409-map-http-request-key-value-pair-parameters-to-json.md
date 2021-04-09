@@ -97,7 +97,7 @@ private static IDictionary<string, object> GetDictionary(string key, string[] va
 
     if (!match.Success)
     {
-        throw new Exception($"Property \"{match}\" failed to match.");
+        throw new Exception($"Property \"{key}\" failed to match.");
     }
     else
     {
