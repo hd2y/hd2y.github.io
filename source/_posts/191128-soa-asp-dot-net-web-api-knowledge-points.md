@@ -58,11 +58,11 @@ REST 架构风格最重要的架构约束有 6 个：
 
 使用 Visual Studio 可以直接创建 `ASP.NET Web API`，不过需要注意的是框架需要选择 `.NET Framework 4.5+` 。
 
-![20191126182304](https://hd2y.oss-cn-beijing.aliyuncs.com/20191126182304_1574926124594.png)
+![20191126182304](./191128-soa-asp-dot-net-web-api-knowledge-points-01.png)
 
 创建成功以后，可以直接找到视图中的 `Home/Index.cshtml` 将项目运行起来：
 
-![20191126185906](https://hd2y.oss-cn-beijing.aliyuncs.com/20191126185906_1574926124550.png)
+![20191126185906](./191128-soa-asp-dot-net-web-api-knowledge-points-02.png)
 
 可以注意到 `Controllers` 文件夹中，创建了一个默认的 `ValuesController`，其继承自 `ApiController`：
 
@@ -111,11 +111,11 @@ namespace JohnSun.SOA.WebAPI.Server.Controllers
 
 我们可以通过浏览器来直接访问 `http://localhost:58683/api/values`：
 
-![20191126190257](https://hd2y.oss-cn-beijing.aliyuncs.com/20191126190257_1574926124635.png)
+![20191126190257](./191128-soa-asp-dot-net-web-api-knowledge-points-03.png)
 
 浏览器是 GET 请求，所以返回的是如上内容，如果需要使用其他请求，可以使用 `postman` 进行调试。
 
-![20191126190633](https://hd2y.oss-cn-beijing.aliyuncs.com/20191126190633_1574926127834.png)
+![20191126190633](./191128-soa-asp-dot-net-web-api-knowledge-points-04.png)
 
 ### 路由
 
@@ -179,7 +179,7 @@ namespace JohnSun.SOA.WebAPI.Server.Controllers
 
 同默认创建的控制器啊一样，可以直接通过 `postman` 或浏览器访问：
 
-![20191127103549](https://hd2y.oss-cn-beijing.aliyuncs.com/20191127103549_1574926127837.png)
+![20191127103549](./191128-soa-asp-dot-net-web-api-knowledge-points-05.png)
 
 ### 模板路由
 
@@ -215,11 +215,11 @@ public static void Register(HttpConfiguration config)
 
 例如我们将模板路由修改为 `routeTemplate: api/{controller}/{action}/{id}` ，如果我们仍然需要调用 `UsersController` 中的方法就需要指定调用的方法名，如果我们不调整将出现报错 `http://localhost:58683/api/users` ：
 
-![20191127120341](https://hd2y.oss-cn-beijing.aliyuncs.com/20191127120341_1574926127840.png)
+![20191127120341](./191128-soa-asp-dot-net-web-api-knowledge-points-06.png)
 
 这时就需要我们指定需要调用的控制器的方法 `http://localhost:58683/api/users/getall` ：
 
-![20191127120510](https://hd2y.oss-cn-beijing.aliyuncs.com/20191127120510_1574926131285.png)
+![20191127120510](./191128-soa-asp-dot-net-web-api-knowledge-points-07.png)
 
 默认控制器中占位符 `{id}` 为自定义占位符，`defaults: new { id = RouteParameter.Optional }` 指定了其默认值，表示其为一个可选参数。
 
@@ -272,7 +272,7 @@ public User GetUser(UserType type, UserSex sex)
 
 我们可以使用 `http://localhost:58683/api/users/type/admin/sex/male` 来访问：
 
-![20191127194713](https://hd2y.oss-cn-beijing.aliyuncs.com/20191127194713_1574926131276.png)
+![20191127194713](./191128-soa-asp-dot-net-web-api-knowledge-points-08.png)
 
 #### HTTP 方法
 
@@ -300,11 +300,11 @@ public string GetTest()
 
 `GET` 请求：
 
-![20191127195911](https://hd2y.oss-cn-beijing.aliyuncs.com/20191127195911_1574926134235.png)
+![20191127195911](./191128-soa-asp-dot-net-web-api-knowledge-points-09.png)
 
 `POST` 请求：
 
-![20191127195922](https://hd2y.oss-cn-beijing.aliyuncs.com/20191127195922_1574926134237.png)
+![20191127195922](./191128-soa-asp-dot-net-web-api-knowledge-points-10.png)
 
 如果两种都需要，可以标记多个，在添加一个 `[HttpGet]` 特性即可。
 
@@ -319,7 +319,7 @@ public string GetTest()
 }
 ```
 
-![20191127200616](https://hd2y.oss-cn-beijing.aliyuncs.com/20191127200616_1574926134248.png)
+![20191127200616](./191128-soa-asp-dot-net-web-api-knowledge-points-11.png)
 
 #### 路由前缀
 

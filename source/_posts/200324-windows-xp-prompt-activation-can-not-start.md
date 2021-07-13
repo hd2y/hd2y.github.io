@@ -32,11 +32,11 @@ categories:
 
 首先我们右键 Dock 里的 Windows 图标，停止运行 Windows XP 虚拟机：
 
-![stop running](https://hd2y.oss-cn-beijing.aliyuncs.com/stop%20running-6e2d6923d5884ec7be27de6357e69331.jpg)
+![stop running](./200324-windows-xp-prompt-activation-can-not-start-01.jpg)
 
 然后选择配置，进入“硬件” -> “启动顺序”，将“选择启动时的引导设备”勾选起来。
 
-![open boot](https://hd2y.oss-cn-beijing.aliyuncs.com/open%20boot-f360cde3b4634f24ac7366f77235acf9.jpg)
+![open boot](./200324-windows-xp-prompt-activation-can-not-start-02.jpg)
 
 重新启动我们的 Windows XP 虚拟机，在启动时按“F8”，选择“安全模式”进入。
 

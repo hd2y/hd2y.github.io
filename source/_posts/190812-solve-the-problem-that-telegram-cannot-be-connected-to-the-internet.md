@@ -18,20 +18,20 @@ categories:
 
 首先我们需要打开代理设置的界面，可以点击左下角旋转的网络连接的图标：
 
-![20190812115937](https://hd2y.oss-cn-beijing.aliyuncs.com/20190812115937_1565608467455.png)
+![20190812115937](./190812-solve-the-problem-that-telegram-cannot-be-connected-to-the-internet-01.png)
 
 选择添加代理（Add Proxy）：
 
-![20190812120000](https://hd2y.oss-cn-beijing.aliyuncs.com/20190812120000_1565608467456.png)
+![20190812120000](./190812-solve-the-problem-that-telegram-cannot-be-connected-to-the-internet-02.png)
 
 弹出的界面，设置我们代理工具使用的协议和端口，设置后保存：
 
-![20190812120036](https://hd2y.oss-cn-beijing.aliyuncs.com/20190812120036_1565608467455.png)
+![20190812120036](./190812-solve-the-problem-that-telegram-cannot-be-connected-to-the-internet-03.png)
 
 保存以后如上图左下角，可以看到连接已经正常。
 
 > 附：汉化可以搜搜 `@zh_CN`，然后选择搜索结果的第一个安装语言包，如下图：
-> ![20190812192040](https://hd2y.oss-cn-beijing.aliyuncs.com/20190812192040_1565609023103.png)
+> ![20190812192040](./190812-solve-the-problem-that-telegram-cannot-be-connected-to-the-internet-04.png)
 
 > 注意：MacOS 设置后可能需要重启软件才能生效，这是一个历史遗留问题，在 GitHub 上有讨论。
 

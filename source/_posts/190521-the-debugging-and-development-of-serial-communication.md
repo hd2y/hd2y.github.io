@@ -21,25 +21,25 @@ categories:
 
 这里我建议使用`Virtual Serial Port Driver`，大家可以搜索`VSPD`下载：
 
-![serialport0](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport0_1562753721959.png)
+![serialport0](./190521-the-debugging-and-development-of-serial-communication-01.png)
 
 安装什么的就不过多解释了，安装完成后我们可以打开并添加模拟串口或者删除模拟的串口，界面如下：
 
-![serialport1](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport1_1562753721959.png)
+![serialport1](./190521-the-debugging-and-development-of-serial-communication-02.png)
 
 如果对应的串口被使用，也可以从这里看出其串口的状态：
 
-![serialport2](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport2_1562753721959.png)
+![serialport2](./190521-the-debugging-and-development-of-serial-communication-03.png)
 
 当然我们可以在我们的电脑中查看现有的串口，设备管理器中可以查看：
 
-![serialport3](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport3_1562753721967.png)
+![serialport3](./190521-the-debugging-and-development-of-serial-communication-04.png)
 
 ## 串口调试工具
 
 串口调试工具就是用于串口数据接收/发送的工具软件，比较简单易用的是“串口调试助手V2.2”。
 
-![serialport4](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport4_1562753721978.png)
+![serialport4](./190521-the-debugging-and-development-of-serial-communication-05.png)
 
 但是使用中有几点需要注意：
 1. 偶尔会发生崩溃，这是串口调试工具的问题；
@@ -58,11 +58,11 @@ categories:
 
 一般我们网上能够找到的分为无DLL版和安装版，这里建议使用安装版。
 
-![serialport5](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport5_1562753721992.png)
+![serialport5](./190521-the-debugging-and-development-of-serial-communication-06.png)
 
 上图为无Dll版，需要选择监听串口所在的进程，中文会乱码，能监听到串口的关闭但是打开的事件则没有输出。
 
-![serialport6](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport6_1562753722038.png)
+![serialport6](./190521-the-debugging-and-development-of-serial-communication-07.png)
 
 上图是安装版，使用安装版需要注意如果系统是x64，第一次使用需要点击软件界面上的“启用64位系统驱动签名”，另外重启。如果监听不到数据，尝试先关闭通讯软件，打开监听后再打开通讯软件。
 
@@ -70,7 +70,7 @@ categories:
 
 另外安装版也附带有一个串口调试工具可以使用：
 
-![serialport7](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport7_1562753722078.png)
+![serialport7](./190521-the-debugging-and-development-of-serial-communication-08.png)
 
 ## 串口通讯开发
 
@@ -259,6 +259,6 @@ public static partial class BufferExtension
 
 然后就是简单实现后的效果：
 
-![serialport8](https://hd2y.oss-cn-beijing.aliyuncs.com/serialport8_1562753722104.png)
+![serialport8](./190521-the-debugging-and-development-of-serial-communication-09.png)
 
 源代码下载：[https://github.com/hd2y/SerialPortTest](https://github.com/hd2y/SerialPortTest)

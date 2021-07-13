@@ -64,7 +64,7 @@ Tuple<int, int, int, int, int, int, int, Tuple<int>> nums = new Tuple<int, int, 
 
 所以微软在后来提供了 `System.ValueTuple` 类型，取代了 `System.Tuple`，我们可以通过 `NuGet` 引用 `System.ValueTuple` 使用。
 
-![20190813175313](https://hd2y.oss-cn-beijing.aliyuncs.com/20190813175313_1565695569391.png)
+![20190813175313](./190813-tuple-and-value-tuple-in-csharp-01.png)
 
 如上图所示，其标记的支持 `.NET Framework` 的最低版本为 `.NET Framework 4.5`，但实际上我们给 `.NET Framework 4.0` 的项目引用依然是可以正常使用的。另外如果想在 `.NET Framework 3.5` 的项目中使用，可以引用上图中的 `ValueTupleBridge`。
 

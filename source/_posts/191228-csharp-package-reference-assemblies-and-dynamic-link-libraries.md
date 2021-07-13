@@ -47,15 +47,15 @@ static void Main(string[] args)
 
 这时可以正常运行，是因为我们生成后，我们引用的程序集会自动复制到运行目录下：
 
-![20191226154201](https://hd2y.oss-cn-beijing.aliyuncs.com/20191226154201_1577515568622.png)
+![20191226154201](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-01.png)
 
 这时因为默认情况下，引用属性中“复制本地”被设置为 `True`，我们可以进行调整：
 
-![20191226154301](https://hd2y.oss-cn-beijing.aliyuncs.com/20191226154301_1577515568623.png)
+![20191226154301](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-02.png)
 
 然后我们重新生成项目，可以发现 `Newtonsoft.Json.dll` 从我们的运行目录中消失，并且程序无法再正常执行：
 
-![20191226154756](https://hd2y.oss-cn-beijing.aliyuncs.com/20191226154756_1577515568639.png)
+![20191226154756](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-03.png)
 
 这时我们只需要将程序集打包到程序中，并在程序开始运行时，从资源文件中将程序集加载即可。
 
@@ -63,11 +63,11 @@ static void Main(string[] args)
 
 首先在项目中添加一个 Assets 文件夹，通过查看 `Newtonsoft.Json` 的引用属性查看程序集所在路径，将程序集拷贝到新建的 Assets 文件夹，并设置 `Newtonsoft.Json.dll` 的属性，`复制到输出路径` 设置为 `不复制`；`生成操作` 修改为 `嵌入的资源`。
 
-![20191228145053](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228145053_1577515870089.png)
+![20191228145053](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-04.png)
 
 这时，我们可以通过反编译工具查看我们嵌入的资源文件：
 
-![20191226163411](https://hd2y.oss-cn-beijing.aliyuncs.com/20191226163411_1577515572029.png)
+![20191226163411](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-05.png)
 
 **（二）程序运行时从嵌入资源中加载程序集**
 
@@ -129,11 +129,11 @@ class Program
 
 我们到生成目录可以查看一下生成的文件，可以看到只有一个文件，我们引用的程序集没有复制到该目录，但是生成的项目可以正常运行：
 
-![20191226181251](https://hd2y.oss-cn-beijing.aliyuncs.com/20191226181251_1577515572030.png)
+![20191226181251](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-06.png)
 
 感觉挺神奇的，但是我们同样可以通过反编译，了解具体是怎么实现这个效果的：
 
-![20191226181637](https://hd2y.oss-cn-beijing.aliyuncs.com/20191226181637_1577515572056.png)
+![20191226181637](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-07.png)
 
 然后我们具体的看一下 `AssemblyLoader` 的代码做什么事情：
 
@@ -458,9 +458,9 @@ double Division(double a, double b)
 
 直接编译生成即可，但是需要注意的是，C++ 的项目生成出的动态链接库的位置与 C# 程序集的路径不太一样，我这里位置是在解决方案目录内，可以通过项目属性查看与配置。
 
-![20191228092431](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228092431_1577515575482.png)
+![20191228092431](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-08.png)
 
-![20191228092658](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228092658_1577515575481.png)
+![20191228092658](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-09.png)
 
 ### 常规应用方案
 
@@ -495,15 +495,15 @@ public class SimpleMath
 }
 ```
 
-![20191228094238](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228094238_1577515575485.png)
+![20191228094238](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-10.png)
 
 如上图所示，因为我的系统是 64 位，所以默认 Debug 是以 x64 运行，这时我们需要修改我们运行控制台的 `目标平台` 为 x86。
 
-![20191228094520](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228094520_1577515578946.png)
+![20191228094520](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-11.png)
 
 修改完成以后程序即可成功执行：
 
-![20191228094624](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228094624_1577515578949.png)
+![20191228094624](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-12.png)
 
 ### 解决 x64 无法运行问题
 
@@ -513,11 +513,11 @@ public class SimpleMath
 
 我们通过批生成，将我们添加的 C++ 动态链接库项目生成出满足我们测试的版本（`VS 菜单栏` -> `生成` -> `批生成` -> `Batch 生成`）：
 
-![20191228145811](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228145811_1577516304791.png)
+![20191228145811](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-13.png)
 
 如上图所示，我们选择了 `Release|x86` 与 `Release|x64` 平台的生成，为了方便区分，我们找到生成目录，将原来的动态链接库名称修改，调整为带有目标平台的名称：
 
-![20191228095840](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228095840_1577515578947.png)
+![20191228095840](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-14.png)
 
 然后我们将动态链接库拷贝到我们的控制台项目中，为了方便测试，将动态链接库文件属性修改：`生成操作` 调整为 `无`，`复制到输出目录` 调整为 `始终复制`。
 
@@ -648,7 +648,7 @@ public class SimpleMath
 
 这时我们重新生成项目并运行，可以看到生成目录下已经不存在引用的动态链接库，但是程序可以正常运行（我们可以通过调试查看动态链接库被写出到什么位置）：
 
-![20191228142933](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228142933_1577515582235.png)
+![20191228142933](./191228-csharp-package-reference-assemblies-and-dynamic-link-libraries-15.png)
 
 > 注：因为我没有学习过 C++，所以动态链接库打包部分代码学习自 `OpenHtmlToPdf` 开源项目，能够学习到那么多优秀的解决方案，真的要感谢开源社区的大佬们 o(*￣▽￣*)ブ。
 

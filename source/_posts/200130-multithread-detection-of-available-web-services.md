@@ -100,7 +100,7 @@ for (int i = 0; i < clientNames.Length; i++)
 Console.WriteLine("服务检测结束：连接{0}{1}", client == null ? "失败" : "成功", string.IsNullOrEmpty(client?.Name) ? "" : $"服务名为{client.Name}");
 ```
 
-![20200129153036](https://hd2y.oss-cn-beijing.aliyuncs.com/20200129153036_1580364437962.png)
+![20200129153036](./200130-multithread-detection-of-available-web-services-01.png)
 
 这里存在的问题自然是检测返回可用服务可能会很慢，排在前面的服务如果不可用，将会长时间等待。
 
@@ -134,7 +134,7 @@ clients.ForEach(client =>
 
 运行代码得到以下结果：
 
-![20200129175355](https://hd2y.oss-cn-beijing.aliyuncs.com/20200129175355_1580364437963.png)
+![20200129175355](./200130-multithread-detection-of-available-web-services-02.png)
 
 好像这样已经解决了我们前文提到的问题，通过异步建立服务连接，检测可用的服务。
 
@@ -183,7 +183,7 @@ do
 
 执行效果如下，可以看到我们可以快速的获取到可用的服务以便供客户端使用。
 
-![20200129175355](https://hd2y.oss-cn-beijing.aliyuncs.com/20200129175355_1580364437963.png)
+![20200129175355](./200130-multithread-detection-of-available-web-services-02.png)
 
 ## 多线程建立连接优化
 
@@ -325,7 +325,7 @@ using (var cancelTokenSource = new CancellationTokenSource())
 
 执行效果如下：
 
-![20200130113248](https://hd2y.oss-cn-beijing.aliyuncs.com/20200130113248_1580364440220.png)
+![20200130113248](./200130-multithread-detection-of-available-web-services-03.png)
 
 ## WebService 服务检测方法
 

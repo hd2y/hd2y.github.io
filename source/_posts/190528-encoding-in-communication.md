@@ -172,13 +172,13 @@ ASCII编码标准表：
 
 运行以下代码：
 
-![hex1](https://hd2y.oss-cn-beijing.aliyuncs.com/hex1_1562748853899.png)
+![hex1](./190528-encoding-in-communication-01.png)
 
 运行成功后会在桌面输出一个文件`hex.txt`。
 
 注意，如果存在控制字符的文件，建议不要使用系统自带的记事本文件查看，推荐使用`Notepad++`查看，具体差异可以通过下图看出：
 
-![hex2](https://hd2y.oss-cn-beijing.aliyuncs.com/hex2_1562748853916.png)
+![hex2](./190528-encoding-in-communication-02.png)
 
 首先是换行符、回车符，`Notepad++`中默认就是`Unix(LF)`格式，而记事本要到Win10才能支持，其次控制字符，在`Notepad++`中，除了`DEL`，其他都可以看出其控制字符的内容，而记事本就什么也看不到了。另外打开了`Notepad++`的“Show all characters”，我们甚至可以知道一段空白究竟是由空格符还是制表符构成的，换行效果是由于回车符还是换行符导致的。
 
@@ -330,7 +330,7 @@ public static class ControlCharacter
 
 而在发送时，如果我们传输的是控制字符，我们无法使用输入法将控制字符输入到发送区，这时我们可以通过十六进制发送，来发送控制字符，例如需要发送`ACK`，则只需要输入`06`即可。
 
-![hex3](https://hd2y.oss-cn-beijing.aliyuncs.com/hex3_1562748853920.png)
+![hex3](./190528-encoding-in-communication-03.png)
 
 在通讯数据的接收中，我们常常需要将十六进制数据进行转换，其中包括原始文本、十六进制、转义消息三者的相互转换，十六进制与原始文本我们可以理解，转义文本的意思是将不可见的控制字符转换为另外一种特殊的格式进行显示。
 
@@ -338,6 +338,6 @@ public static class ControlCharacter
 
 这里开发了一个简单的转换工具供参考：
 
-![hex4](https://hd2y.oss-cn-beijing.aliyuncs.com/hex4_1562748853924.png)
+![hex4](./190528-encoding-in-communication-04.png)
 
 源码：[https://github.com/hd2y/HexConverter](https://github.com/hd2y/HexConverter)

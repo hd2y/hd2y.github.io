@@ -19,13 +19,13 @@ categories:
 
 打开以后需要我们输入密码，输入我们安装时设置的数据库密码即可。
 
-![postgresql1](https://hd2y.oss-cn-beijing.aliyuncs.com/postgresql1_1563442901788.png)
+![postgresql1](./190718-win10-installs-postgresql-01.png)
 
 如果不习惯英文，可以在：`Configure pgAdmin` -> `Miscellaneous` -> `User language` 中选择中文。
 
 选择数据库服务器，查看属性可以查看到我们当前数据库的基本信息：
 
-![postgresql2](https://hd2y.oss-cn-beijing.aliyuncs.com/postgresql2_1563442901770.png)
+![postgresql2](./190718-win10-installs-postgresql-02.png)
 
 ## 远程连接
 
@@ -37,14 +37,14 @@ Win10 默认会有防火墙限制端口访问，所以首先我们需要添加�
 
 添加新的入站规则：入站规则 -> 新建规则 -> 选择“端口” -> 选择“TCP” -> 选择“特定端口”并输入`5432` -> 选择“允许连接” -> 配置文件默认全选 -> 名称建议使用“PostgreSQL”
 
-![postgresql3](https://hd2y.oss-cn-beijing.aliyuncs.com/postgresql3_1563442901769.png)
+![postgresql3](./190718-win10-installs-postgresql-03.png)
 
 > 如果 `ping` 命令无法使用，可以设置入站规则启用“文件和打印机共享(回显请求 - ICMPv4-In)”
-> ![postgresql5](https://hd2y.oss-cn-beijing.aliyuncs.com/postgresql5_1563443190959.png)
+> ![postgresql5](./190718-win10-installs-postgresql-04.png)
 
 配置完成以后，可以使用 `telnet` 测试是否可以连接这个端口，需要先到程序中启用 `telnet` 功能，服务器和客户端电脑都要启用。
 
-![postgresql4](https://hd2y.oss-cn-beijing.aliyuncs.com/postgresql4_1563442901769.png)
+![postgresql4](./190718-win10-installs-postgresql-05.png)
 
 客户端电脑命令行测试：
 

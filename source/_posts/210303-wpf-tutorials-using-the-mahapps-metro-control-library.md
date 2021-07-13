@@ -1,4 +1,4 @@
----
+﻿---
 title: "WPF 系列教程：使用 MahApps.Metro 控件库"
 date: "2020/04/04 19:32:43"
 updated: "2020/04/04 19:34:23"
@@ -346,7 +346,7 @@ categories:
 
 预览效果如下：
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/wpf-tutorials-using-the-mahapps-metro-control-library-01.png)
+![](./210303-wpf-tutorials-using-the-mahapps-metro-control-library-01.png)
 
 ## 开始美化
 
@@ -383,7 +383,7 @@ categories:
 
 此时基本的美化已经完成了，可以运行程序查看美化后的效果：
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/wpf-tutorials-using-the-mahapps-metro-control-library-02.png)
+![](./210303-wpf-tutorials-using-the-mahapps-metro-control-library-02.png)
 
 以上内容可以参考官方文档：[MahApps.Metro - Quick Start](https://mahapps.com/docs/guides/quick-start)，可以看到更详细的说明。
 
@@ -429,7 +429,7 @@ private async void Button_Click(object sender, RoutedEventArgs e)
 
 最终实现的效果如下：
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/wpf-tutorials-using-the-mahapps-metro-control-library-03.gif)
+![](./210303-wpf-tutorials-using-the-mahapps-metro-control-library-03.gif)
 
 ### 使用图标
 
@@ -450,4 +450,4 @@ private async void Button_Click(object sender, RoutedEventArgs e)
 </Controls:MetroHeader>
 ```
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/wpf-tutorials-using-the-mahapps-metro-control-library-04.png)
+![](./210303-wpf-tutorials-using-the-mahapps-metro-control-library-04.png)

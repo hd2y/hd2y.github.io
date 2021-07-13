@@ -21,7 +21,7 @@ categories:
 
 首先我们可以测试一下是否可以正常使用，安装过程中有一步是设置密码，可以用这个密码登录 `SQL Plus`。
 
-![oracle1](https://hd2y.oss-cn-beijing.aliyuncs.com/oracle1_1563523509015.png)
+![oracle1](./190719-win10-installs-oracle-01.png)
 
 虽然可以正常访问，但是还是建议重新配置一下服务器上的监听程序。
 
@@ -45,7 +45,7 @@ tns重新配置以后我们要找一下 tnsnames 的文件，在安装目录下�
 
 可以使用 `tnsping` 功能检查是否可以正常连接：
 
-![oracle2](https://hd2y.oss-cn-beijing.aliyuncs.com/oracle2_1563523508898.png)
+![oracle2](./190719-win10-installs-oracle-02.png)
 
 当然如果有问题，有可能是防火墙的问题，入站规则设置一下一般就可以。 
 
@@ -53,6 +53,6 @@ Oracle 数据库的管理“墙裂”建议使用 `PL/SQL Developer`，而且建
 
 如果只是简单查一下数据，当然 Navicat 与 DBeaver 也是不错的选择：
 
-![oracle3](https://hd2y.oss-cn-beijing.aliyuncs.com/oracle3_1563523508867.png)
+![oracle3](./190719-win10-installs-oracle-03.png)
 
 > 注意：安装完成以后有一次测试连接出现了 `ora-12514`，检查 tnsping 命令正常，并且客户端 SERVICE_NAME 和 HOST 配置也没有问题纠结了好久，最后使用重启大法，重启了服务器自己好了，很是郁闷。

@@ -110,7 +110,7 @@ using (Bitmap bitmap = GetHistgrame("WB1", "33\\82", text))
 }
 ```
 
-![1](https://hd2y.oss-cn-beijing.aliyuncs.com/1_1576753637959.bmp)
+![1](./191219-picture-drawing-of-beckman-dxh800-blood-cell-instrument-01.bmp)
 
 ## 贝克曼 DxH800
 
@@ -217,7 +217,7 @@ using (Bitmap bitmap = GetHistgrame("WBC", text))
 }
 ```
 
-![WBC](https://hd2y.oss-cn-beijing.aliyuncs.com/WBC_1576754207297.bmp)
+![WBC](./191219-picture-drawing-of-beckman-dxh800-blood-cell-instrument-02.bmp)
 
 ### 散点图
 
@@ -301,7 +301,7 @@ using (Bitmap bitmap = GetScatter("5PD1", text))
 }
 ```
 
-![5PD1](https://hd2y.oss-cn-beijing.aliyuncs.com/5PD1_1576753785409.bmp)
+![5PD1](./191219-picture-drawing-of-beckman-dxh800-blood-cell-instrument-03.bmp)
 
 ### 使用瑞美动态链接库解决绘图问题
 
@@ -398,7 +398,7 @@ else
 }
 ```
 
-![20191219_1_WBC](https://hd2y.oss-cn-beijing.aliyuncs.com/20191219_1_WBC_1576753718134.gif)
+![20191219_1_WBC](./191219-picture-drawing-of-beckman-dxh800-blood-cell-instrument-04.gif)
 
 > 注意：瑞美图片的绘制信息是可以通过配置文件设置的，如果需要调整坐标轴的信息达到和仪器中图片效果一致，我们也需要设置这些参数，该测试没有根据实际需要的图片坐标信息对入参调整，而是将入参固定成一个值测试绘制效果。
 
@@ -467,11 +467,11 @@ else
 }
 ```
 
-![20191219_1_5PD1](https://hd2y.oss-cn-beijing.aliyuncs.com/20191219_1_5PD1_1576754048218.gif)
+![20191219_1_5PD1](./191219-picture-drawing-of-beckman-dxh800-blood-cell-instrument-05.gif)
 
 这时可以对比瑞美和我们前面绘制的图片，除了因为调色板的问题颜色不对外，其他的信息基本一致。当然瑞美动态链接库绘制的图片也没有使用所谓的抖动算法对图形进行优化就是了。
 
-![20191219_1_5PD1](https://hd2y.oss-cn-beijing.aliyuncs.com/20191219_1_5PD1_1576753825929.gif)
+![20191219_1_5PD1](./191219-picture-drawing-of-beckman-dxh800-blood-cell-instrument-06.gif)
 
 > 注：文中部分图片绘制较小，可以缩放查看。
 

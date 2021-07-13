@@ -42,4 +42,4 @@ Oracle released a beta version of ODP.NET Core in February 2018. Oracle plans to
 
 此时内心只有 woc 了，不知道能说什么，重新安装的时间顺便吐槽记录一下，然后完事儿继续干活了。😓
 
-![20190831194414](https://hd2y.oss-cn-beijing.aliyuncs.com/20190831194414_1567254095315.png)
+![20190831194414](./190831-solve-the-problem-of-oracle-installation-flash-retreat-01.png)

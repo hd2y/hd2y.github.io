@@ -416,7 +416,7 @@ Logger.Fatal(LogLevel.Fatal.ToString());
 Console.ReadKey();
 ```
 
-![enum](https://hd2y.oss-cn-beijing.aliyuncs.com/enum_1563351229312.png)
+![enum](./190717-enum-and-flags-enum-in-csharp-01.png)
 
 ### AgeUnit
 

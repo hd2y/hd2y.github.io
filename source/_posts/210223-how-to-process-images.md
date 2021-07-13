@@ -1,4 +1,4 @@
----
+﻿---
 title: "如何处理图片"
 date: "2021/02/23 11:54:00"
 updated: "2021/02/23 11:54:00"
@@ -89,7 +89,7 @@ using (Image thumb = image.GetThumbnail())
 // 缩略图大小：1501
 ```
 
-![how-to-process-images](https://hd2y.oss-cn-beijing.aliyuncs.com/how-to-process-images_1614063890713.png)
+![how-to-process-images](./210223-how-to-process-images-01.png)
 
 可以看到，对于图片细节比较少的位图，图片可以从 88KB 缩小到不足 2K，而且由于没有设置缩略图尺寸，所以在软件中几乎看不到两张图的差异。
 
@@ -135,7 +135,7 @@ using (Image invertImage = image.InvertColors())
 }
 ```
 
-![how-to-process-images-02](https://hd2y.oss-cn-beijing.aliyuncs.com/how-to-process-images-02_1614066320084.png)
+![how-to-process-images-02](./210223-how-to-process-images-02.png)
 
 ## 绘图
 

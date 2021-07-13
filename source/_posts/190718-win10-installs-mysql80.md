@@ -69,6 +69,6 @@ The server time zone value '�й���׼ʱ��' is unrecognized or represe
 
 这时我们只需要调整服务器时区为 `Asia/Shanghai` 即可。
 
-![20200219093729](https://hd2y.oss-cn-beijing.aliyuncs.com/20200219093729_1582076319473.png)
+![20200219093729](./190718-win10-installs-mysql80-01.png)
 
 以上执行结束，重新使用 Navicat 或 DBeaver 测试连接应该可以正常使用了。

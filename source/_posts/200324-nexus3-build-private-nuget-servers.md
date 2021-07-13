@@ -83,7 +83,7 @@ docker start nexus
 
 建议使用 caddy，具体配置可以参考安装 gitea 的那篇博文：[代码仓管理系统 Gitea 搭建](/archives/warehouse-management-system-gitea-construction)
 
-![nexus](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus-a4ceb16aac55487a92d809b669232e6c.png)
+![nexus](./200324-nexus3-build-private-nuget-servers-01.png)
 
 ## Nexus 中 NuGet 的简单使用
 
@@ -93,7 +93,7 @@ docker start nexus
 
 默认密码可以在文件 `/data/nexus/admin.password` 查看，登录成功后会提示修改默认密码。
 
-![nexus welcome](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20welcome-0f96be0aca2947e1a07a62eeea8921aa.png)
+![nexus welcome](./200324-nexus3-build-private-nuget-servers-02.png)
 
 如上图所示，在登录以后，欢迎页面旁会出现一个 `小齿轮` 的图标。
 
@@ -149,11 +149,11 @@ namespace HelloNexus
 
 这样，我们生成项目的时候，将会自动进行打包：
 
-![package hello nexus](https://hd2y.oss-cn-beijing.aliyuncs.com/package%20hello%20nexus-00e4f6a6569f40da8edd5e024189d5eb.png)
+![package hello nexus](./200324-nexus3-build-private-nuget-servers-03.png)
 
 当然，也可以使用 NuGet Package Explorer 工具自行打包：
 
-![nuget package explorer](https://hd2y.oss-cn-beijing.aliyuncs.com/nuget%20package%20explorer-5ec725ce1db54c9a92c1cd0928210e6a.png)
+![nuget package explorer](./200324-nexus3-build-private-nuget-servers-04.png)
 
 ### 上传 NuGet 包
 
@@ -163,11 +163,11 @@ namespace HelloNexus
 
 如下图，进入后台的 Repositories，我们可以看到默认已经配置了 maven 与 nuget：
 
-![nexus repositories](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20repositories-819290040ec24cba9db3aabd1be0eb44.png)
+![nexus repositories](./200324-nexus3-build-private-nuget-servers-05.png)
 
 而且点击创建仓库，还有很多类型的仓库供我们选择，主流的仓库类型都可以在列表内找到：
 
-![nexus create repository](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20create%20repository-e4e4c9df3f184a8490e83ac2ab8fb335.png)
+![nexus create repository](./200324-nexus3-build-private-nuget-servers-06.png)
 
 当然这里我们主要还是介绍 NuGet，但是其中的仓库类型，我们还是需要了解一下。
 
@@ -185,27 +185,27 @@ namespace HelloNexus
 
 因为 Nexus 认证 Nuget 是通过 Realms 来认证，因此要添加 Nuget Realms。
 
-![nexus add nuget realm](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20add%20nuget%20realm-cdfb165ae57d45cfbac4e3fa143a4392.png)
+![nexus add nuget realm](./200324-nexus3-build-private-nuget-servers-07.png)
 
 **（二）上传 NuGet 包**
 
 回到网站内容浏览的主视图，在 Upload 选中 `nuget-hosted` 点击进入，为什么要选中 `nuget-hosted` 上面已经说明。
 
-![nexus upload](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20upload-a311613d1bc34ac08da9e06bfd5726e7.png)
+![nexus upload](./200324-nexus3-build-private-nuget-servers-08.png)
 
 选择我们前文打包的 `HelloNexus.1.0.0.nupkg` 文件，并点击上传。
 
-![nexus choose assets](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20choose%20assets-55e0a9108e7f4d008f4da6b16be97b28.png)
+![nexus choose assets](./200324-nexus3-build-private-nuget-servers-09.png)
 
 上传成功后，会出现如下图提示：
 
-![nexus upload success](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20upload%20success-d3af26c9c9ff4cbf85928cdd1cdb6a15.png)
+![nexus upload success](./200324-nexus3-build-private-nuget-servers-10.png)
 
 **（三）检查 NuGet 包**
 
 在 Browse 选中 `nuget-hosted` 点击进入。我们可以查看所有托管的包，可以查看到 `HelloNexus.1.0.0.nupkg` 已经上传成功。
 
-![nexus browse](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20browse-ce1a75b8a98c4eb0830963322f20d087.png)
+![nexus browse](./200324-nexus3-build-private-nuget-servers-11.png)
 
 ### 使用 NuGet 包
 
@@ -213,13 +213,13 @@ namespace HelloNexus
 
 在 Nexus 的 Browse 找到 `nuget-group` 获取到地址。
 
-![nexus copy url](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus%20copy%20url-d27880c9db6447439f36816371883b79.png)
+![nexus copy url](./200324-nexus3-build-private-nuget-servers-12.png)
 
 #### 配置 NuGet 程序包源
 
 打开 NuGet 包管理器，点击程序包源旁的设置按钮，会弹出如下界面：
 
-![nuget add packages source](https://hd2y.oss-cn-beijing.aliyuncs.com/nuget%20add%20packages%20source-f364d5c1877b409593a3d3f9d0c06085.png)
+![nuget add packages source](./200324-nexus3-build-private-nuget-servers-13.png)
 
 > 注意：需要先点击添加，然后选中新增的源进行修改，修改后点击“更新”按钮，不要修改了原来的 `nuget.org` 源。
 
@@ -227,7 +227,7 @@ namespace HelloNexus
 
 选择程序包源为我们新添加的源，然后查找我们上传的程序包 `HelloNexus`：
 
-![search hello nexus](https://hd2y.oss-cn-beijing.aliyuncs.com/search%20hello%20nexus-36dbdb68d2b04b28969fe380cf5d9692.png)
+![search hello nexus](./200324-nexus3-build-private-nuget-servers-14.png)
 
 选中后，为我们需要的项目勾选安装即可。
 
@@ -235,7 +235,7 @@ namespace HelloNexus
 
 首先，需要查看 `NuGet API Key`：
 
-![nexus-nuget-api-key](https://hd2y.oss-cn-beijing.aliyuncs.com/nexus-nuget-api-key-0b88160ba75c4cd681e0c3599a9513c6.png)
+![nexus-nuget-api-key](./200324-nexus3-build-private-nuget-servers-15.png)
 
 下载 `nuget.exe`，放在 `*.nupkg` 所在目录下，并添加一个批处理文件 `nuget.bat`：
 

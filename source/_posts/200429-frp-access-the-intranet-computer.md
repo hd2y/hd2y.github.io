@@ -98,7 +98,7 @@ dashboard_pwd = 12345678
 
 成功启动后，我们可以登录状态面板查看。
 
-![frps bashboard](https://hd2y.oss-cn-beijing.aliyuncs.com/frps%20bashboard-a59be7c170714d5f826b7a97416c1779.png)
+![frps bashboard](./200429-frp-access-the-intranet-computer-01.png)
 
 此时虽然启动成功，但是如果我们 `Ctrl + C` 退出，程序也就跟着退出了，我们需要让该服务端后台运行，并且能够开机启动，就需要执行以下操作。
 
@@ -200,11 +200,11 @@ exit
 
 这里首先使用我的小黑果来完成测试，使用的软件是 `Microsoft Remote Desktop`，测试效果如下。
 
-![remote test](https://hd2y.oss-cn-beijing.aliyuncs.com/remote%20test-39e2bb06096e45daaa45c2bf9214c5a0.jpg)
+![remote test](./200429-frp-access-the-intranet-computer-02.jpg)
 
 而且移动设备也可以连接，例如本文部分内容是小米手机安装了 `RD Client` 后，连接了罗技的蓝牙鼠标与键盘编辑的，输入和鼠标使用都很正常，就是有点费眼睛。
 
-![image.png](https://hd2y.oss-cn-beijing.aliyuncs.com/image-ea7543dd30784070a5ce4deeff972f84.png)
+![image.png](./200429-frp-access-the-intranet-computer-03.png)
 
 另外我还尝试了 iPad 连接使用，毕竟 iPad OS 现在吹的神乎其神。
 

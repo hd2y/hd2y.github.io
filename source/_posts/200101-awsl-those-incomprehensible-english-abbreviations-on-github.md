@@ -91,7 +91,7 @@ categories:
 
 今天是星期五，太好了！
 
-![Friday](https://hd2y.oss-cn-beijing.aliyuncs.com/Friday_1577867185950.gif)
+![Friday](./200101-awsl-those-incomprehensible-english-abbreviations-on-github-01.gif)
 
 ### TIA
 

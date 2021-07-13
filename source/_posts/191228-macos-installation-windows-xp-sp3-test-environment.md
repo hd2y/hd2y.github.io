@@ -18,7 +18,7 @@ categories:
 
 可以打开 Parallels Link 来执行安装。
 
-![20191228132736](https://hd2y.oss-cn-beijing.aliyuncs.com/20191228132736_1577510948773.jpg)
+![20191228132736](./191228-macos-installation-windows-xp-sp3-test-environment-01.jpg)
 
 ## 安装
 

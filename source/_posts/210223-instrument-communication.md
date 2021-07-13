@@ -1,4 +1,4 @@
----
+﻿---
 title: "检验仪器常见通信方案"
 date: "2021/02/23 09:44:37"
 updated: "2021/02/23 09:44:37"
@@ -42,7 +42,7 @@ RS-232 是美国电子工业联盟（EIA）制定的串行数据通信的接口�
 
 如果没有仪器工程师指导，自行连接，需要将连接的仪器和电脑关闭断电后再操作，否则可能因为连接时的电流，烧坏硬件设备。
 
-![instrument-communication-01](https://hd2y.oss-cn-beijing.aliyuncs.com/instrument-communication-01-6e3bf374a85e4f6ea6c1b771d5a1bf13.png)
+![instrument-communication-01](./210223-instrument-communication-01.png)
 
 如上图为电脑上的串口端口，以及连接需要使用的线材。如果没有串口端口，可以考虑使用 USB 转串口的转接线，但是这类设备可能会因为驱动或兼容问题，不够稳定。
 
@@ -52,17 +52,17 @@ RS-232 是美国电子工业联盟（EIA）制定的串行数据通信的接口�
 
 建议可以考虑使用软件驱动，可以使用 VSPD 工具虚拟串口：
 
-![instrument-communication-02](https://hd2y.oss-cn-beijing.aliyuncs.com/instrument-communication-02-e8782f4a7d28458aadabddf952c2a703.png)
+![instrument-communication-02](./210223-instrument-communication-02.png)
 
 ### 发送/接收数据
 
 发送或接收数据这里建议使用一款名为【串口调试助手 SComAssistant V2.2】的工具。
 
-![instrument-communication-03](https://hd2y.oss-cn-beijing.aliyuncs.com/instrument-communication-03-63889c1d5f4c402dacd3ca761a18c9f3.png)
+![instrument-communication-03](./210223-instrument-communication-03.png)
 
 该工具可以实现一些较为简单的数据收、发操作，基本能够满足需求，如果不满足需要还可以考虑 AccessPort 等工具。
 
-![instrument-communication-04](https://hd2y.oss-cn-beijing.aliyuncs.com/instrument-communication-04-d3311182020a440eb2974f088161aa81.png)
+![instrument-communication-04](./210223-instrument-communication-04.png)
 
 推荐 AccessPort 工具的另外一个原因是，其还可以作为一个监控工具使用，即类似“抓包工具”来使用。
 
@@ -82,7 +82,7 @@ RS-232 是美国电子工业联盟（EIA）制定的串行数据通信的接口�
 
 网线连接网口这种很基础的知识，这里应该不用再赘述了。
 
-![instrument-communication-05](https://hd2y.oss-cn-beijing.aliyuncs.com/instrument-communication-05-af7134a500384d22b56a276fd710b77f.png)
+![instrument-communication-05](./210223-instrument-communication-05.png)
 
 这里需要注意的是一个双网口电脑问题。
 
@@ -98,11 +98,11 @@ RS-232 是美国电子工业联盟（EIA）制定的串行数据通信的接口�
 
 网口的测试工具，这里推荐【TCP/UDP Socket 调试工具（Socket Tool）】：
 
-![instrument-communication-06](https://hd2y.oss-cn-beijing.aliyuncs.com/instrument-communication-06-6ebf6691f3674ee8b60168ebebbfe5da.png)
+![instrument-communication-06](./210223-instrument-communication-06.png)
 
 另外还有 sokit 工具，体验也不错：
 
-![instrument-communication-07](https://hd2y.oss-cn-beijing.aliyuncs.com/instrument-communication-07-e8112bb987354fbc80bf6620da40f712.png)
+![instrument-communication-07](./210223-instrument-communication-07.png)
 
 如果需要抓包，这里推荐 wireshark，使用教程建议参考博客园文章：https://www.cnblogs.com/mq0036/p/11187138.html
 

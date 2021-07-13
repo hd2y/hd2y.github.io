@@ -35,7 +35,7 @@ Console.WriteLine("***Lambda表达式目录树***");
 
 执行结果：  
 
-![expression1](https://hd2y.oss-cn-beijing.aliyuncs.com/expression1_1562741056030.png)
+![expression1](./190531-expression-catalog-tree-01.png)
 
 同样我们也可以拼装一个表达式目录树：
 
@@ -55,23 +55,23 @@ Console.WriteLine("***拼装表达式目录树***"); // 自己拼装表达式目
 
 执行结果：  
 
-![expression2](https://hd2y.oss-cn-beijing.aliyuncs.com/expression2_1562741056041.png)
+![expression2](./190531-expression-catalog-tree-02.png)
 
 ### 使用工具查看表达式目录树结构
 
 首先安装 ExpressionTreeVisualizer 工具，将不同版本的 `ExpressionTreeVisualizer.dll` 文件放置到对应版本的 VS 调试工具目录下，比如 Visual Studio 2017 需要放置到：`C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\Packages\Debugger\Visualizers`目录下。
 
-![expression3](https://hd2y.oss-cn-beijing.aliyuncs.com/expression3_1562741056052.png)
+![expression3](./190531-expression-catalog-tree-03.png)
 
-![expression4](https://hd2y.oss-cn-beijing.aliyuncs.com/expression4_1562741056086.png)
+![expression4](./190531-expression-catalog-tree-04.png)
   
 文件拷贝到指定目录后，需要重启 Visual Studio，重启后调试程序，表达式目录树的监视工具会有一个 Expression Tree Visualizer 的选项。
 
-![expression5](https://hd2y.oss-cn-beijing.aliyuncs.com/expression5_1562741056103.png)
+![expression5](./190531-expression-catalog-tree-05.png)
 
 选择该工具进行查看，可以看到表达式目录树的结构。
 
-![expression6](https://hd2y.oss-cn-beijing.aliyuncs.com/expression6_1562741056118.png)
+![expression6](./190531-expression-catalog-tree-06.png)
 
 我们通过该工具的目录树结构，对 Lambda 表达式目录树进行分拆。
 
@@ -284,11 +284,11 @@ queryable = queryable.Where<User>(Expression.Lambda<Func<User, bool>>(Expression
 
 ILSpy 中查看到的反编译内容：
 
-![expression7](https://hd2y.oss-cn-beijing.aliyuncs.com/expression7_1562741056129.png)
+![expression7](./190531-expression-catalog-tree-07.png)
 
 `.NET Reflector` 中查看的反编译内容：
 
-![expression8](https://hd2y.oss-cn-beijing.aliyuncs.com/expression8_1562741056139.png)
+![expression8](./190531-expression-catalog-tree-08.png)
 
 更多内容可以查看文章：[http://www.cnblogs.com/jesse2013/p/expressiontree-part1.html](http://www.cnblogs.com/jesse2013/p/expressiontree-part1.html)
 
@@ -737,6 +737,6 @@ Console.WriteLine($"***表达式目录树结合泛型缓存 {time}ms***");
 
 执行结果：
 
-![expression9](https://hd2y.oss-cn-beijing.aliyuncs.com/expression9_1562741056150.png)
+![expression9](./190531-expression-catalog-tree-09.png)
 
 结合结果，明显可取的方案为表达式目录树结合泛型缓存进行转换，其耗时与硬编码最接近。

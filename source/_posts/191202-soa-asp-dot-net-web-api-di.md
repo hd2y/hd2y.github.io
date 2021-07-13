@@ -21,7 +21,7 @@ categories:
 
 下图可以看出项目的简单架构：
 
-![20191130104028](https://hd2y.oss-cn-beijing.aliyuncs.com/20191130104028_1575284957637.png)
+![20191130104028](./191202-soa-asp-dot-net-web-api-di-01.png)
 
 ### 实体
 
@@ -182,11 +182,11 @@ public class SpecimensController : ApiController
 
 首先是调用 `POST` 方法，新增标本 `http://localhost:58683/api/specimens?inspectionDate=2019-11-30&speicimenNo=1001&type=0`：
 
-![20191130101621](https://hd2y.oss-cn-beijing.aliyuncs.com/20191130101621_1575284957660.png)
+![20191130101621](./191202-soa-asp-dot-net-web-api-di-02.png)
 
 返回的是一个创建成功后的数据库实体，我们可以通过这个对象的 `id` 再使用 `GET` 方法进行查询 `http://localhost:58683/api/specimens/1`：
 
-![20191130101643](https://hd2y.oss-cn-beijing.aliyuncs.com/20191130101643_1575284957659.png)
+![20191130101643](./191202-soa-asp-dot-net-web-api-di-03.png)
 
 ## Unity 实现依赖注入
 

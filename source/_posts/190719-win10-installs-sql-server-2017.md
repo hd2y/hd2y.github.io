@@ -33,18 +33,18 @@ categories:
 
 双击 `MSSQLSERVER2017` 中的 `TCP/IP`，找到 `IP地址` 中的 `IPAll`，`TCP 端口` 修改为 `1433`。
 
-![sqlserver1](https://hd2y.oss-cn-beijing.aliyuncs.com/sqlserver1_1563507669459.png)
+![sqlserver1](./190719-win10-installs-sql-server-2017-01.png)
 
 调整网络配置以后，还需要到 `SQL Server` 服务中重启 `SQL Server (MSSQLSERVER)` 与 `SQL Server (MSSQLSERVER2017)` 的服务。
 
 正常情况下，我们在命令行中运行 `netstat -ano` 可以找到 `1433` 端口，并且该端口对应的 `PID` 与我们安装的 `SQL Server 2017` 的一致。
 
-![sqlserver2](https://hd2y.oss-cn-beijing.aliyuncs.com/sqlserver2_1563507669460.png)
+![sqlserver2](./190719-win10-installs-sql-server-2017-02.png)
 
 这时正常我们就能使用 SSMS、Navicat 或 DBeaver 连接 SQL Server 2017 了：
 
-![sqlserver3](https://hd2y.oss-cn-beijing.aliyuncs.com/sqlserver3_1563507669460.png)
+![sqlserver3](./190719-win10-installs-sql-server-2017-03.png)
 
 如果仍然不能访问可能需要设置一下入站规则，设置以后可以使用 `telnet` 测试端口是否可以连接。
 
-![sqlserver4](https://hd2y.oss-cn-beijing.aliyuncs.com/sqlserver4_1563507669459.png)
+![sqlserver4](./190719-win10-installs-sql-server-2017-04.png)

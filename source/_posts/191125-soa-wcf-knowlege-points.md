@@ -21,7 +21,7 @@ categories:
 不同于 `WebService` 只能托管在 `IIS` 上，`WCF` 可以托管在任意的程序上，可以是网站，也可以是控制台、`WinForm`、`WPF`、`Windows Service` 等。
 
 > 注意：`Visual Studio 2019` 安装时默认没有勾选 `WPF` 的模板，可以通过 `Visual Studio Installer` 安装，点击 `修改` -> `单个组件` -> `开发活动` -> `Windows Communication Foundation`。<br>
-> ![20191121183654](https://hd2y.oss-cn-beijing.aliyuncs.com/20191121183654_1574682911278.png)
+> ![20191121183654](./191125-soa-wcf-knowlege-points-01.png)
 
 ### 定义并实现服务协定
 
@@ -29,7 +29,7 @@ categories:
 
 后期创建服务端时，可以指定服务运行在不同的宿主上，而不需要调整服务本身的代码，这里我们创建一个 `WCF 服务库`。
 
-![20191121184555](https://hd2y.oss-cn-beijing.aliyuncs.com/20191121184555_1574682911275.png)
+![20191121184555](./191125-soa-wcf-knowlege-points-02.png)
 
 创建完成以后完善一下服务协定中的代码，需要在接口中指定方法，然后再实现。
 
@@ -181,15 +181,15 @@ static void Main(string[] args)
 ```
 
 > 注意：服务端如果需要运行，需要使用管理员身份，否则可能出现下图错误，可以使用管理员身份运行 `Visual Studio`，或者到 `bin` 目录下右键可执行程序，使用右键菜单中的 `以管理员身份运行`。<br>
-> ![20191121200816](https://hd2y.oss-cn-beijing.aliyuncs.com/20191121200816_1574682911257.png)
+> ![20191121200816](./191125-soa-wcf-knowlege-points-03.png)
 
 成功运行，控制台输出如下：
 
-![20191121200840](https://hd2y.oss-cn-beijing.aliyuncs.com/20191121200840_1574682914394.png)
+![20191121200840](./191125-soa-wcf-knowlege-points-04.png)
 
 我们可以在浏览器中访问设置的链接：
 
-![20191122143734](https://hd2y.oss-cn-beijing.aliyuncs.com/20191122143734_1574682914400.png)
+![20191122143734](./191125-soa-wcf-knowlege-points-05.png)
 
 ## 新建客户端调用服务
 
@@ -264,7 +264,7 @@ client = new MyServiceClient(new WSHttpBinding(), new EndpointAddress("http://lo
 
 运行的结果和配置文件式初始化的执行结果一致：
 
-![20191125141355](https://hd2y.oss-cn-beijing.aliyuncs.com/20191125141355_1574682914395.png)
+![20191125141355](./191125-soa-wcf-knowlege-points-06.png)
 
 ## WCF 进阶
 
@@ -319,7 +319,7 @@ client = new MyServiceClient(new WSHttpBinding(), new EndpointAddress("http://lo
 
 更新后执行效果如下图：
 
-![20191125145927](https://hd2y.oss-cn-beijing.aliyuncs.com/20191125145927_1574682917957.png)
+![20191125145927](./191125-soa-wcf-knowlege-points-07.png)
 
 ### 使用 TCP 协议
 
@@ -361,13 +361,13 @@ client = new MyServiceClient(new NetTcpBinding(securityMode: SecurityMode.None),
 
 如果调用服务报错，可以添加服务引用，这时可能出现如下图的错误：
 
-![20191125154836](https://hd2y.oss-cn-beijing.aliyuncs.com/20191125154836_1574682920862.png)
+![20191125154836](./191125-soa-wcf-knowlege-points-08.png)
 
 无法识别该 URI 前缀。
 
 网上搜索了很多解决方案，包括 `启用或关闭 Windows 功能` 中有关 `WCF` 的选项，以及 `服务` 中 `Net.Tcp Listener Adapter` 是否启动，均正常。
 
-![20191125154522](https://hd2y.oss-cn-beijing.aliyuncs.com/20191125154522_1574682917957.png)
+![20191125154522](./191125-soa-wcf-knowlege-points-09.png)
 
 然后调整增加 `mexTcpBinding` 节点，仍然无法调用（此处必须配置）：
 
@@ -392,7 +392,7 @@ public class UserInfo
 
 但是，在可以正常添加以后，移除对应特性，重新编译，无法再重现这个问题，所以建议是添加该特性，并按照以上内容检查所有信息，避免出现这个问题。
 
-![20191125165644](https://hd2y.oss-cn-beijing.aliyuncs.com/20191125165644_1574682920861.png)
+![20191125165644](./191125-soa-wcf-knowlege-points-10.png)
 
 ### 使用双工
 
@@ -539,7 +539,7 @@ public class Callback : ICallbackServiceCallback
 
 实现以后的客户端与服务端执行效果如下：
 
-![20191125192728](https://hd2y.oss-cn-beijing.aliyuncs.com/20191125192728_1574682920861.png)
+![20191125192728](./191125-soa-wcf-knowlege-points-11.png)
 
 同样的针对服务端与客户端调整实现方式，以上服务端展示的是使用代码实现的托管，下面增加一个使用配置文件来进行托管的方案，首先在配置文件的 `services` 节点内增加以下内容：
 

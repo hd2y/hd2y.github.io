@@ -18,11 +18,11 @@ categories:
 
 `WebService` 宿主是 `IIS`，所以我们需要先创建一个 `ASP.Net Web` 的空项目，当然如果选择 `MVC` 或 `WebForm` 也没有影响。
 
-![20191120110944](https://hd2y.oss-cn-beijing.aliyuncs.com/20191120110944_1574327411385.png)
+![20191120110944](./191121-soa-web-service-knowledge-summary-01.png)
 
 创建以后我们就可以添加对应的服务文件，如下图：
 
-![20191120111531](https://hd2y.oss-cn-beijing.aliyuncs.com/20191120111531_1574327411395.png)
+![20191120111531](./191121-soa-web-service-knowledge-summary-02.png)
 
 会生成一个 `*.asmx` 文件与 一个 `*.asmx.cs` 文件，结构与 `WebForm` 的窗体页面或一般处理程序等一致。
 
@@ -103,11 +103,11 @@ namespace JohnSun.SOA.WebService.Server
 
 完成后，我们就可以右键该文件，在浏览器打开访问该服务。
 
-![20191120114307](https://hd2y.oss-cn-beijing.aliyuncs.com/20191120114307_1574327414494.png)
+![20191120114307](./191121-soa-web-service-knowledge-summary-03.png)
 
 另外，我们也可以在浏览器里直接调用服务。
 
-![20191120114405](https://hd2y.oss-cn-beijing.aliyuncs.com/20191120114405_1574327414490.png)
+![20191120114405](./191121-soa-web-service-knowledge-summary-04.png)
 
 ## 连接服务端
 
@@ -115,11 +115,11 @@ namespace JohnSun.SOA.WebService.Server
 
 这里为了方便演示，直接添加一个 `WinForm` 的项目，然后可以在引用中，选择添加服务引用：
 
-![20191120115420](https://hd2y.oss-cn-beijing.aliyuncs.com/20191120115420_1574327414496.png)
+![20191120115420](./191121-soa-web-service-knowledge-summary-05.png)
 
 在弹出的添加页面，录入我们的服务地址，点击发现，添加我们需要的服务，另外我们需要调整这个服务的命名控件，需要注意的是不要与其他命名控件或类型重名，否则会比较麻烦：
 
-![20191120115726](https://hd2y.oss-cn-beijing.aliyuncs.com/20191120115726_1574327417649.png)
+![20191120115726](./191121-soa-web-service-knowledge-summary-06.png)
 
 服务创建后，在窗体中简单写一些调用服务的代码进行测试：
 
@@ -159,7 +159,7 @@ private void button1_Click(object sender, EventArgs e)
 
 测试一下调用：
 
-![20191120162309](https://hd2y.oss-cn-beijing.aliyuncs.com/20191120162309_1574327417642.png)
+![20191120162309](./191121-soa-web-service-knowledge-summary-07.png)
 
 这里主要需要注意两点：
 
@@ -168,7 +168,7 @@ private void button1_Click(object sender, EventArgs e)
 
 如果我们想让服务默认返回的数据类型调整为集合，可以在引用的服务上右键，选择“配置服务引用”，将集合类型调整为 `System.Collections.Generic.List`，同样的字典类型也可以调整。
 
-![20191120194502](https://hd2y.oss-cn-beijing.aliyuncs.com/20191120194502_1574327417655.png)
+![20191120194502](./191121-soa-web-service-knowledge-summary-08.png)
 
 ## 添加身份认证
 
@@ -265,7 +265,7 @@ catch (Exception exc)
 
 修改以后可以执行测试，运行客户端查看一下效果：
 
-![20191121151110](https://hd2y.oss-cn-beijing.aliyuncs.com/20191121151110_1574327420894.png)
+![20191121151110](./191121-soa-web-service-knowledge-summary-09.png)
 
 当然除以上方法外，我们还可以提供一个登录的服务方法，如果验证成功返回一个 `token`，然后私有的方法增加一个 `token` 的入参，每次调用方法前进行验证，因为比较简单这里不再过多演示。
 
@@ -273,7 +273,7 @@ catch (Exception exc)
 
 目前来说服务是固定指向了一个我们生成服务时的地址，当然如果我们想要修改服务地址也是很简单的，只需要打开 `app.config` 文件，修改默认生成的配置信息：
 
-![20191121155612](https://hd2y.oss-cn-beijing.aliyuncs.com/20191121155612_1574327420895.png)
+![20191121155612](./191121-soa-web-service-knowledge-summary-10.png)
 
 这样我们要严格的依赖这个配置文件，而且如果我们想要配置多个服务地址，在一个地址无法连接时自动切换到其他服务，好像是不可实现的，所以第一步就是移除掉对配置文件的依赖，我们删除 `app.config` 文件，重新生成项目并运行：
 
@@ -346,7 +346,7 @@ else
 
 测试效果：
 
-![20191121162727](https://hd2y.oss-cn-beijing.aliyuncs.com/20191121162727_1574327420895.png)
+![20191121162727](./191121-soa-web-service-knowledge-summary-11.png)
 
 我们已经解决了必须通过 `app.config` 来配置服务地址的问题，但是，如果我们只有 `wsdl` 文件，无法连接服务添加服务应该怎么处理呢？
 
@@ -354,7 +354,7 @@ else
 
 然后和通过链接添加服务一样，不过我们输入的是下载下来的 `wsdl` 文件的文件路径：
 
-![20191121163348](https://hd2y.oss-cn-beijing.aliyuncs.com/20191121163348_1574327424355.png)
+![20191121163348](./191121-soa-web-service-knowledge-summary-12.png)
 
 其实如果我们做出来的服务要提供给第三方调用，也是通过这种方式，将 `wsdl` 文件下载下来，发送给第三方即可。
 

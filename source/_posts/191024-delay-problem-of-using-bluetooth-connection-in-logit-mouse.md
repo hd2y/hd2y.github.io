@@ -9,7 +9,7 @@ categories:
 
 最近购置了一个迷你主机，体验了一下“黑苹果”，为了追求简约，看着桌面上的线材也比较窝心，所以重新购置了一套无线键鼠。
 
-![Screenshot_20191024081651718_com.jingdong.a.png](https://hd2y.oss-cn-beijing.aliyuncs.com/Screenshot_2019-10-24-08-16-51-718_com.jingdong.a_1571876396154.png?x-oss-process=image/auto-orient,1/resize,p_50/quality,q_50)
+![Screenshot_20191024081651718_com.jingdong.a.png](./191024-delay-problem-of-using-bluetooth-connection-in-logit-mouse-01.png)
 
 最开始打算使用蓝牙连接，避免占用 USB 接口，但是实际使用发现，可能由于无线网卡的问题，蓝牙模块非常卡顿，无论是接蓝牙耳机听歌，还是连接使用键鼠。键盘还可以接受，但是蓝牙鼠标卡顿非常明显。
 
@@ -23,10 +23,10 @@ categories:
 
 系统信息：
 
-![屏幕快照 20191024 上午8.27.36.png](https://hd2y.oss-cn-beijing.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-10-24%20%E4%B8%8A%E5%8D%888.27.36_1571876886214.png?x-oss-process=image/auto-orient,1/resize,p_50/quality,q_50)
+![屏幕快照 20191024 上午8.27.36.png](./191024-delay-problem-of-using-bluetooth-connection-in-logit-mouse-02.png)
 
 我的 MacOS 版本是 10.14.6，网上没有这个版本，但是我下载的 10.15 版本的软件可以完美安装使用。
 
-![屏幕快照 20191024 上午8.29.46.png](https://hd2y.oss-cn-beijing.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-10-24%20%E4%B8%8A%E5%8D%888.29.46_1571877004200.png?x-oss-process=image/auto-orient,1/resize,p_50/quality,q_50)
+![屏幕快照 20191024 上午8.29.46.png](./191024-delay-problem-of-using-bluetooth-connection-in-logit-mouse-03.png)
 
 

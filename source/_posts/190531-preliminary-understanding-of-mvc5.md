@@ -224,7 +224,7 @@ public class RouteConfig
 
 ## 控制器 `Controller`
 
-![mvc1](https://hd2y.oss-cn-beijing.aliyuncs.com/mvc1_1562741921709.png)
+![mvc1](./190531-preliminary-understanding-of-mvc5-01.png)
 
 `ASP.NET MVC` 会调用不同的控制器类（和其内部不同的操作方法）这取决于传入 URL。所使用的 `ASP.NET MVC` 的默认 URL 路由逻辑使用这样的格式来判定哪些代码以便调用：`/[Controller]/[ActionName]/[Parameters]`。 
  
@@ -407,7 +407,7 @@ public ActionResult RedirectResult()
 
 ## 视图 View
 
-![mvc2](https://hd2y.oss-cn-beijing.aliyuncs.com/mvc2_1562741921709.png)
+![mvc2](./190531-preliminary-understanding-of-mvc5-02.png)
 
 ### Views 文件夹下常用文件种类
 
@@ -455,7 +455,7 @@ public ActionResult RedirectResult()
 
 浏览 `http://127.0.0.1/Home/Index`
 
-![mvc8](https://hd2y.oss-cn-beijing.aliyuncs.com/mvc8_1562741921787.png)
+![mvc8](./190531-preliminary-understanding-of-mvc5-03.png)
 
 **（二）布局视图：`_Layout.cshtml`**
 
@@ -495,7 +495,7 @@ public ActionResult RedirectResult()
 
 重新浏览 `http://127.0.0.1/Home/Index`
 
-![mvc7](https://hd2y.oss-cn-beijing.aliyuncs.com/mvc7_1562741921772.png)
+![mvc7](./190531-preliminary-understanding-of-mvc5-04.png)
 
 + `_Layout.cshtml` 基本结构就是 HTML 基本结构(其实 `.aspx` 和 `.cshtml` 结构，均是 html 结构)；
 + 在 `_LayoutDemo.cshtml` 文件一个后台代码：`@RenderBody()`。`@RenderBody()` 表示视图体，此外还有 `@RenderSection()` 表示部分视图和节点；
@@ -504,7 +504,7 @@ public ActionResult RedirectResult()
 
 Controller 向 View 传递少量数据，一般情况，我们可以归为两大类别：弱类别传递（ViewBag，ViewData，TempData）和强类别传递（强类型视图）。然而，在实际操作中，当涉及大量数据时，弱类别就显得不是那么方便，此时，一般采用强类型视图。强类型视图一般由三部分构成，即控制器层，视图层和模型层，三者之间调用关系可表示为：
 
-![mvc3](https://hd2y.oss-cn-beijing.aliyuncs.com/mvc3_1562741921726.png)
+![mvc3](./190531-preliminary-understanding-of-mvc5-05.png)
 
 **（1）ViewData 和 TempData**
 
@@ -616,7 +616,7 @@ public ActionResult ModelTest()
 
 运行效果：
 
-![mvc4](https://hd2y.oss-cn-beijing.aliyuncs.com/mvc4_1562741921734.png)
+![mvc4](./190531-preliminary-understanding-of-mvc5-06.png)
 
 **（五）分布页**
 
@@ -655,7 +655,7 @@ public ActionResult TestPartialPage()
 
 显示效果如下：
 
-![mvc5](https://hd2y.oss-cn-beijing.aliyuncs.com/mvc5_1562741921744.png)
+![mvc5](./190531-preliminary-understanding-of-mvc5-07.png)
 
 调用分布页的几种方式：
 + @Html.Partial() 提供分布页路径
@@ -672,7 +672,7 @@ public ActionResult TestPartialPage()
 
 在 VS 中右键单击项目，在弹出的菜单中选择“添加 (A)”->“Area...”，在弹出的对话框中输入区域名称（遵守 C# 标示符命名规则）即可（比如输入 System），VS 将自动在根目录创建 Areas 文件夹，此文件夹下每个独立的 Area 一个文件夹，System 文件夹内也是一样的 Models、Controllers、Views 结构。
 
-![mvc6](https://hd2y.oss-cn-beijing.aliyuncs.com/mvc6_1562741921755.png)
+![mvc6](./190531-preliminary-understanding-of-mvc5-08.png)
 
 唯一不同的是多了一个 `SystemAreaRegistration.cs`（区域注册类），用于向 MVC 框架注册路由等信息，`Global.asax.cs` 中会自动调用该类的 RegisterArea 方法。新建 Area 后 VS 自动创建相关目录结构，按需修改 SystemAreaRegistration 路由即可。
 

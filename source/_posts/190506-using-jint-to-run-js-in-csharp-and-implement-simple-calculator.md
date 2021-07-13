@@ -78,7 +78,7 @@ public static void Calculator(string input = null)
 
 测试一下效果，已经满足了我们的需求：
 
-![jint1](https://hd2y.oss-cn-beijing.aliyuncs.com/jint1_1562755045285.png)
+![jint1](./190506-using-jint-to-run-js-in-csharp-and-implement-simple-calculator-01.png)
 
 > 需要注意的是，JavaScript中对于浮点数的支持精度较低，建议运算后设定小数位数进行转换。
 
@@ -147,7 +147,7 @@ public static void GetResultFromExpression(string input = null)
 
 测试效果如下：
 
-![jint2](https://hd2y.oss-cn-beijing.aliyuncs.com/jint2_1562755045287.png)
+![jint2](./190506-using-jint-to-run-js-in-csharp-and-implement-simple-calculator-02.png)
 
 ### 自定义脚本
 
@@ -288,4 +288,4 @@ d;*#。");
 
 测试效果如下：
 
-![jint3](https://hd2y.oss-cn-beijing.aliyuncs.com/jint3_1562755045286.png)
+![jint3](./190506-using-jint-to-run-js-in-csharp-and-implement-simple-calculator-03.png)

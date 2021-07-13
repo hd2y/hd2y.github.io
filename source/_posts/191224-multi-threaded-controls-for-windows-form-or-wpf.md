@@ -60,7 +60,7 @@ for (int i = 0; i < 20; i++)
 
 执行效果：
 
-![20191224201545](https://hd2y.oss-cn-beijing.aliyuncs.com/20191224201545_1577190005074.png)
+![20191224201545](./191224-multi-threaded-controls-for-windows-form-or-wpf-01.png)
 
 可以看到输出的线程 ID 全部是主线程的 ID：`00001`，所以这时候才想起来，无论使用同步方法 `Invoke`，还是异步方法 `BeginInvoke`，都仅仅知识针对 UI 主线程外的其他线程，实际上调用以后的委托只有一个 UI 线程来负责执行。
 
@@ -138,7 +138,7 @@ Task.Factory.StartNew(() =>
 
 其继承关系可以参考我从网上找到的一幅图：
 
-![DispatcherObject继承关系](https://hd2y.oss-cn-beijing.aliyuncs.com/DispatcherObject%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB_1577189987990.png)
+![DispatcherObject继承关系](./191224-multi-threaded-controls-for-windows-form-or-wpf-02.png)
 
 > 注：因为 `Windows XP` 支持 `.NET Framewrok` 的最后一个版本是 `.NET Framewrok 4.0`，所以没有特别说明，我习惯上创建的 `Windows Form` 或 `WPF` 等客户端程序选择的框架都是 `.NET Framewrok 4.0`。
 

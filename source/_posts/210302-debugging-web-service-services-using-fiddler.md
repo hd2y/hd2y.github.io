@@ -1,4 +1,4 @@
----
+﻿---
 title: "使用 Fiddler 调试 WebService 服务"
 date: "2021/03/02 10:17:00"
 updated: "2021/03/02 10:17:00"
@@ -49,11 +49,11 @@ System.Web.Services.Protocols.SoapException: 服务器无法处理请求。 --->
 
 经检查确认仪器的传输是否正常，网口是否能正常监听，确认抛出异常的部分日志，可能是当时仪器软件没有启动导致。
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/debugging-web-service-services-using-fiddler-01.png)
+![](./210302-debugging-web-service-services-using-fiddler-01.png)
 
 使用 `Socket Tool` 工具监听，可以看到接口可以正常连接：
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/debugging-web-service-services-using-fiddler-02.png)
+![](./210302-debugging-web-service-services-using-fiddler-02.png)
 
 至于 `WebService` 的问题，只能确认在调用 `SetItemSample` 方法时出现了问题。
 
@@ -69,19 +69,19 @@ System.Web.Services.Protocols.SoapException: 服务器无法处理请求。 --->
 
 这时候就要祭出 `Fiddler` 了：
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/debugging-web-service-services-using-fiddler-03.png)
+![](./210302-debugging-web-service-services-using-fiddler-03.png)
 
 从下图可以看到，很多向 `WebService` 的请求 `500`（服务器内部错误），错误内容是内部抛出了：`System.NullReferenceException`
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/debugging-web-service-services-using-fiddler-04.png)
+![](./210302-debugging-web-service-services-using-fiddler-04.png)
 
 这时，我们可以选择 `AutoResponder` 选项卡，设置转发的规则：
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/debugging-web-service-services-using-fiddler-05.png)
+![](./210302-debugging-web-service-services-using-fiddler-05.png)
 
 这时，我们的调试环境可以将抛出捕获的异常：
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/debugging-web-service-services-using-fiddler-06.png)
+![](./210302-debugging-web-service-services-using-fiddler-06.png)
 
 这时可以看到，`SoapHeader` 携带的用户信息，获取失败，所以抛出了异常。
 
@@ -91,7 +91,7 @@ System.Web.Services.Protocols.SoapException: 服务器无法处理请求。 --->
 
 同样的，我们还可以通过 `Fiddler` 编辑我们的请求，来确认是否是因为 `SoapHeader` 的问题：
 
-![](https://hd2y.oss-cn-beijing.aliyuncs.com/debugging-web-service-services-using-fiddler-07.png)
+![](./210302-debugging-web-service-services-using-fiddler-07.png)
 
 经验证，删除了登录账号中的空格，接口就可以正常使用了。
 

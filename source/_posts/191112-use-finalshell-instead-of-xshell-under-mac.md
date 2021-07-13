@@ -22,4 +22,4 @@ Xshell 个人感觉是 Windows 下功能最好用的 ssh 客户端软件了，�
 
 预览：
 
-![E6BADE11-F0D2-46D7-95EB-A3D1D94631E0](https://hd2y.oss-cn-beijing.aliyuncs.com/E6BADE11-F0D2-46D7-95EB-A3D1D94631E0_1573521337005.png)
+![E6BADE11-F0D2-46D7-95EB-A3D1D94631E0](./191112-use-finalshell-instead-of-xshell-under-mac-01.png)

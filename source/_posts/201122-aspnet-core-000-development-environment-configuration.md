@@ -109,7 +109,7 @@ dotnet new globaljson --sdk-version 3.1.404 --force
 + vscode-solution-explorer
 + Remote - WSL
 
-![vscode-keyboard-shortcuts-for-windows](https://hd2y.oss-cn-beijing.aliyuncs.com/vscode-keyboard-shortcuts-for-windows-acb5985293e84e8e8394611748d2d75f.png)
+![vscode-keyboard-shortcuts-for-windows](./201122-aspnet-core-000-development-environment-configuration-01.png)
 
 具体使用 `Visual Studio Code` 开发 `.NET Core` 可以参考：[使用 Visual Studio Code 开发 .NET Core 看这篇就够了 - 依乐祝 - 博客园 (cnblogs.com)](https://www.cnblogs.com/yilezhu/p/9926078.html)
 
@@ -139,6 +139,6 @@ Unix 4.4.0.19041
 Hello World!
 ```
 
-![demo](https://hd2y.oss-cn-beijing.aliyuncs.com/demo-41682b793120418fae6532bee902ae87.png)
+![demo](./201122-aspnet-core-000-development-environment-configuration-02.png)
 
 

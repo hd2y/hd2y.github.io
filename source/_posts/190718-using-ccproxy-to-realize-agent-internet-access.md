@@ -22,7 +22,7 @@ categories:
 
 注意设置界面“请选择本地局域网 IP 地址”可能识别是错误的，如果是错误的需要取消自动检测，选择正确的局域网 IP。
 
-![ccproxy1](https://hd2y.oss-cn-beijing.aliyuncs.com/ccproxy1_1563440884263.png)
+![ccproxy1](./190718-using-ccproxy-to-realize-agent-internet-access-01.png)
 
 设置保存以后建议重新启动代理软件。
 
@@ -30,14 +30,14 @@ categories:
 
 打开 IE 浏览器，设置代理：Internet 选项 -> 连接 -> 局域网设置
 
-![ccproxy2](https://hd2y.oss-cn-beijing.aliyuncs.com/ccproxy2_1563440884261.png)
+![ccproxy2](./190718-using-ccproxy-to-realize-agent-internet-access-02.png)
 
 然后选择高级进行如下设置：
 
-![ccproxy3](https://hd2y.oss-cn-beijing.aliyuncs.com/ccproxy3_1563440884260.png)
+![ccproxy3](./190718-using-ccproxy-to-realize-agent-internet-access-03.png)
 
 需要注意的是端口要与我们设置的端口保持一致。
 
 设置以后“没有意外的话”就可以正常上网了：
 
-![ccproxy4](https://hd2y.oss-cn-beijing.aliyuncs.com/ccproxy4_1563440884265.png)
+![ccproxy4](./190718-using-ccproxy-to-realize-agent-internet-access-04.png)

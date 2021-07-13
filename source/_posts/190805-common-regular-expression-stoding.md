@@ -15,4 +15,4 @@ categories:
 
 目的：处理 ASTM 协议数据内容，消除校验符等。
 
-![astm](https://hd2y.oss-cn-beijing.aliyuncs.com/astm_1564988827084.gif)
+![astm](./190805-common-regular-expression-stoding-01.gif)

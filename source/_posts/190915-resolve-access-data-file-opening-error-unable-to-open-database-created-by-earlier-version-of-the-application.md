@@ -19,7 +19,7 @@ categories:
 2. 软件本身操作不友好，和其他 Office 软件类似的工具栏，在数据库操作中需要经常使用的一些功能下略显尴尬与低效，例如切换窗口或者创建查询；
 3. 虽然支持 mac，但是不能在 Linux 下使用；
 4. 对旧版本，例如 97 之前创建的数据库不支持会提示：无法打开应用程序较早版本创建的数据库；
-   > ![20190915111827.png](https://hd2y.oss-cn-beijing.aliyuncs.com/20190915111827_1568523773853.png)
+   > ![20190915111827.png](./190915-resolve-access-data-file-opening-error-unable-to-open-database-created-by-earlier-version-of-the-application-01.png)
 
 特别是针对第四点，网上去搜索 Access 数据库管理软件，能找到的资料其实很少。
 
@@ -33,7 +33,7 @@ categories:
 
 1. 安装软件不到 50MB（不过连接不同的数据库需要安装不同的“驱动”），并且国内下载速度也很快（我试了一下科学上网反而速度慢了很多）；
 2. 社区版免费，企业完整版可以按月付费，每个月 19USD，虽然略贵，但是社区版已经支持“MySQL, PostgreSQL, SQLite, Oracle, DB2, SQL Server, Sybase, MS Access, Teradata, Firebird, Hive, Presto”等等数据库类型，所以免费版已经很香了（注意看下图的滚动条）；
-   > ![20190915121837.png](https://hd2y.oss-cn-beijing.aliyuncs.com/20190915121837_1568523644651.png)
+   > ![20190915121837.png](./190915-resolve-access-data-file-opening-error-unable-to-open-database-created-by-earlier-version-of-the-application-02.png)
 3. 在各种数据库下均有一致的体验，和其他数据库管理软件体验也很类似，所以上手很简单；
 4. 支持查看数据库对象表、视图、存储过程等等；
 5. SQL 编辑有智能提示，除关键字外表和视图名称也有；
@@ -43,7 +43,7 @@ categories:
 9. 跨平台，出 Windows 以外还支持 mac 以及 linux；
 10. 支持导入/导出表数据以及查询数据、支持查看数据表 DDL；
 
-![20190915121018.png](https://hd2y.oss-cn-beijing.aliyuncs.com/20190915121018_1568523760385.png?x-oss-process=image/auto-orient,1/resize,p_50/quality,q_50)
+![20190915121018.png](./190915-resolve-access-data-file-opening-error-unable-to-open-database-created-by-earlier-version-of-the-application-03.png)
 
 因为优点太多就不一一列举了，可以自己下载体验。
 

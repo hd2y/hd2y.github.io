@@ -44,7 +44,7 @@ categories:
 
 这里建议是参考 CLodop 的解决方案，开发一个小工具，使用 HTTP 监听处理读卡请求：
 
-![20191225160112](https://hd2y.oss-cn-beijing.aliyuncs.com/20191225160112_1577269066727.png)
+![20191225160112](./191225-escape-from-internet-explorer-and-activex-controls-01.png)
 
 监听工具这里依然是 C# 的例子，可以托管到 WinForm、WPF、控制台应用程序，但是需要注意 Win7 以上 Windows 版本必须 `以管理员身份运行`。建议是托管于 Windows 服务。
 
@@ -309,13 +309,13 @@ class Program
 
 如果我们调试程序，Visual Studio 又没有使用管理员身份证运行，很容易出现以下问题：
 
-![20191225175729](https://hd2y.oss-cn-beijing.aliyuncs.com/20191225175729_1577269066727.png)
+![20191225175729](./191225-escape-from-internet-explorer-and-activex-controls-02.png)
 
 如果直接双击打开应该也会有类似问题，需要右键该程序以管理员身份运行才可以，后面会另外写一篇文章，说明如何处理这个问题。
 
 正常启动程序，并使用 Postman 访问效果如下：
 
-![20191225180916](https://hd2y.oss-cn-beijing.aliyuncs.com/20191225180916_1577269066740.png)
+![20191225180916](./191225-escape-from-internet-explorer-and-activex-controls-03.png)
 
 这里给出的例子没有给出具体使用动态链接库读卡的例子，这样更方便测试，一般读卡器厂商会提供动态链接库各种编程语言的例子，抄过来就能使用。
 

@@ -21,7 +21,7 @@ categories:
 
 个人使用较多的是`TCP/UDP Socket 调试工具`。
 
-![tcpserver1](https://hd2y.oss-cn-beijing.aliyuncs.com/tcpserver1_1562747097761.png)
+![tcpserver1](./190529-server-of-tcp-protocol-01.png)
 
 使用中可能存在的一些问题：
 1. 偶发关闭了另外一端，会导致调试工具异常；
@@ -34,17 +34,17 @@ categories:
 
 首先我们使用调试工具进行模拟，调试工具中创建一个`TCP Server`，监听端口根据自己需求设置。因为我们没有监听指定端口的需求，只是进行模拟测试，我们这里设置监听`5555`端口进行测试：
 
-![tcpserver11](https://hd2y.oss-cn-beijing.aliyuncs.com/tcpserver11_1562747097860.png)
+![tcpserver11](./190529-server-of-tcp-protocol-02.png)
 
 如上图，创建的`TCP Server`自动启动了监听。
 
 服务端创建成功，我们就需要创建一个客户端进行连接，来进行数据的通讯，同样的我们选择`TCP Client`进行创建，并连接到本机的`5555`端口：
 
-![tcpserver2](https://hd2y.oss-cn-beijing.aliyuncs.com/tcpserver2_1562747097762.png)
+![tcpserver2](./190529-server-of-tcp-protocol-03.png)
 
 这时我们就可以点击TCP Client下打开的客户端向服务端发送消息，或选择`TCP Server`服务端下连接的客户端，向指定客户端发送消息：
 
-![tcpserver3](https://hd2y.oss-cn-beijing.aliyuncs.com/tcpserver3_1562747097762.png)
+![tcpserver3](./190529-server-of-tcp-protocol-04.png)
 
 那么，我们应该怎样在程序中打开服务端，监听客户端请求呢？可以参考以下代码：
 
@@ -169,7 +169,7 @@ namespace SocketTest
 
 我们可以进行测试，首先运行项目，在控制台创建服务端，并开启监听。服务端创建成功后，使用Socket的调试工具创建一个TCP客户端，与服务端进行通讯测试，结束后断开连接：
 
-![tcpserver6](https://hd2y.oss-cn-beijing.aliyuncs.com/tcpserver6_1562747097787.png)
+![tcpserver6](./190529-server-of-tcp-protocol-05.png)
 
 ## 多客户端连接
 
@@ -256,7 +256,7 @@ public static void Test()
 
 测试效果如下：
 
-![tcpserver7](https://hd2y.oss-cn-beijing.aliyuncs.com/tcpserver7_1562747097800.png)
+![tcpserver7](./190529-server-of-tcp-protocol-06.png)
 
 ### 递归
 
@@ -349,7 +349,7 @@ public static void Test()
 
 测试效果如下：
 
-![tcpserver8](https://hd2y.oss-cn-beijing.aliyuncs.com/tcpserver8_1562747097819.png)
+![tcpserver8](./190529-server-of-tcp-protocol-07.png)
 
 由上图可以看出两者差别并不大，主要的区别在于循环是一个同步方法，而递归使用的是异步方法。
 
@@ -649,4 +649,4 @@ namespace SocketTest
 
 测试效果如下：
 
-![tcpserver9](https://hd2y.oss-cn-beijing.aliyuncs.com/tcpserver9_1562747097836.png)
+![tcpserver9](./190529-server-of-tcp-protocol-08.png)

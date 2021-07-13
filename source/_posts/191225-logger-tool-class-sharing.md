@@ -284,11 +284,11 @@ Console.ReadKey();
 
 输出到文件的效果，会根据日期创建文件夹：
 
-![20191225192058](https://hd2y.oss-cn-beijing.aliyuncs.com/20191225192058_1577275012804.png)
+![20191225192058](./191225-logger-tool-class-sharing-01.png)
 
 输出到控制台的效果，不同日志类型设置了不同的颜色用于区分：
 
-![20191225192128](https://hd2y.oss-cn-beijing.aliyuncs.com/20191225192128_1577275012795.png)
+![20191225192128](./191225-logger-tool-class-sharing-02.png)
 
 ## 注册事件
 
@@ -359,7 +359,7 @@ Logger.Fatal($"这是一条带有异常信息的{Logger.LogLevelDescription[LogL
 
 日志打印效果：
 
-![20191225194312](https://hd2y.oss-cn-beijing.aliyuncs.com/20191225194312_1577275012794.png)
+![20191225194312](./191225-logger-tool-class-sharing-03.png)
 
 `WPF` 用法：
 
@@ -439,7 +439,7 @@ Logger.Fatal($"这是一条带有异常信息的{Logger.LogLevelDescription[LogL
 
 日志打印效果：
 
-![20191225195340](https://hd2y.oss-cn-beijing.aliyuncs.com/20191225195340_1577275015861.png)
+![20191225195340](./191225-logger-tool-class-sharing-04.png)
 
 如果想在事件中过滤日志，可以这样配置：
 
@@ -468,6 +468,6 @@ Logger.LogEvent += new Logger.LogAction((level, msg, exc) =>
 
 日志打印效果，可以看到被排除的跟踪与调试日志已经不再显示：
 
-![20191225200543](https://hd2y.oss-cn-beijing.aliyuncs.com/20191225200543_1577275706738.png)
+![20191225200543](./191225-logger-tool-class-sharing-05.png)
 
 写入到数据库、发邮件等同样可以通过注册事件实现，因为很简单这里不再举例。
